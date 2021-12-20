@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>iconfont.ttf</file>
+        <file>style.css</file>
+        <file>translations/Chinese.qm</file>
+        <file>translations/English.qm</file>
+        <file>images/dropdown.png</file>
+        <file>images/up-arrow.png</file>
+        <file>images/down-arrow.png</file>
+        <file>images/cross32.png</file>
+        <file>images/mosaic.png</file>
+    </qresource>
+</RCC>

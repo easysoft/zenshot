@@ -1,0 +1,133 @@
+#include "colorwidget.h"
+#include "QSignalMapper"
+#include <QPainter>
+#include <QBrush>
+
+ColorWidget::ColorWidget(QWidget *parent) : QWidget(parent)
+{
+    initParams();
+    createUI();
+}
+
+QColor ColorWidget::selectedColor() const
+{
+    return m_selectedColor;
+}
+
+void ColorWidget::setSelectedColor(const QColor &selectedColor)
+{
+    m_selectedColor = selectedColor;
+    m_selectedBtn->setContentColor(m_selectedColor);
+}
+
+void ColorWidget::initParams()
+{
+    m_maxColorNum = 16;
+
+    m_hGap = 2;
+    m_vGap = 2;
+    m_mainGap = 6;
+
+    m_itemLength = 15;
+    m_itemPadding = 0;
+    m_itemActivePadding = 1;
+
+    m_itemBorderWidth = 1;
+    m_itemBorderRadius = 2;
+    m_itemBorderColor = QColor(255,255,255);
+    m_itemBackgroundColor = QColor(255,255,255);
+
+    m_colorList.append(QColor(242,69,61));
+    m_colorList.append(QColor(80,174,85));
+    m_colorList.append(QColor(3,169,244));
+    m_colorList.append(QColor(63,81,181));
+    m_colorList.append(QColor(103,58,183));
+    m_colorList.append(QColor(156,39,176));
+    m_colorList.append(QColor(233,30,99));
+    m_colorList.append(QColor(51,51,51));
+    m_colorList.append(QColor(255,138,128));
+    m_colorList.append(QColor(105,240,174));
+    m_colorList.append(QColor(238,255,65));
+    m_colorList.append(QColor(140,158,255));
+    m_colorList.append(QColor(179,136,255));
+    m_colorList.append(QColor(234,128,252));
+    m_colorList.append(QColor(255,235,59));
+    m_colorList.append(QColor(255,255,255));
+
+
+    m_selectedColor = m_colorList[0];
+}
+
+void ColorWidget::createUI()
+{
+    int colNum = m_maxColorNum/2;
+
+
+
+    //计算整体的宽高
+    int totalHeight = m_itemLength*2 + m_vGap;
+    int totalWidth = colNum * m_itemLength + (colNum - 1) * m_hGap + totalHeight + m_mainGap;
+
+    //设置组件的最小尺寸
+    setMinimumSize(totalWidth,totalHeight);
+
+    //创建选中颜色方块
+    m_selectedBtn = new ColorButton(this);
+    setProps(m_selectedBtn,totalHeight,m_itemPadding*2,m_itemPadding*2,m_selectedColor,m_itemBorderRadius*2);
+
+    //创建色块
+    QSignalMapper *mapper = new QSignalMapper(this);
+
+    for(int i=0;i<colNum;i++)
+    {
+        ColorButton *colorBtn = new ColorButton(this);
+        setProps(colorBtn,m_itemLength,m_itemPadding,m_itemActivePadding,m_colorList[i],m_itemBorderRadius);
+        colorBtn->move(totalHeight + m_mainGap + i * (m_itemLength + m_hGap), 0);
+
+        connect(colorBtn,SIGNAL(clicked()),mapper,SLOT(map()));
+        mapper->setMapping(colorBtn,i);
+
+        colorBtn->show();
+    }
+
+    for(int i=colNum;i<m_maxColorNum;i++)
+    {
+        ColorButton *colorBtn = new ColorButton(this);
+        setProps(colorBtn,m_itemLength,m_itemPadding,m_itemActivePadding,m_colorList[i],m_itemBorderRadius);
+        colorBtn->move(totalHeight + m_mainGap + (i-colNum) * (m_itemLength + m_hGap), m_itemLength + m_vGap);
+
+        connect(colorBtn,SIGNAL(clicked()),mapper,SLOT(map()));
+        mapper->setMapping(colorBtn,i);
+
+        colorBtn->show();
+    }
+
+    connect(mapper, SIGNAL(mapped(int)), this, SLOT(itemChanged(int)));
+}
+
+void ColorWidget::setProps(ColorButton *btn, int length, int padding, int activePadding, QColor cotentColor,int radius)
+{
+    btn->setLength(length);
+    btn->setPadding(padding);
+    btn->setHoverPadding(activePadding);
+    btn->setBorderWidth(m_itemBorderWidth);
+    btn->setBorderColor(m_itemBorderColor);
+    btn->setBackgroundColor(m_itemBackgroundColor);
+
+    btn->setBorderRadius(radius);
+
+    btn->setContentColor(cotentColor);
+}
+
+void ColorWidget::itemChanged(int newColorIndex)
+{
+    QColor selected = m_colorList[newColorIndex];
+    if(m_selectedColor != selected)
+    {
+        setSelectedColor(m_colorList[newColorIndex]);
+
+        emit colorChanged();
+    }
+}
+
+

@@ -1,0 +1,6 @@
+#include "texttool.h"
+
+TextTool::TextTool()
+{
+
+}

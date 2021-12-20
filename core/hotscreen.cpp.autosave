@@ -1,0 +1,6 @@
+#include "hotscreen.h"
+
+HotScreen::HotScreen()
+{
+
+}
