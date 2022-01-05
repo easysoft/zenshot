@@ -23,7 +23,7 @@ void TextAssist::attach(Text *shape)
     m_editing = true;
     this->m_shape = shape;
 
-    m_workspace->removeShape(shape,true);
+    //m_workspace->removeShape(shape,true);
     m_workspace->refreshDraw();
 
     QPointF location = shape->location();
@@ -48,14 +48,14 @@ void TextAssist::unAttach()
     if(content.isEmpty() == false)
     {
         m_shape->setContent(content);
-        m_workspace->addShape(m_shape);
+        //m_workspace->addShape(m_shape);
         m_workspace->refreshDraw();
 
         if(m_preContent.isEmpty() == true)
         {
             //执行的是新增文本编辑功能
-            AddCommand *addComm = new AddCommand(m_workspace,m_shape);
-            UserOper::add(addComm);
+            //AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+            //UserOper::add(addComm);
         }
         else
         {
@@ -70,6 +70,7 @@ void TextAssist::unAttach()
         {
             //执行的是新增文本图形编辑功能，但未输入任何文本内容
             //这里等于什么都没做，也没法取消重做
+            m_workspace->removeShape(m_shape);
         }
         else
         {

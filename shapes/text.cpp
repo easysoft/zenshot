@@ -44,17 +44,6 @@ void Text::draw(QPainter &painter)
 
     QRectF rect = boundary();
 
-//    if(m_selected == true)
-//    {
-
-//        QPen bPen;
-//        bPen.setColor(QColor(255,0,0));
-//        bPen.setWidth(2);
-//        painter.setPen(bPen);
-
-//        painter.drawRect(rect);
-//    }
-
     QRect wrapperRect(
                 rect.x() + Utils::TextEdit_Padding_Horizontal,
                 rect.y() + Utils::TextEdit_Padding_Vertical,

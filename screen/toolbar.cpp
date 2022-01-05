@@ -133,6 +133,7 @@ QPushButton *ToolBar::createSingleFunctionButton(QString iconStr,QString tipStr,
 
 void ToolBar::undo()
 {
+    m_workspace->normalbeforeUndo();
     UserOper::undo();
 }
 

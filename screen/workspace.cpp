@@ -308,6 +308,11 @@ void Workspace::draw(QPainter &painter)
 
     foreach(Shape *shape, m_shapeList)
     {
+        if(shape == m_selectedShape &&
+           m_selectedShape->type() == Utils::forTextKey() &&
+           m_textAssist->editing() == true){
+            continue;
+        }
         shape->draw(painter);
     }
 
@@ -471,6 +476,16 @@ void Workspace::setSelected(Shape *newSelected)
 QVector<Handle *> Workspace::activeHandles() const
 {
     return m_activeHandles;
+}
+
+void Workspace::normalbeforeUndo()
+{
+    if(m_selectedShape != nullptr &&
+       m_selectedShape->type() == Utils::forTextKey() &&
+       m_textAssist->editing() == true)
+    {
+        m_textAssist->unAttach();
+    }
 }
 
 void Workspace::deleteSelected()

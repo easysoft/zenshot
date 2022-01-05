@@ -215,6 +215,8 @@ public:
      */
     QVector<Handle *> activeHandles() const;
 
+    void normalbeforeUndo();
+
 
 private:
     QFont m_iconfont;
