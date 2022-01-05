@@ -7,6 +7,8 @@
 #include <QHBoxLayout>
 #include <QButtonGroup>
 
+#include "core/gscale.h"
+
 class Workspace;
 
 /**
@@ -14,12 +16,13 @@ class Workspace;
  * @brief : 主工具栏定义
  * @note  : 提供常用功能的选择，切换
  */
-class ToolBar : public QWidget
+class ToolBar : public QWidget,GScale
 {
     Q_OBJECT
 public:
     explicit ToolBar(Workspace *workspace);
 
+    void createChild();
     void highlightCreateBtn(QString shapeType);
 
 private:
@@ -42,19 +45,18 @@ private:
 
 signals:
     void createChanged(QString shapeType);
-    void saveToSelect();
+    void save();
+    void download();
     void closeProgram();
-    void saveToClipboard();
-
 
 private slots:
     void undo();
     void redo();
     void operChanged();
     void createBtnClicked(int index);
-    void saveToSelectBtnClicked();
+    void downloadBtnClicked();
+    void saveBtnClicked();
     void closeProgramBtnClicked();
-    void saveToClipboardBtnClicked();
 };
 
 #endif // TOOLBAR_H

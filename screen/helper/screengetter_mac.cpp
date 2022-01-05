@@ -13,11 +13,13 @@ QList<QList<ScreenInfo>> ScreenGetter::screenList()
         double pixelRatio = screen->devicePixelRatio();
 
         QRect mRect = screen->geometry();
-        QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
+        QPixmap mPixmap = screen->grabWindow(0,
                                              mRect.x(),
                                              mRect.y(),
-                                             mRect.width()/pixelRatio,
-                                             mRect.height()/pixelRatio);
+                                             mRect.width(),
+                                             mRect.height());
+        mPixmap.setDevicePixelRatio(pixelRatio);
+
         ScreenInfo info;
         info.object = screen;
         info.boundary = mRect;

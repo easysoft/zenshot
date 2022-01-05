@@ -42,6 +42,11 @@ public:
     static int TextEdit_Padding_Vertical;      //文本编辑器边框与内容间的间隔(垂直顶部)
     static double TextEdit_Height_Extend;      //文本编辑器高度扩展因子
 
+    static int ERROR_MARK_VALUE;               //mark 标注参数值错误
+    static int ERROR_CLIPBOARD_VALUE;          //剪贴板参数值错误
+    static int ERROR_SAVE_FORMAT;              //保存文件格式错误
+    static int ERROR_SAVE_FOLDER;              //保存文件夹不存在错误
+
     /**
      * @brief 矩形上定位点位置枚举
      */

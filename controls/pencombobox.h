@@ -7,13 +7,14 @@
 
 #include "controls/penrenderer.h"
 #include "controls/penitemwidget.h"
+#include "core/gscale.h"
 
 /**
  * @class : PenCombobox
  * @brief : 线条样式下拉列表选择
  * @note  : 线条样式下拉列表选择
  */
-class PenCombobox : public QPushButton
+class PenCombobox : public QPushButton,GScale
 {
     Q_OBJECT
 public:

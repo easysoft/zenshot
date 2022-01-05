@@ -1,5 +1,6 @@
 #include "toolbar.h"
 #include <QVariant>
+#include <QApplication>
 
 #include "screen/workspace.h"
 #include "core/utils.h"
@@ -14,9 +15,15 @@ ToolBar::ToolBar(Workspace *workspace):QWidget(workspace->widget())
     this->setProperty("class","bar");
     this->setCursor(Qt::ArrowCursor);
 
+    createChild();
+}
+
+void ToolBar::createChild()
+{
     m_layout = new QHBoxLayout();
-    m_layout->setContentsMargins(5,2,5,2);
-    m_layout->setSpacing(3);
+
+    m_layout->setContentsMargins(ts(2),ts(2),ts(2),ts(2));
+    m_layout->setSpacing(ts(1));
 
     this->setLayout(m_layout);
 
@@ -24,16 +31,19 @@ ToolBar::ToolBar(Workspace *workspace):QWidget(workspace->widget())
     createFunctionButons();
 
     connect(UserOper::instance(),SIGNAL(changed()),this,SLOT(operChanged()));
-
-    show();
 }
 
 void ToolBar::addSeperator()
 {
+    m_layout->addSpacing(ts(2));
+
     QFrame *splite = new QFrame();
     splite->setObjectName("vSplit");
     splite->setFrameShape(QFrame::VLine);
+    splite->setLineWidth(ts(1));
     m_layout->addWidget(splite);
+
+    m_layout->addSpacing(ts(2));
 }
 
 void ToolBar::highlightCreateBtn(QString shapeType)
@@ -80,9 +90,9 @@ void ToolBar::createFunctionButons()
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
     connect(m_redoBtn,SIGNAL(clicked()),this,SLOT(redo()));
 
-    connect(downloadBtn,SIGNAL(clicked()),this,SLOT(saveToSelectBtnClicked()));
+    connect(downloadBtn,SIGNAL(clicked()),this,SLOT(downloadBtnClicked()));
     connect(closeBtn,SIGNAL(clicked()),this,SLOT(closeProgramBtnClicked()));
-    connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveToClipboardBtnClicked()));
+    connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveBtnClicked()));
 }
 
 void ToolBar::createSingleCreateButton(QButtonGroup *group, QString shapeType, QString iconStr,QString tipStr)
@@ -92,9 +102,7 @@ void ToolBar::createSingleCreateButton(QButtonGroup *group, QString shapeType, Q
     btn->setObjectName(shapeType);
     btn->setCheckable(true);
     btn->setProperty("forTip","mainBtn");
-    //btn->setFont(m_workspace->iconfont());
     btn->setText(iconStr);
-
     btn->setToolTip(tipStr);
 
     group->addButton(btn,m_createBtnKeyList.count());
@@ -146,9 +154,9 @@ void ToolBar::createBtnClicked(int index)
     emit createChanged(shapeType);
 }
 
-void ToolBar::saveToSelectBtnClicked()
+void ToolBar::downloadBtnClicked()
 {
-    emit saveToSelect();
+    emit download();
 }
 
 void ToolBar::closeProgramBtnClicked()
@@ -156,7 +164,7 @@ void ToolBar::closeProgramBtnClicked()
     emit closeProgram();
 }
 
-void ToolBar::saveToClipboardBtnClicked()
+void ToolBar::saveBtnClicked()
 {
-    emit saveToClipboard();
+    emit save();
 }

@@ -28,6 +28,7 @@ private:
     virtual void mouseMoveEvent(QMouseEvent *);
     virtual void keyPressEvent(QKeyEvent *);
     virtual void paintEvent(QPaintEvent *);
+    virtual void leaveEvent(QEvent *event);
 };
 
 #endif // WIDGET_H

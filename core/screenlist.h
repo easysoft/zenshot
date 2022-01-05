@@ -25,6 +25,7 @@ public:
 
     int indexAtMouse();
     QRect toLocal(QRect rect);
+    float scale();
 
     void draw(QPainter &painter);
 

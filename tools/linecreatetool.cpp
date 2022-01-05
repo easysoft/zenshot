@@ -52,6 +52,8 @@ void LineCreateTool::onMouseRelease(QPoint mousePoint)
     }
     else
     {
+        if(m_autoSelected == true) m_workspace->setSelected(m_shape);
+
         AddCommand *addComm = new AddCommand(m_workspace,m_shape);
         UserOper::add(addComm);
     }

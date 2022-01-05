@@ -7,12 +7,14 @@
 #include <QPen>
 #include <QBrush>
 
+#include "core/gscale.h"
+
 /**
  * @class : ColorButton
  * @brief : 颜色按钮定义
  * @note  : 用来展示单一颜色
  */
-class ColorButton : public QAbstractButton
+class ColorButton : public QAbstractButton,GScale
 {
     Q_OBJECT
 public:

@@ -17,7 +17,7 @@ private:
     QList<Widget*> *m_widgets;
 
 private slots:
-    void close();
+    void close(int code);
     void finishConfirmArea();
 };
 

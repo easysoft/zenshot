@@ -3,6 +3,7 @@
 
 Tool::Tool(Workspace *workspace)
 {
+    this->m_autoSelected = true;
     this->m_workspace = workspace;
 }
 

@@ -6,13 +6,14 @@
 #include <QColor>
 
 #include "controls/colorbutton.h"
+#include "core/gscale.h"
 
 /**
  * @class : ColorWidget
  * @brief : 颜色选择面板定义
  * @note  : 用来选择颜色
  */
-class ColorWidget : public QWidget
+class ColorWidget : public QWidget,GScale
 {
     Q_OBJECT
 public:

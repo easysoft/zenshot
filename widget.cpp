@@ -8,12 +8,16 @@ Widget::Widget(ScreenList *list, QWidget *parent)
     m_workspace = new Workspace(this);
     m_workspace->start(list);
 
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    //去掉置顶，否则一些导致调试器奔溃的Bug会让机器没法折腾
+    //setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    //setWindowFlags(Qt::Tool);
     setMouseTracking(true);
-    showFullScreen();
+
 
     QRect geometry = list->allBoundary(true);
     setGeometry(geometry);
+
+    showFullScreen();
 }
 
 Widget::~Widget()
@@ -62,6 +66,15 @@ void Widget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     m_workspace->draw(painter);
+}
+
+void Widget::leaveEvent(QEvent *event)
+{
+    if(m_workspace->areaConfirmed() == false)
+    {
+        m_workspace->setAreaBoundary(QRect(0,0,0,0));
+        update();
+    }
 }
 
 

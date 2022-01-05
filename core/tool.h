@@ -53,6 +53,7 @@ public:
     virtual void setCursor();
 
 protected:
+    bool m_autoSelected;
     Workspace *m_workspace;
 };
 

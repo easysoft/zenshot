@@ -19,7 +19,7 @@ ColorButton::ColorButton(QWidget *parent) : QAbstractButton(parent)
     m_contentBrush.setColor(m_contentColor);
     m_contentBrush.setStyle(Qt::SolidPattern);
 
-    resize(m_length,m_length);
+    resize(ts(m_length),ts(m_length));
 }
 
 int ColorButton::length() const
@@ -31,7 +31,7 @@ void ColorButton::setLength(int length)
 {
     m_length = qMax(length,2);
 
-    resize(m_length,m_length);
+    resize(ts(m_length),ts(m_length));
 
     update();
 }
@@ -142,34 +142,36 @@ void ColorButton::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing,true);
 
-    QRectF borderRect(m_borderWidth/2,
-                      m_borderWidth/2,
-                      m_length-m_borderWidth,
-                      m_length-m_borderWidth);
+    float i_borderWidth = ts(m_borderWidth);
+    float i_length = ts(m_length);
+    float i_padding = ts(m_padding);
+    float i_hoverPadding = ts(m_hoverPadding);
 
-    QRectF contentRect(m_padding + m_borderWidth,
-                      m_padding + m_borderWidth,
-                      m_length - (m_padding + m_borderWidth)*2,
-                      m_length - (m_padding + m_borderWidth)*2);
+    QRectF borderRect(i_borderWidth/2,
+                      i_borderWidth/2,
+                      i_length-m_borderWidth,
+                      i_length-m_borderWidth);
+
+    QRectF contentRect(i_padding + i_borderWidth,
+                      i_padding + i_borderWidth,
+                      i_length - (i_padding + i_borderWidth)*2,
+                      i_length - (i_padding + i_borderWidth)*2);
     if(m_isHover == true)
     {
-        contentRect.setRect(m_hoverPadding + m_borderWidth,
-                            m_hoverPadding + m_borderWidth,
-                            m_length -(m_hoverPadding + m_borderWidth)*2,
-                            m_length - (m_hoverPadding + m_borderWidth)*2);
+        contentRect.setRect(i_hoverPadding + i_borderWidth,
+                            i_hoverPadding + i_borderWidth,
+                            i_length -(i_hoverPadding + i_borderWidth)*2,
+                            i_length - (i_hoverPadding + i_borderWidth)*2);
     }
 
     painter.setPen(m_borderPen);
 
-    //painter.fillRect(borderRect,m_backgrondBrush);
-    //painter.fillRect(contentRect,m_contentBrush);
-
     painter.setBrush(m_backgrondBrush);
-    painter.drawRoundedRect(borderRect,m_borderRadius,m_borderRadius);
+    painter.drawRoundedRect(borderRect,ts(m_borderRadius),ts(m_borderRadius));
 
     m_borderPen.setWidth(0);
     painter.setPen(m_borderPen);
     painter.setBrush(m_contentBrush);
-    painter.drawRoundedRect(contentRect,m_borderRadius,m_borderRadius);
+    painter.drawRoundedRect(contentRect,ts(0),ts(0));
 
 }

@@ -10,7 +10,8 @@
 #include "core/screeninfo.h"
 #include "screen/helper/screengetter.h"
 #include "starter.h"
-#include "core/appparams.h"
+#include "core/gparams.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -41,8 +42,13 @@ int main(int argc, char *argv[])
     QFont defaultFont("微软雅黑",9);
     a.setFont(defaultFont);
 
+
+
     //解析命令行参数
-    AppParams::instance()->init(argc,argv);
+    int result = GParams::instance()->fromArgs(argc,argv);
+
+    if(result != 0)
+        return result;
 
     a.setQuitOnLastWindowClosed(true);
 

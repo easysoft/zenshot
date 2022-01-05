@@ -71,7 +71,8 @@ void Shape::drawAntIndicator(QPainter &painter, QRect rect,float extend)
     QPen indicator;
     indicator.setColor(Utils::Handle_AntLine_Color);
     indicator.setWidth(Utils::Handle_AntLine_Thicknes);
-    indicator.setStyle(Qt::DashLine);
+    indicator.setStyle(Qt::CustomDashLine);
+    indicator.setDashPattern(QVector<qreal>{2,2});
 
     painter.setPen(indicator);
     painter.drawRect(realRect);

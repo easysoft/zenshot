@@ -26,14 +26,14 @@ void ColorWidget::initParams()
 
     m_hGap = 2;
     m_vGap = 2;
-    m_mainGap = 6;
+    m_mainGap = 4;
 
-    m_itemLength = 15;
+    m_itemLength = 11;
     m_itemPadding = 0;
     m_itemActivePadding = 1;
 
     m_itemBorderWidth = 1;
-    m_itemBorderRadius = 2;
+    m_itemBorderRadius = 1;
     m_itemBorderColor = QColor(255,255,255);
     m_itemBackgroundColor = QColor(255,255,255);
 
@@ -62,18 +62,21 @@ void ColorWidget::createUI()
 {
     int colNum = m_maxColorNum/2;
 
-
+    int i_itemLength = ts(m_itemLength);
+    int i_vGap = ts(m_vGap);
+    int i_hGap = ts(m_hGap);
+    int i_mainGap = ts(m_mainGap);
 
     //计算整体的宽高
-    int totalHeight = m_itemLength*2 + m_vGap;
-    int totalWidth = colNum * m_itemLength + (colNum - 1) * m_hGap + totalHeight + m_mainGap;
+    int totalHeight = i_itemLength*2 + i_vGap;
+    int totalWidth = colNum * i_itemLength + (colNum - 1) * i_hGap + totalHeight + i_mainGap;
 
     //设置组件的最小尺寸
     setMinimumSize(totalWidth,totalHeight);
 
     //创建选中颜色方块
     m_selectedBtn = new ColorButton(this);
-    setProps(m_selectedBtn,totalHeight,m_itemPadding*2,m_itemPadding*2,m_selectedColor,m_itemBorderRadius*2);
+    setProps(m_selectedBtn,m_itemLength*2 + m_vGap,m_itemPadding*2,m_itemPadding*2,m_selectedColor,m_itemBorderRadius*2);
 
     //创建色块
     QSignalMapper *mapper = new QSignalMapper(this);
@@ -82,7 +85,7 @@ void ColorWidget::createUI()
     {
         ColorButton *colorBtn = new ColorButton(this);
         setProps(colorBtn,m_itemLength,m_itemPadding,m_itemActivePadding,m_colorList[i],m_itemBorderRadius);
-        colorBtn->move(totalHeight + m_mainGap + i * (m_itemLength + m_hGap), 0);
+        colorBtn->move(totalHeight + i_mainGap + i * (i_itemLength + i_hGap), 0);
 
         connect(colorBtn,SIGNAL(clicked()),mapper,SLOT(map()));
         mapper->setMapping(colorBtn,i);
@@ -94,7 +97,7 @@ void ColorWidget::createUI()
     {
         ColorButton *colorBtn = new ColorButton(this);
         setProps(colorBtn,m_itemLength,m_itemPadding,m_itemActivePadding,m_colorList[i],m_itemBorderRadius);
-        colorBtn->move(totalHeight + m_mainGap + (i-colNum) * (m_itemLength + m_hGap), m_itemLength + m_vGap);
+        colorBtn->move(totalHeight + i_mainGap + (i-colNum) * (i_itemLength + i_hGap), i_itemLength + i_vGap);
 
         connect(colorBtn,SIGNAL(clicked()),mapper,SLOT(map()));
         mapper->setMapping(colorBtn,i);

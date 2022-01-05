@@ -12,6 +12,7 @@ QRect WindowGetter::winGeometry(QScreen *screen,QWidget *host)
     ::EnableWindow((HWND)host->winId(), FALSE);
 
     QRect result = screen->geometry();
+    QRect limit(result.x(),result.y(),result.width(),result.height());
 
     HWND hwnd;
     POINT pt;
@@ -31,7 +32,7 @@ QRect WindowGetter::winGeometry(QScreen *screen,QWidget *host)
 
     ::EnableWindow((HWND)host->winId(), TRUE);
 
-    return result;
+    return result.intersected(limit);
 }
 
 /*

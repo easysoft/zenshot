@@ -28,7 +28,8 @@
 #include "commands/deletecommand.h"
 #include "commands/propscommand.h"
 #include "stores/memorystore.h"
-#include "core/appparams.h"
+#include "core/gparams.h"
+#include "core/gscale.h"
 
 #include <QPainter>
 #include <QKeyEvent>
@@ -46,6 +47,7 @@
 #include <QFileInfo>
 #include <QtMath>
 #include <QDir>
+#include <QDebug>
 
 
 Workspace::Workspace(QWidget *host):m_shotArea(this)
@@ -59,6 +61,8 @@ Workspace::Workspace(QWidget *host):m_shotArea(this)
     this->m_createTool = nullptr;
     this->m_toolBar = nullptr;
     this->m_propsBar = nullptr;
+
+    this->m_firstRender = false;
 
     m_textAssist = new TextAssist(this);
 }
@@ -86,11 +90,6 @@ Workspace::~Workspace()
     qDeleteAll(m_shapeList);
     m_shapeList.clear();
 
-}
-
-QFont Workspace::iconfont() const
-{
-    return m_iconfont;
 }
 
 QWidget* Workspace::widget()
@@ -126,6 +125,8 @@ void Workspace::setAreaBoundary(QRect rect)
 void Workspace::start(ScreenList *list)
 {
     m_shotArea.start(list);
+
+    GParams::instance()->setScale(list->scale());
 }
 
 void Workspace::onMousePress(QMouseEvent *event)
@@ -272,25 +273,16 @@ void Workspace::confirmArea()
     m_shotArea.confirmArea();
     m_widget->update();
 
-    if(AppParams::instance()->mode() == "view")
-    {
-        //非编辑模式直接保存截图并退出程序
-        if(AppParams::instance()->save() == "clipboard")
-        {
-            saveToClipboardImpl();
-            close();
-        }
-        else
-        {
-            QString folder = AppParams::instance()->save();
-            saveToFolder(folder);
-            close();
-        }
-    }
-    else
+    if(GParams::instance()->mark() == "yes")
     {
         //编辑模式构造工具栏
         createToolBar();
+    }
+    else
+    {
+        //非编辑模式直接保存截图并退出程序
+        int result = saveImpl();
+        closeImpl(result);
     }
 
     emit finishConfirmArea();
@@ -322,6 +314,17 @@ void Workspace::draw(QPainter &painter)
     foreach(Handle *handle, m_activeHandles)
     {
         handle->draw(painter);
+    }
+
+    if(m_firstRender == false && GParams::instance()->mark() == "yes")
+    {
+        m_firstRender = true;
+
+        loadResource();
+        m_toolBar = new ToolBar(this);
+        m_toolBar->move(0,-1000);
+        m_toolBar->show();
+        m_toolBar->setVisible(false);
     }
 }
 
@@ -491,14 +494,16 @@ void Workspace::deleteSelected()
 
 void Workspace::createToolBar()
 {
-    loadResource();
+    //loadResource();
+    //m_toolBar = new ToolBar(this);
+    //m_toolBar->show();
 
-    m_toolBar = new ToolBar(this);
+    m_toolBar->setVisible(true);
 
     connect(m_toolBar,SIGNAL(createChanged(QString)),this,SLOT(createToolChanged(QString)));
-    connect(m_toolBar,SIGNAL(saveToSelect()),this,SLOT(saveToSelect()));
+    connect(m_toolBar,SIGNAL(download()),this,SLOT(download()));
     connect(m_toolBar,SIGNAL(closeProgram()),this,SLOT(close()));
-    connect(m_toolBar,SIGNAL(saveToClipboard()),this,SLOT(saveToClipboard()));
+    connect(m_toolBar,SIGNAL(save()),this,SLOT(save()));
 
     rePositionBar();
 }
@@ -559,14 +564,7 @@ void Workspace::rePositionBar()
     int totalWidth = qMax(toolWidth,propsWidth);
     int totalHeight = toolHeight + rowGap + propsHeight;
 
-    //计算横坐标的值，优先右侧显示，其次紧靠左侧显示
-    int x = shotRect.x() + shotRect.width() - totalWidth;
-    if(x < screenRect.x())
-    {
-        x = screenRect.x();
-    }
-
-    //计算纵坐标的值
+    //计算纵坐标的值,默认紧贴当前屏幕的底部
     int y = screenRect.y();
 
     if(shotRect.y()+shotRect.height()+Utils::ToolBar_ShotArea_Gap + totalHeight <= screenRect.y()+screenRect.height())
@@ -580,13 +578,28 @@ void Workspace::rePositionBar()
         y = shotRect.y() - Utils::ToolBar_ShotArea_Gap - totalHeight;
     }
 
-    //最后紧贴屏幕的顶部，截图区域的右侧显示
-
-    m_toolBar->move(x, y);
-
-    if(m_propsBar != nullptr)
+    //计算横坐标的值（优先右侧显示）
+    int x = shotRect.x() + shotRect.width() - totalWidth;
+    if(x >= screenRect.x())
     {
-        m_propsBar->move(x,y+toolHeight+rowGap);
+        m_toolBar->move(x + (totalWidth - toolWidth), y);
+
+        if(m_propsBar != nullptr)
+        {
+            m_propsBar->move(x,y+toolHeight+rowGap);
+        }
+    }
+    else
+    {
+        //左侧显示
+        x = shotRect.x();
+
+        m_toolBar->move(x, y);
+
+        if(m_propsBar != nullptr)
+        {
+            m_propsBar->move(x,y+toolHeight+rowGap);
+        }
     }
 }
 
@@ -598,7 +611,7 @@ void Workspace::createToolChanged(QString shapeType)
     createPropsBar();
 }
 
-void Workspace::saveToSelect()
+void Workspace::download()
 {
     QPixmap result = m_shotArea.result();
 
@@ -619,19 +632,21 @@ void Workspace::saveToSelect()
     close();
 }
 
-void Workspace::saveToClipboardImpl()
+int Workspace::saveClipboardImpl()
 {
     QPixmap result = m_shotArea.result();
     QClipboard *board = QApplication::clipboard();
     board->setImage(result.toImage());
+
+    return 0;
 }
 
-void Workspace::saveToFolder(QString folderPath)
+int Workspace::saveFolderImpl(QString folderPath)
 {
     QDir dir(folderPath);
     if(dir.exists() == false)
     {
-        saveToClipboardImpl();
+        return saveClipboardImpl();
     }
     else
     {
@@ -643,22 +658,67 @@ void Workspace::saveToFolder(QString folderPath)
         QString savefile = dir.filePath(fileName);
 
         result.toImage().save(savefile,"png");
+
+        return 0;
     }
 }
 
-void Workspace::saveToClipboard()
+int Workspace::saveImpl()
 {
-    if(AppParams::instance()->save() == "clipboard")
+    bool toFile = false;
+    bool toClipboard = false;
+
+    //判断是否保存为指定的文件
+    if(GParams::instance()->save() != nullptr)
     {
-        saveToClipboardImpl();
-    }
-    else
-    {
-        QString folder = AppParams::instance()->save();
-        saveToFolder(folder);
+        QFile file(GParams::instance()->save());
+        QFileInfo fInfo(file);
+        QDir dir = fInfo.dir();
+
+        QString suffix = fInfo.suffix().toLower();
+
+        //文件格式错误，异常退出
+        if(suffix != "png")
+            return Utils::ERROR_SAVE_FORMAT;
+
+        //指定文件夹不存在，异常退出
+        if(dir.exists() == false)
+            return Utils::ERROR_SAVE_FOLDER;
+
+        //如文件已存在，先删除
+        if(file.exists() == true)
+            file.remove();
+
+        toFile = true;
     }
 
-    close();
+    //判断是否保存到剪贴板
+    if(GParams::instance()->clipboard() == "yes")
+    {
+        toClipboard = true;
+    }
+    else if(GParams::instance()->clipboard() == "auto")
+    {
+        if(toFile == false)
+            toClipboard = true;
+    }
+
+    if(toClipboard == true)
+        saveClipboardImpl();
+
+    if(toFile == true)
+    {
+        QPixmap result = m_shotArea.result();
+        result.toImage().save(GParams::instance()->save(),"png");
+    }
+
+    return 0;
+}
+
+void Workspace::save()
+{
+    int result = saveImpl();
+    closeImpl(result);
 }
 
 Tool *Workspace::createCreateToolFactory(QString shapeType)
@@ -705,9 +765,14 @@ PropsBar *Workspace::createPropsBarFactory(QString shapeType)
     return propsBar;
 }
 
+void Workspace::closeImpl(int code)
+{
+    emit quitShot(code);
+}
+
 void Workspace::close()
 {
-    emit quitShot();
+    closeImpl(0);
 }
 
 QPoint Workspace::getMouse(QMouseEvent *event)
@@ -723,9 +788,32 @@ void Workspace::loadResource()
 
     file.open(QFile::ReadOnly);
     QString qss = QLatin1String(file.readAll());
-    m_widget->setStyleSheet(qss);
     file.close();
 
+
+    if(GParams::instance()->scale() != 1.0)
+    {
+        GScale scale;
+
+        QRegExp rx("\\d+px", Qt::CaseInsensitive);
+        rx.setMinimal(true);
+        int index = -1;
+
+        while ((index = rx.indexIn(qss, index + 1)) >= 0)
+        {
+            int capLen = rx.cap(0).length() - 2;
+            QString snum = qss.mid(index, capLen);
+            snum = QString::number(scale.ts(snum.toInt()));
+            qss.replace(index, capLen, snum);
+            index += snum.length();
+            if (index > qss.size() - 2)
+            {
+                break;
+            }
+        }
+    }
+
+    m_widget->setStyleSheet(qss);
 }
 
 

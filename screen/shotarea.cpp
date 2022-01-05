@@ -12,8 +12,8 @@
 
 ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false)
 {
-    m_indicatorPen.setColor(QColor(255,255,255));
-    m_indicatorPen.setWidth(3);
+    m_indicatorPen.setColor(QColor(151,151,151));
+    m_indicatorPen.setWidth(1);
     m_isGettingResult = false;
 }
 
@@ -72,6 +72,7 @@ void ShotArea::autoCaptureWindow()
     QWidget *host = m_workspace->widget();
     //初始化选择区域
     QRect globalArea = WindowGetter::winGeometry(m_screenList->screenAt(m_nowScreenIndex),host);
+
     QRect area = m_screenList->toLocal(globalArea);
     m_boundary.setRect(area.x(),area.y(),area.width(),area.height());
 
@@ -90,6 +91,12 @@ void ShotArea::confirmArea()
     m_handles = this->handles();
     setSelected(true);
     m_areaConfirmed = true;
+
+    QScreen *current = m_screenList->screenAt(m_nowScreenIndex);
+    QSizeF physicalSize = current->physicalSize();
+    QRect geometryRect = current->geometry();
+    float pixel = current->physicalDotsPerInch();
+    float scale = current->devicePixelRatio();
 }
 
 Handle *ShotArea::handleAt(QPoint point)
@@ -172,7 +179,7 @@ QVector<Handle *> ShotArea::handles()
 void ShotArea::draw(QPainter &painter)
 {
     if(m_selected == false)
-        m_indicatorPen.setWidth(3);
+        m_indicatorPen.setWidth(1);
     else
         m_indicatorPen.setWidth(1);
 

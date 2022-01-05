@@ -4,7 +4,7 @@
 
 PenCombobox::PenCombobox(QWidget *parent):QPushButton(parent)
 {
-    setMinimumWidth(100);
+    setMinimumWidth(ts(100));
 
     m_styleList.append(Qt::SolidLine);
     m_styleList.append(Qt::DashLine);

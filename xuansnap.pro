@@ -32,8 +32,9 @@ SOURCES += \
     controls/sizewidget.cpp \
     controls/textwidget.cpp \
     controls/textwidgetimpl.cpp \
-    core/appparams.cpp \
     core/command.cpp \
+    core/gparams.cpp \
+    core/gscale.cpp \
     core/handle.cpp \
     core/locator.cpp \
     core/pointshape.cpp \
@@ -104,8 +105,9 @@ HEADERS += \
     controls/sizewidget.h \
     controls/textwidget.h \
     controls/textwidgetimpl.h \
-    core/appparams.h \
     core/command.h \
+    core/gparams.h \
+    core/gscale.h \
     core/handle.h \
     core/locator.h \
     core/pointshape.h \

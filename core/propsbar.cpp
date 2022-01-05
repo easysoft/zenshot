@@ -25,7 +25,7 @@ void PropsBar::addSeperator()
 {
     //分割线组件构造添加
     QFrame *splite = new QFrame();
-    splite->setObjectName("vLSplit");
+    splite->setObjectName("vSplit2");
     splite->setFrameShape(QFrame::VLine);
     m_layout->addWidget(splite);
 }

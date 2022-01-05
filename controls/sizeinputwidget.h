@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QSpinBox>
 
-class SizeInputWidget : public QWidget
+#include "core/gscale.h"
+
+class SizeInputWidget : public QWidget,GScale
 {
     Q_OBJECT
 public:

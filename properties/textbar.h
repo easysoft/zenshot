@@ -4,6 +4,7 @@
 #include "core/propsbar.h"
 #include "controls/sizewidget.h"
 #include "controls/colorwidget.h"
+#include "core/gscale.h"
 
 #include <QComboBox>
 #include <QFontComboBox>
@@ -14,7 +15,7 @@
  * @brief : 文本属性面板定义
  * @note  : 文本铅笔属性设置
  */
-class TextBar : public PropsBar
+class TextBar : public PropsBar,GScale
 {
     Q_OBJECT
 public:

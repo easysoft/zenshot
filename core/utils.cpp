@@ -4,12 +4,12 @@
 #include <QPoint>
 
 int Utils::Handle_Area_Size = 9;
-int Utils::Handle_Area_Border_Thickness = 2;
+int Utils::Handle_Area_Border_Thickness = 1;
 QColor Utils::Handle_Area_Border_Color = QColor(128,128,128);
 QColor Utils::Handle_Area_Fill_Color = QColor(255,255,255);
 
 int Utils::Handle_Shape_Size = 9;
-int Utils::Handle_Shape_Border_Thickness = 2;
+int Utils::Handle_Shape_Border_Thickness = 1;
 QColor Utils::Handle_Shape_Border_Color = QColor(128,128,128);
 QColor Utils::Handle_Shape_Fill_Color = QColor(255,255,255);
 
@@ -30,6 +30,11 @@ int Utils::ToolBar_PropsBar_Gap = 5;  //8
 int Utils::TextEdit_Padding_Horizontal = 5;//5
 int Utils::TextEdit_Padding_Vertical = 8;  //8
 double Utils::TextEdit_Height_Extend = 0.5; //0.5
+
+int Utils::ERROR_MARK_VALUE = 2;
+int Utils::ERROR_CLIPBOARD_VALUE = 3;
+int Utils::ERROR_SAVE_FORMAT = 4;
+int Utils::ERROR_SAVE_FOLDER = 5;
 
 
 float Utils::distance(QPoint p1, QPoint p2)

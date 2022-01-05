@@ -14,15 +14,16 @@ SizeInputWidget::SizeInputWidget(QWidget *parent):QWidget(parent)
     m_inpputBox = new QSpinBox(this);
 
     m_inpputBox->setSuffix("px");
-    m_inpputBox->setFixedWidth(60);
+    m_inpputBox->setFixedWidth(ts(60));
     m_inpputBox->setMinimum(m_minSize);
     m_inpputBox->setMaximum(m_maxSize);
 
     QSize mSize = m_inpputBox->size();
 
-    setMinimumSize(mSize.width()+2 + mSize.height(),mSize.height()+2);
+    float height = ts(24);
+    setMinimumSize(mSize.width() + height + 2,height+2);
 
-    m_inpputBox->move(mSize.height()+1,1);
+    m_inpputBox->move(height+1,1);
 
     connect(m_inpputBox, SIGNAL(valueChanged(int)), this, SLOT(onInpputIntChanged(int)));
 }

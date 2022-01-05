@@ -5,12 +5,13 @@ QWidget[class='bar']{
 
 
 QFrame#vSplit {
-    margin:6px;
+    margin-top:5px;
+    margin-bottom:5px;
     padding:0px;
     color:"#c0c0c0";
 }
 
-QFrame#vLSplit {
+QFrame#vSplit2 {
     margin:2px;
     padding:0px;
     color:"#c0c0c0";
@@ -21,7 +22,7 @@ QCheckBox {
 }
 
 PenCombobox{
-    min-height:30px;
+    min-height:24px;
     border:1px solid #808080;
     border-radius:2;
     margin:0px;
@@ -42,7 +43,8 @@ SizeInputWidget {
 }
 
 QSpinBox {
-    min-height:30px;
+    font-size:14px;
+    height:24px;
     border-left:1px solid rgba(51,51,51,77);
     border-radius:0;
     background-color:rgba(255,255,255,192);
@@ -74,18 +76,21 @@ QSpinBox::down-button
 QSpinBox::up-arrow
 {
     image:url(:/images/up-arrow.png);
+    width:14px;
 }
 
 QSpinBox::down-arrow
 {
     image:url(:/images/down-arrow.png);
+    width:14px;
 }
 
 
 QComboBox{
-    min-height:30px;
+    min-height:24px;
     border:1px solid rgba(51,51,51,77);
     border-radius:2;
+    font-size:14px;
 }
 
 QComboBox::drop-down{
@@ -95,6 +100,7 @@ QComboBox::drop-down{
     margin-right:5px;
     subcontrol-position: right center;
     image:url(:/images/dropdown.png);
+    width:16px;
 }
 
 QComboBox QScrollBar::vertical{
@@ -116,15 +122,15 @@ QComboBox QListWidget::item:selected{background:rgba(0,125,255); }
 QPushButton[forTip='mainBtn'] {
     font-family:XuanSnapIcon;
     color:"#4a4a4a";
-    font-size:22px;  /*22*/
+    font-size:18px;  /*22px*/
     font-weight:500;
     background-color:transparent;
     border:1px solid transparent;
-    border-radius:4;
+    border-radius:2px;
     margin:0px;
     padding:0px;
-    height:32px;
-    width:32px;
+    height:26px;  /*32px*/
+    width:26px;   /*32px*/
 }
 
 QPushButton[forTip='mainBtn']:hover{
@@ -163,7 +169,7 @@ SizeButton[forTip='thickness'] {
 }
 
 SizeButton[forTip='thickness']:hover{
-    color:"2f3343";
+    color:"#2f3343";
     background-color:"#dee1e8";
     border:1px solid "#9d9fa0";
 }
@@ -175,20 +181,18 @@ SizeButton[forTip='thickness']:pressed
 }
 
 SizeButton[forTip='thickness']:checked{
-    color:"2f3343";
+    color:"#2f3343";
     background-color:"#dee1e8";
     border:1px solid "#9d9fa0";
 }
 
-QPushButton#cancelBtn {
+/*QPushButton#cancelBtn {
     color:"#ff403a";
-    font-size:24px;
 }
 
 QPushButton#saveBtn {
     color:"#1fb41e";
-    font-size:24px;
-}
+}*/
 
 
 

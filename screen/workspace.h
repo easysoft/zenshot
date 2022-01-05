@@ -30,12 +30,6 @@ public:
     ~Workspace();
 
     /**
-     * @brief 获取图标符号字体
-     * @return
-     */
-    QFont iconfont() const;
-
-    /**
      * @brief 获取窗口组件
      * @return
      */
@@ -221,6 +215,7 @@ public:
      */
     QVector<Handle *> activeHandles() const;
 
+
 private:
     QFont m_iconfont;
 
@@ -241,6 +236,7 @@ private:
     Shape* m_selectedShape;
     QVector<Handle*> m_activeHandles;
 
+    bool m_firstRender;
     void loadResource();
 
     QPoint getMouse(QMouseEvent *event);
@@ -253,17 +249,19 @@ private:
 
     void deleteSelected();
 
-    void saveToClipboardImpl();
-    void saveToFolder(QString folderPath);
+    int saveClipboardImpl();
+    int saveFolderImpl(QString folderPath);
+    int saveImpl();
+    void closeImpl(int code);
 
 signals:
-    void quitShot();
+    void quitShot(int code);
     void finishConfirmArea();
 
 private slots:
     void close();
-    void saveToClipboard();
-    void saveToSelect();
+    void save();
+    void download();
     void createToolChanged(QString shapeType);
 };
 

@@ -28,20 +28,19 @@ QList<QList<ScreenInfo>> ScreenGetter::screenList()
 
     QList<QList<ScreenInfo>> results;
 
-    results.append(tmpResults);
+    //允许跨多屏截图
+    //results.append(tmpResults);
+    //return results;
+
+    //下面的不支持跨多屏截图
+    for(ScreenInfo info:tmpResults)
+    {
+        QList<ScreenInfo> alone;
+        alone.append(info);
+
+        results.append(alone);
+    }
 
     return results;
-
-//    QList<QList<ScreenInfo>> results;
-
-//    for(ScreenInfo info:tmpResults)
-//    {
-//        QList<ScreenInfo> alone;
-//        alone.append(info);
-
-//        results.append(alone);
-//    }
-
-//    return results;
 }
 

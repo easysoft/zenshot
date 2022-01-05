@@ -28,20 +28,20 @@ void Starter::init()
         w->show();
 
         m_widgets->append(w);
-        connect(w->workspace(), SIGNAL(quitShot()), this, SLOT(close()));
+        connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(close(int)));
         connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()));
     }
 }
 
-void Starter::close()
+void Starter::close(int code)
 {
     QVector<Widget*> widgets = m_widgets->toVector();
     for(Widget* w:widgets)
     {
-        w->close();
+        //w->close();
     }
 
-    QApplication::quit();
+    QApplication::exit(code);
 }
 
 void Starter::finishConfirmArea()

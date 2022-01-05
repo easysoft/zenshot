@@ -16,7 +16,7 @@ void TextBar::createWidget()
 {
     //字号组件初始化
     m_sizeComboBox = new QComboBox();
-    m_sizeComboBox->setMinimumWidth(45);
+    m_sizeComboBox->setMinimumWidth(ts(50));
 
     QVector<int> sizeList = {10,12,14,16,18,20,24,28,32,40,48,56,64,72};
     foreach(int i,sizeList)
@@ -42,7 +42,7 @@ void TextBar::createWidget()
         }
     }
     m_fontComboxBox = new QComboBox();
-    m_fontComboxBox->setMaximumWidth(120);
+    m_fontComboxBox->setMaximumWidth(ts(120));
     m_fontComboxBox->setModel(fListWidget->model());
     m_fontComboxBox->setView(fListWidget);
     m_layout->addWidget(m_fontComboxBox);
