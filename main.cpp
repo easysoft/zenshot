@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QList>
 #include <QFontDatabase>
+#include <QWidget>
 
 #include "widget.h"
 #include "core/screeninfo.h"
@@ -50,10 +51,12 @@ int main(int argc, char *argv[])
     if(result != 0)
         return result;
 
-    a.setQuitOnLastWindowClosed(true);
+    a.setQuitOnLastWindowClosed(false);
 
     Starter starter;
     starter.init();
 
-    return a.exec();
+    int ret = a.exec();
+
+    return ret;
 }

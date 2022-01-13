@@ -11,7 +11,7 @@ class Starter : public QObject
 public:
     Starter();
 
-    void init();
+    void init(QWidget *parent=nullptr);
 
 private:
     QList<Widget*> *m_widgets;

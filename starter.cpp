@@ -5,13 +5,15 @@
 
 #include <QList>
 #include <QApplication>
+#include <QWidget>
+#include <QPropertyAnimation>
 
 Starter::Starter():QObject()
 {
 
 }
 
-void Starter::init()
+void Starter::init(QWidget *parent)
 {
     m_widgets = new QList<Widget*>();
 
@@ -23,7 +25,7 @@ void Starter::init()
     {
         ScreenList *alone = new ScreenList(list);
 
-        Widget *w = new Widget(alone);
+        Widget *w = new Widget(alone,parent);
         w->setAttribute(Qt::WA_DeleteOnClose);
         w->show();
 
@@ -39,6 +41,11 @@ void Starter::close(int code)
     for(Widget* w:widgets)
     {
         //w->close();
+        QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
+        animation->setDuration(0);
+        animation->setStartValue(1);
+        animation->setEndValue(0);
+        animation->start();
     }
 
     QApplication::exit(code);
