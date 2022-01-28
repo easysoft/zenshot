@@ -17,7 +17,8 @@ void Tool::setCursor()
     QPixmap pixmap(":/images/cross32.png");
     QSize pixsize(20,20);
     QPixmap scaledPixmap = pixmap.scaled(pixsize,Qt::KeepAspectRatio);
-    QCursor cursor(scaledPixmap,-1,-1);
+    //QCursor cursor(scaledPixmap,-1,-1);
+    QCursor cursor(Qt::CrossCursor);
 
     m_workspace->widget()->setCursor(cursor);
 }
