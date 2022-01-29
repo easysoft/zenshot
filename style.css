@@ -1,6 +1,7 @@
 QWidget[class='bar']{
-    background-color:"#e0e0e0";
-    border:1px solid "#e0e0e0";
+    background-color:rgba(255,255,255,60%);
+    border:0px solid rgba(255,255,255,60%);
+    border-radius:4px;
 }
 
 
@@ -8,13 +9,13 @@ QFrame#vSplit {
     margin-top:5px;
     margin-bottom:5px;
     padding:0px;
-    color:"#c0c0c0";
+    color:rgba(0,0,0,10%);
 }
 
 QFrame#vSplit2 {
     margin:2px;
     padding:0px;
-    color:"#c0c0c0";
+    color:rgba(0,0,0,10%);
 }
 
 QCheckBox {
@@ -22,12 +23,13 @@ QCheckBox {
 }
 
 PenCombobox{
-    min-height:24px;
-    border:1px solid #808080;
+    color:#333333;
+    min-height:23px;
+    border:0px solid #808080;
     border-radius:2;
     margin:0px;
     padding:0px;
-    background-color:#ffffff;
+    background-color:rgba(255,255,255,60%);
 }
 
 PenCombobox::menu-indicator{
@@ -37,40 +39,41 @@ PenCombobox::menu-indicator{
 }
 
 SizeInputWidget {
-    border:1px solid rgba(51,51,51,77);
+    border:0px solid rgba(51,51,51,77);
     border-radius:2;
-    background-color:rgba(255,255,255,192);
+    background-color:rgba(255,255,255,60%);
 }
 
 QSpinBox {
-    font-size:14px;
-    height:24px;
-    border-left:1px solid rgba(51,51,51,77);
+    color:#333333;
+    font-size:12px;
+    height:23px;
+    border-left:1px solid rgba(0,0,0,10%);
     border-radius:0;
-    background-color:rgba(255,255,255,192);
+    background-color:rgba(255,255,255,0%);
 }
 
 QSpinBox::up-button
 {
-    border-left:1px solid rgba(51,51,51,77);
+    border-left:1px solid rgba(0,0,0,10%);
     padding-left:2px;
     padding-right:3px;
     subcontrol-origin:border;
     subcontrol-position:top right;
     image: none;
     width: 12px;
-    background-color:rgba(255,255,255,192);
+    background-color:rgba(255,255,255,60%);
 }
 QSpinBox::down-button
 {
-    border-left:1px solid rgba(51,51,51,77);
+    border-left:1px solid rgba(0,0,0,10%);
     padding-left:2px;
     padding-right:3px;
     subcontrol-origin:border;
     subcontrol-position:bottom right;
     image: none;
     width: 12px;
-    background-color:rgba(255,255,255,192);
+    background-color:rgba(255,255,255,60%);
 }
 
 QSpinBox::up-arrow
@@ -87,10 +90,11 @@ QSpinBox::down-arrow
 
 
 QComboBox{
-    min-height:24px;
+    color:#333333;
+    font-size:12px;
+    min-height:23px;
     border:1px solid rgba(51,51,51,77);
     border-radius:2;
-    font-size:14px;
 }
 
 QComboBox::drop-down{
@@ -121,44 +125,34 @@ QComboBox QListWidget::item:selected{background:rgba(0,125,255); }
 
 QPushButton[forTip='mainBtn'] {
     font-family:XuanSnapIcon;
-    color:"#4a4a4a";
-    font-size:18px;  /*22px*/
+    color:#333333;
+    font-size:15px;
     font-weight:500;
     background-color:transparent;
-    border:1px solid transparent;
-    border-radius:2px;
     margin:0px;
     padding:0px;
-    height:26px;  /*32px*/
-    width:26px;   /*32px*/
+    height:23px;
+    width:22px;
 }
 
 QPushButton[forTip='mainBtn']:hover{
-    color:"#ffffff";
-    background-color:"#007aff";
-    border:0px solid "#9d9fa0";
+    color:#007AFF;
 }
 
 QPushButton[forTip='mainBtn']:pressed
-    color:"#ffffff";
-    background-color:"#007aff";
-    border:0px solid "#9d9fa0";
+    background-color:#007AFF;
 }
 
 QPushButton[forTip='mainBtn']:checked{
-    color:"#ffffff";
-    background-color:"#007aff";
-    border:0px solid "#9d9fa0";
+    color:#007AFF;
 }
 
 QPushButton[forTip='mainBtn']:disabled{
-    color:"#b1b2b5";
-    background-color:"transparent;
-    border:1px solid "transparent";
+    color:rgba(51,51,51,25%);
 }
 
 SizeButton[forTip='thickness'] {
-    color:"#2f3343";
+    color:#2f3343;
     font-size:22px;
     background-color:transparent;
     border:1px solid transparent;
@@ -169,30 +163,32 @@ SizeButton[forTip='thickness'] {
 }
 
 SizeButton[forTip='thickness']:hover{
-    color:"#2f3343";
-    background-color:"#dee1e8";
-    border:1px solid "#9d9fa0";
+    color:#2f3343;
+    background-color:#dee1e8;
+    border:1px solid #9d9fa0;
 }
 
-SizeButton[forTip='thickness']:pressed
-    color:"#2f3343";
-    background-color:"#dee1e8";
-    border:1px solid "#9d9fa0";
+SizeButton[forTip='thickness']:pressed{
+    color:#2f3343;
+    background-color:#dee1e8;
+    border:1px solid #9d9fa0;
 }
 
 SizeButton[forTip='thickness']:checked{
-    color:"#2f3343";
-    background-color:"#dee1e8";
-    border:1px solid "#9d9fa0";
+    color:#2f3343;
+    background-color:#dee1e8;
+    border:1px solid #9d9fa0;
 }
 
-/*QPushButton#cancelBtn {
-    color:"#ff403a";
+QPushButton#cancelBtn {
+    color:#F2453D;
 }
 
-QPushButton#saveBtn {
-    color:"#1fb41e";
+/*QPushButton#saveBtn {
+    color:#1fb41e;
 }*/
+
+
 
 
 

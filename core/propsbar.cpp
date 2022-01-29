@@ -17,7 +17,7 @@ PropsBar::PropsBar(Workspace *workspace):QWidget(workspace->widget())
     m_layout = new QHBoxLayout(this);
     this->setLayout(m_layout);
 
-    m_layout->setContentsMargins(5,3,5,3);
+    m_layout->setContentsMargins(ts(3),ts(2),ts(3),ts(2));
 
 }
 

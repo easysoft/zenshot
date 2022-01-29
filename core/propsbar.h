@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 
 #include "stores/localstore.h"
+#include "core/gscale.h"
 
 class Workspace;
 
@@ -13,7 +14,7 @@ class Workspace;
  * @brief : 属性面板基类定义
  * @note  : 提供图形图形设置
  */
-class PropsBar : public QWidget
+class PropsBar : public QWidget, public GScale
 {
     Q_OBJECT
 public:

@@ -28,11 +28,11 @@ void ColorWidget::initParams()
     m_vGap = 2;
     m_mainGap = 4;
 
-    m_itemLength = 11;
+    m_itemLength = 10;
     m_itemPadding = 0;
     m_itemActivePadding = 1;
 
-    m_itemBorderWidth = 1;
+    m_itemBorderWidth = 0;
     m_itemBorderRadius = 1;
     m_itemBorderColor = QColor(255,255,255);
     m_itemBackgroundColor = QColor(255,255,255);

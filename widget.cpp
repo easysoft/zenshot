@@ -9,10 +9,10 @@ Widget::Widget(ScreenList *list, QWidget *parent)
     m_workspace->start(list);
 
     //测试的时候去掉置顶，否则一些导致调试器奔溃的Bug会让机器直接没招
-    //setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool);
 
     #ifdef Q_OS_WIN32
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::WindowStaysOnTopHint);
     #endif
 
     setMouseTracking(true);

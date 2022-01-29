@@ -20,7 +20,7 @@ SizeInputWidget::SizeInputWidget(QWidget *parent):QWidget(parent)
 
     QSize mSize = m_inpputBox->size();
 
-    float height = ts(24);
+    float height = ts(21);
     setMinimumSize(mSize.width() + height + 2,height+2);
 
     m_inpputBox->move(height+1,1);

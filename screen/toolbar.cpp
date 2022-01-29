@@ -22,7 +22,7 @@ void ToolBar::createChild()
 {
     m_layout = new QHBoxLayout();
 
-    m_layout->setContentsMargins(ts(2),ts(2),ts(2),ts(2));
+    m_layout->setContentsMargins(ts(3),ts(2),ts(3),ts(2));
     m_layout->setSpacing(ts(1));
 
     this->setLayout(m_layout);
