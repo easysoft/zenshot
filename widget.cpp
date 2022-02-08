@@ -30,7 +30,7 @@ Widget::Widget(ScreenList *list, QWidget *parent)
     setWindowFlags(Qt::Tool);
 
     #ifdef Q_OS_WIN32
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    //setWindowFlags(Qt::WindowStaysOnTopHint);
     #endif
 
     setMouseTracking(true);

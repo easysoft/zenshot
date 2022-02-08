@@ -166,3 +166,11 @@ void ScreenList::draw(QPainter &painter)
 {
     painter.drawPixmap(allBoundary(),m_allPixMap);
 }
+
+void ScreenList::draw(QPainter &painter, QPainterPath maskPath, QBrush maskBrush)
+{
+    QRect rect = allBoundary();
+
+    painter.drawPixmap(rect,m_allPixMap);
+    painter.fillPath(maskPath,maskBrush);
+}

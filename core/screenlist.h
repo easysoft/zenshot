@@ -46,6 +46,7 @@ public:
     float scale();
 
     void draw(QPainter &painter);
+    void draw(QPainter &painter,QPainterPath maskPath,QBrush maskBrush);
 
 private:
     QRect m_allBoundary;

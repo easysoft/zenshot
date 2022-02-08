@@ -204,9 +204,9 @@ void ShotArea::draw(QPainter &painter)
     painter.save();
 
     //绘制底图
-    m_screenList->draw(painter);
+    //m_screenList->draw(painter);
 
-    //绘制遮罩
+    //初始化遮罩
     QPainterPath maskPath;
     maskPath.addRect(m_screenList->allBoundary());
     maskPath.addRect(m_boundary);
@@ -215,7 +215,11 @@ void ShotArea::draw(QPainter &painter)
     maskBrush.setColor(QColor(0,0,0,150));
     maskBrush.setStyle(Qt::SolidPattern);
 
-    painter.fillPath(maskPath,maskBrush);
+
+    //painter.fillPath(maskPath,maskBrush);
+
+    //绘制底图
+    m_screenList->draw(painter,maskPath,maskBrush);
 
     if(m_isGettingResult == false)
     {
