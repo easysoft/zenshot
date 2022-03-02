@@ -19,22 +19,26 @@
 #include "widget.h"
 #include <QPainter>
 
+#include <QBitmap>
+
 Widget::Widget(ScreenList *list, QWidget *parent)
     : QWidget(parent)
 {
+    setWindowFlag(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
+
     m_status = "unknown";
     m_workspace = new Workspace(this);
     m_workspace->start(list);
 
-    //测试的时候去掉置顶，否则一些导致调试器奔溃的Bug会让机器直接没招
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(windowFlags() | Qt::Tool);
 
+    //测试的时候去掉置顶，否则一些导致调试器奔溃的Bug会让机器直接没招
     #ifdef Q_OS_WIN32
-    //setWindowFlags(Qt::WindowStaysOnTopHint);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     #endif
 
     setMouseTracking(true);
-
 
     QRect geometry = list->allBoundary(true);
     setGeometry(geometry);
@@ -87,6 +91,7 @@ void Widget::keyPressEvent(QKeyEvent *event)
 void Widget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+
     m_workspace->draw(painter);
 }
 
@@ -98,5 +103,6 @@ void Widget::leaveEvent(QEvent *event)
         update();
     }
 }
+
 
 
