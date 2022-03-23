@@ -1,2 +1,5 @@
 
 zenshot.pro.user
+
+# vscode workspace file
+*.code-workspace
