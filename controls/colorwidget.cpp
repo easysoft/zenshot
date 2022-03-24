@@ -46,7 +46,7 @@ void ColorWidget::initParams()
     m_vGap = 2;
     m_mainGap = 4;
 
-    m_itemLength = 10;
+    m_itemLength = 11; //10
     m_itemPadding = 0;
     m_itemActivePadding = 1;
 

@@ -1,7 +1,7 @@
 QWidget[class='bar']{
-    background-color:rgba(255,255,255,100%);
-    border:0px solid rgba(255,255,255,100%);
-    border-radius:4px;
+    background-color:#d7d7d7;
+    border:0px solid #d7d7d7;
+    border-radius:2px;
 }
 
 
@@ -124,15 +124,15 @@ QComboBox QAbstractItemView
 QComboBox QListWidget::item:selected{background:rgba(0,125,255); }
 
 QPushButton[forTip='mainBtn'] {
-    font-family:XuanSnapIcon;
+    font-family:ZenShotIcon;
     color:#333333;
     font-size:16px;  /*15px*/
     font-weight:500;
     background-color:transparent;
     margin:0px;
     padding:0px;
-    height:23px;
-    width:22px;
+    height:26px;
+    width:26px;
 }
 
 QPushButton[forTip='mainBtn']:hover{

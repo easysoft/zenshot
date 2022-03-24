@@ -40,8 +40,8 @@ void ToolBar::createChild()
 {
     m_layout = new QHBoxLayout();
 
-    m_layout->setContentsMargins(ts(3),ts(2),ts(3),ts(2));
-    m_layout->setSpacing(ts(1));
+    m_layout->setContentsMargins(ts(4),ts(2),ts(4),ts(2));
+    m_layout->setSpacing(ts(0));
 
     this->setLayout(m_layout);
 
@@ -53,7 +53,7 @@ void ToolBar::createChild()
 
 void ToolBar::addSeperator()
 {
-    m_layout->addSpacing(ts(2));
+    m_layout->addSpacing(ts(3));
 
     QFrame *splite = new QFrame();
     splite->setObjectName("vSplit");
