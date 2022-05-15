@@ -18,6 +18,7 @@
 
 #include "line.h"
 #include "screen/workspace.h"
+#include "core/utils.h"
 
 #include <QtMath>
 #include <QRegion>
@@ -32,25 +33,52 @@ QString Line::type()
     return Utils::forLineKey();
 }
 
+//bool Line::contain(QPoint point)
+//{
+//    QPointF start = pointAt(0);
+//    QPointF end = pointAt(1);
+
+//    if(m_lineWidth >4)
+//    {
+//        double qatan2 = qAtan2(end.y()-start.y(),end.x()-start.x());
+//        double angle = qatan2*180/M_PI;
+
+//        double p1x = start.x() + (m_lineWidth/2)*qCos(angle/180.0*M_PI);
+//        double p1y = start.y() + (m_lineWidth/2)*qSin(angle/180.0*M_PI);
+
+//        double p2x = end.x() + (m_lineWidth/2)*qCos((angle+180)/180.0*M_PI);
+//        double p2y = end.y() + (m_lineWidth/2)*qSin((angle+180)/180.0*M_PI);
+
+//        start = QPointF(p1x,p1y);
+//        end = QPointF(p2x,p2y);
+//    }
+
+//    if(Utils::distance(start,end,point) <= m_lineWidth/2+Utils::Hit_Snap)
+//    {
+//        return true;
+//    }
+
+//    return false;
+//}
+
 bool Line::contain(QPoint point)
 {
     QPointF start = pointAt(0);
     QPointF end = pointAt(1);
 
-    if(m_lineWidth >4)
-    {
-        double qatan2 = qAtan2(end.y()-start.y(),end.x()-start.x());
-        double angle = qatan2*180/M_PI;
+    double narrowNum = m_lineWidth + Utils::Handle_Shape_Size;
 
-        double p1x = start.x() + (m_lineWidth/2)*qCos(angle/180.0*M_PI);
-        double p1y = start.y() + (m_lineWidth/2)*qSin(angle/180.0*M_PI);
+    double qatan2 = qAtan2(end.y()-start.y(),end.x()-start.x());
+    double angle = qatan2*180/M_PI;
 
-        double p2x = end.x() + (m_lineWidth/2)*qCos((angle+180)/180.0*M_PI);
-        double p2y = end.y() + (m_lineWidth/2)*qSin((angle+180)/180.0*M_PI);
+    double p1x = start.x() + (narrowNum/2)*qCos(angle/180.0*M_PI);
+    double p1y = start.y() + (narrowNum/2)*qSin(angle/180.0*M_PI);
 
-        start = QPointF(p1x,p1y);
-        end = QPointF(p2x,p2y);
-    }
+    double p2x = end.x() + (narrowNum/2)*qCos((angle+180)/180.0*M_PI);
+    double p2y = end.y() + (narrowNum/2)*qSin((angle+180)/180.0*M_PI);
+
+    start = QPointF(p1x,p1y);
+    end = QPointF(p2x,p2y);
 
     if(Utils::distance(start,end,point) <= m_lineWidth/2+Utils::Hit_Snap)
     {
