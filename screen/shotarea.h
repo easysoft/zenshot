@@ -113,6 +113,8 @@ private:
     void autoCaptureScreen();     //自动捕获屏幕
     void autoCaptureWindow();     //自动捕获窗口
 
+    void drawMagnifier(QPainter &painter);
+
 protected:
     void loadPropsImpl(Store *store);
     void savePropsImpl(Store *store);

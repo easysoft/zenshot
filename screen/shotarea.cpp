@@ -20,6 +20,7 @@
 #include "helper/windowgetter.h"
 #include "screen/workspace.h"
 #include "screen/shotarea/areahandle.h"
+#include "core/gscale.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -27,6 +28,7 @@
 #include <QDesktopWidget>
 #include <QPainterPath>
 #include <QBrush>
+#include <QtMath>
 
 ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false)
 {
@@ -194,6 +196,114 @@ QVector<Handle *> ShotArea::handles()
     return  results;
 }
 
+void ShotArea::drawMagnifier(QPainter &painter)
+{
+    GScale scale;
+
+    QRect pixBoundary = this->m_screenList->allBoundary();
+    QPixmap pixPixmap = this->m_screenList->allPixMap();
+
+    QImage bgImg = pixPixmap.toImage();
+    QPoint mousePoint = QCursor::pos();
+
+    QColor mouseColor = bgImg.pixel(mousePoint.x(),mousePoint.y());
+
+    QString posStr = "POS: (" + QString::number(mousePoint.x()) + "," + QString::number(mousePoint.y()) + ")";
+    QString rgbStr = "RGB: (" + QString::number(mouseColor.red()) + "," + QString::number(mouseColor.green()) + "," + QString::number(mouseColor.blue()) + ")";
+
+    QFont font;
+    font.setFamily("微软雅黑");
+    font.setPixelSize(scale.ts(12));
+    QFontMetrics fm(font);
+
+    QRect posRect = fm.boundingRect(QRect(), 0, posStr);
+    QRect rgbRect = fm.boundingRect(QRect(),0,"RGB: (255,255,255)");
+
+    posRect.setHeight((int)((double)posRect.height() * 0.72));
+    rgbRect.setHeight((int)((double)rgbRect.height() * 0.72));
+
+    int hPadding = scale.ts( Utils::magnifier_text_h_padding);
+    int vPadding = scale.ts( Utils::magnifier_text_v_padding);
+    int textGap = scale.ts( Utils::magnifier_text_gap);
+
+    int renderWidth = qMax(posRect.width(),rgbRect.width()) + hPadding * 2;
+    int pixRenderHeight = (Utils::magnifier_from_height/Utils::magnifier_from_width) * renderWidth;
+    int lblRenderHeight = posRect.height() + rgbRect.height() + textGap + vPadding * 2;
+    int renderHeight = pixRenderHeight + lblRenderHeight;
+
+    int pixSourceWidth = (int)((double)renderWidth / Utils::magnifier_zoom_ratio);
+    int pixSourceHeight = (int)((double)pixRenderHeight / Utils::magnifier_zoom_ratio);
+
+    QPoint baseOffset(scale.ts(10),scale.ts(40));
+
+    QPoint basePos(mousePoint.x() + baseOffset.x(), mousePoint.y() + baseOffset.y());
+
+    if(basePos.y() + renderHeight > pixBoundary.y() + pixBoundary.height())
+    {
+        basePos.setY(mousePoint.y() - baseOffset.y() - renderHeight);
+    }
+
+    if(basePos.x() + renderWidth > pixBoundary.x() + pixBoundary.width())
+    {
+        basePos.setX(mousePoint.x() - baseOffset.x() - renderWidth);
+    }
+
+    painter.save();
+
+    QBrush whiteBrush;
+    whiteBrush.setColor(Qt::white);
+    whiteBrush.setStyle(Qt::SolidPattern);
+
+    QBrush blackBrush;
+    blackBrush.setColor(Qt::black);
+    blackBrush.setStyle(Qt::SolidPattern);
+
+    QPen borderPen;
+    borderPen.setColor(Utils::magnifier_line_color);
+    borderPen.setWidth(Utils::magnifier_border_width);
+
+    QPen textPen;
+    textPen.setColor(Qt::white);
+
+    painter.setPen(borderPen);
+
+    QRect pixRect(basePos.x(),basePos.y(),renderWidth,pixRenderHeight);
+    painter.fillRect(pixRect,whiteBrush);
+    painter.drawRect(pixRect);
+
+    QRect lblRect(basePos.x(),basePos.y() + pixRenderHeight,renderWidth,lblRenderHeight);
+    painter.fillRect(lblRect,blackBrush);
+
+    painter.setFont(font);
+    painter.setPen(textPen);
+
+    painter.drawText(lblRect.x()+hPadding, lblRect.y() + vPadding + posRect.height() ,posStr);
+    painter.drawText(lblRect.x()+hPadding, lblRect.y() + vPadding + posRect.height() + textGap + rgbRect.height() ,rgbStr);
+
+    QRect sourceRect(mousePoint.x() - pixSourceWidth/2, mousePoint.y() - pixSourceHeight/2, pixSourceWidth, pixSourceHeight);
+    if(sourceRect.x() + sourceRect.width() > pixBoundary.x() + pixBoundary.width())
+        sourceRect.setX(pixBoundary.x() + pixBoundary.width() - sourceRect.width());
+    else if(sourceRect.x() < pixBoundary.x())
+        sourceRect.setX(pixBoundary.x());
+    if(sourceRect.y() + sourceRect.height() > pixBoundary.y() + pixBoundary.height())
+        sourceRect.setY(pixBoundary.y()+pixBoundary.height()-sourceRect.height());
+    else if(sourceRect.y() < pixBoundary.y())
+        sourceRect.setY(pixBoundary.y());
+
+    painter.drawPixmap(pixRect,pixPixmap,sourceRect);
+
+    QPen crossPen;
+    crossPen.setColor(Utils::magnifier_line_color);
+    crossPen.setWidth(Utils::magnifier_cross_width);
+    painter.setPen(crossPen);
+
+    int shrink = Utils::magnifier_cross_width/2;
+    painter.drawLine(pixRect.x()+shrink, pixRect.y()+pixRect.height()/2, pixRect.x()+pixRect.width()-shrink, pixRect.y()+pixRect.height()/2);
+    painter.drawLine(pixRect.x()+pixRect.width()/2, pixRect.y()+shrink, pixRect.x()+pixRect.width()/2, pixRect.y()+pixRect.height()-shrink);
+
+    painter.restore();
+}
+
 void ShotArea::draw(QPainter &painter)
 {
     if(m_selected == false)
@@ -237,6 +347,12 @@ void ShotArea::draw(QPainter &painter)
         {
             hdle->draw(painter);
         }
+    }
+
+    //如未确定选择区域，绘制放大镜提示
+    if(m_areaConfirmed == false)
+    {
+        drawMagnifier(painter);
     }
 
     painter.restore();

@@ -54,6 +54,17 @@ int Utils::ERROR_CLIPBOARD_VALUE = 3;
 int Utils::ERROR_SAVE_FORMAT = 4;
 int Utils::ERROR_SAVE_FOLDER = 5;
 
+int Utils::magnifier_from_width = 20;
+int Utils::magnifier_from_height = 25;
+double Utils::magnifier_zoom_ratio = 2.6;
+int Utils::magnifier_text_h_padding = 5;
+int Utils::magnifier_text_v_padding = 5;
+int Utils::magnifier_text_gap = 3;
+
+int Utils::magnifier_border_width = 2;
+int Utils::magnifier_cross_width = 3;
+QColor Utils::magnifier_line_color = QColor(120,207,120);
+
 
 float Utils::distance(QPoint p1, QPoint p2)
 {

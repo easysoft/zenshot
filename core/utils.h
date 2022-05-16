@@ -65,8 +65,17 @@ public:
     static int ERROR_SAVE_FORMAT;              //保存文件格式错误
     static int ERROR_SAVE_FOLDER;              //保存文件夹不存在错误
 
+    static int magnifier_from_width;           //放大镜来源宽度
+    static int magnifier_from_height;          //放大镜来源高度
+    static double magnifier_zoom_ratio;        //放大镜放大系数
+    static int magnifier_text_h_padding;            //放大镜水平边距
+    static int magnifier_text_v_padding;            //放大镜垂直边距
+    static int magnifier_border_width;
+    static int magnifier_cross_width;
+    static int magnifier_text_gap;
+    static QColor magnifier_line_color;
+
     /**
-     * @brief 矩形上定位点位置枚举
      */
     enum RectAnchor
     {
