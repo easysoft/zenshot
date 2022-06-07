@@ -1,10 +1,12 @@
-<img src="https://raw.githubusercontent.com/easysoft/zenshot/master/assets/zenshot_logo.png" alt="ZenShot Logo" align="center" />
+<p align="center">
+  <img src="https://raw.githubusercontent.com/easysoft/zenshot/master/assets/zenshot_logo.png" alt="ZenShot Logo" />
+</p>
 
 ![ZenShot Preview](https://raw.githubusercontent.com/easysoft/zenshot/master/assets/zenshot_preview.png)
 
-<center>基于 Qt 的开源跨平台截图工具。</center>
+<p align="center">基于 Qt 的开源跨平台截图工具</p>
 
-<center><a href="https://zenshot.cc" target="_blank">zenshot.cc</a></center>
+<p align="center"><a href="https://zenshot.cc" target="_blank">zenshot.cc</a></p>
 
 ## 特色
 
