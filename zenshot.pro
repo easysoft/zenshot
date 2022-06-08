@@ -177,7 +177,8 @@ unix:!macx {
 
 win32 {
     RC_ICONS = zenshot.ico
-
+    LIBS    += User32.lib
+    
     SOURCES += screen/helper/windowgetter_win.cpp
     HEADERS += screen/helper/windowgetter.h
 
