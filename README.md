@@ -6,7 +6,7 @@
 
 <p align="center">基于 Qt 的开源跨平台截图工具</p>
 
-<p align="center"><a href="https://zenshot.cc" target="_blank">zenshot.cc</a></p>
+<p align="center"><a href="https://zenshot.cn" target="_blank">zenshot.cn</a></p>
 
 ## 特色
 
