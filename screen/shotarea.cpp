@@ -198,7 +198,7 @@ QVector<Handle *> ShotArea::handles()
 
 void ShotArea::drawMagnifier(QPainter &painter)
 {
-    GScale scale;
+    GScale scale;  //modify temp for git push
 
     QRect pixBoundary = this->m_screenList->allBoundary();
     QPixmap pixPixmap = this->m_screenList->allPixMap();
