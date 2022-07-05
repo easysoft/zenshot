@@ -3,6 +3,7 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
+QMAKE_CXXFLAGS_RELEASE += -O2
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -206,5 +207,7 @@ RESOURCES += \
 
 DISTFILES +=
 
-
-
+VERSION = 1.0.0.0
+RC_LANG = 0x0004
+QMAKE_TARGET_DESCRIPTION = "开源跨平台截图工具"
+QMAKE_TARGET_COPYRIGHT = "Copyright 2022 青岛易软天创网络科技有限公司"
