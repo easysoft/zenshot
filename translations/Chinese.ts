@@ -10,6 +10,98 @@
     </message>
 </context>
 <context>
+    <name>SettingDlg</name>
+    <message>
+        <source>zentao</source>
+        <translation type="obsolete">禅道账号设置</translation>
+    </message>
+    <message>
+        <source>shortkey</source>
+        <translation type="obsolete">快捷键设置</translation>
+    </message>
+    <message>
+        <source>current_shortkey</source>
+        <translation type="obsolete">当前热键：</translation>
+    </message>
+    <message>
+        <source>default_shortkey</source>
+        <translation type="obsolete">无</translation>
+    </message>
+    <message>
+        <source>default</source>
+        <translation type="obsolete">无</translation>
+    </message>
+    <message>
+        <source>title</source>
+        <translation type="obsolete">设置</translation>
+    </message>
+    <message>
+        <source>save</source>
+        <translation type="obsolete">保存</translation>
+    </message>
+    <message>
+        <source>cancel</source>
+        <translation type="obsolete">取消</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation type="obsolete">设置</translation>
+    </message>
+    <message>
+        <source>CheckBox</source>
+        <translation type="obsolete">启用热键</translation>
+    </message>
+    <message>
+        <source>PushButton</source>
+        <translation type="obsolete">无</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="50"/>
+        <source>setting_title</source>
+        <translation type="unfinished">设置</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="53"/>
+        <source>hotkey_title</source>
+        <translation type="unfinished">启用热键</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="56"/>
+        <location filename="../setting/settingdlg.cpp" line="109"/>
+        <location filename="../setting/settingdlg.cpp" line="138"/>
+        <source>hotkey_default</source>
+        <translation type="unfinished">无</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="59"/>
+        <source>hotkey_stat_normal</source>
+        <translation type="unfinished">正常</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="133"/>
+        <source>reset_hotkey</source>
+        <translation type="unfinished">请直接在键盘上输入新的快捷键</translation>
+    </message>
+    <message>
+        <source>hotkey_stat_conflict</source>
+        <translation type="obsolete">热键冲突</translation>
+    </message>
+    <message>
+        <source>hotkey_stat</source>
+        <translation type="obsolete">正常</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="64"/>
+        <source>hotkey_save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="67"/>
+        <source>hotkey_cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
     <name>TextBar</name>
     <message>
         <location filename="../properties/textbar.cpp" line="77"/>

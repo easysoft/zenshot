@@ -21,9 +21,12 @@
 #include "core/screeninfo.h"
 #include "core/screenlist.h"
 
+#include "spdlogwrapper.hpp"
+
 #include <QList>
 #include <QApplication>
 #include <QWidget>
+#include <QMessageBox>
 #include <QPropertyAnimation>
 
 Starter::Starter():QObject()
@@ -51,10 +54,13 @@ void Starter::init(QWidget *parent)
         connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(close(int)));
         connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()));
     }
+
+    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
 }
 
 void Starter::close(int code)
 {
+    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
     QVector<Widget*> widgets = m_widgets->toVector();
     for(Widget* w:widgets)
     {
@@ -66,11 +72,12 @@ void Starter::close(int code)
         animation->start();
     }
 
-    QApplication::exit(code);
+//    QApplication::exit(code);
 }
 
 void Starter::finishConfirmArea()
 {
+    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
     QVector<Widget*> widgets = m_widgets->toVector();
     for(Widget* w:widgets)
     {

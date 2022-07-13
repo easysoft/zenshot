@@ -1,5 +1,15 @@
 
-zenshot.pro.user
+zenshot.pro.user*
 
 # vscode workspace file
 *.code-workspace
+.vs
+debug
+release
+*.vcxproj*
+*.sln
+ui_*.h
+.qmake.*
+*.pro.user
+*.vcxproj*
+logs

@@ -1,0 +1,64 @@
+
+QDialog#SettingDlg {
+    background-color: #fcfcfc;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    color: #161515;
+}
+
+QPushButton#settingSaveBtn {
+    background-color: rgba(136, 79, 212, 80%);
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 80px;
+    height: 28px;
+    border-radius: 2px;
+    color: #d7d7d7;
+}
+QPushButton#settingSaveBtn:hover {
+    background-color: rgb(136, 79, 212);
+}
+QPushButton#settingSaveBtn:pressed {
+    background-color: rgb(136, 79, 212);
+    border: 2px solid rgb(73, 67, 215);
+    border-radius: 4px;
+}
+
+QPushButton#settingCancelBtn {
+    background-color: #d7d7d7;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 80px;
+    height: 28px;
+    color: #333333;
+}
+
+QLabel {
+    background-color: transparent;
+    color: black;
+}
+
+QPushButton#hotkeyValue {
+    color: #1a0909;
+    border: 1px solid rgb(73, 67, 215);
+    border-radius: 3px;
+    background-color: transparent;
+}
+QPushButton#hotkeyValue:disabled {
+    color: #3a3939;
+    border: 1px solid rgb(31, 31, 56);
+    border-radius: 3px;
+    background-color: #777373;
+}
+
+QPushButton.setting-check {
+    background-color: transparent;
+    color: green;
+}
+
+QPushButton.setting-check:checked {
+    color: red;
+}

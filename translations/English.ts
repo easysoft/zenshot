@@ -10,6 +10,66 @@
     </message>
 </context>
 <context>
+    <name>SettingDlg</name>
+    <message>
+        <source>zentao</source>
+        <translation type="obsolete">zentao account setting</translation>
+    </message>
+    <message>
+        <source>shortkey</source>
+        <translation type="obsolete">short key setting</translation>
+    </message>
+    <message>
+        <source>title</source>
+        <translation type="obsolete">设置</translation>
+    </message>
+    <message>
+        <source>save</source>
+        <translation type="obsolete">save</translation>
+    </message>
+    <message>
+        <source>cancel</source>
+        <translation type="obsolete">cancel</translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="50"/>
+        <source>setting_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="53"/>
+        <source>hotkey_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="56"/>
+        <location filename="../setting/settingdlg.cpp" line="109"/>
+        <location filename="../setting/settingdlg.cpp" line="138"/>
+        <source>hotkey_default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="59"/>
+        <source>hotkey_stat_normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="133"/>
+        <source>reset_hotkey</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="64"/>
+        <source>hotkey_save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="67"/>
+        <source>hotkey_cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TextBar</name>
     <message>
         <location filename="../properties/textbar.cpp" line="77"/>

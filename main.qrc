@@ -9,5 +9,6 @@
         <file>images/down-arrow.png</file>
         <file>images/cross32.png</file>
         <file>images/mosaic.png</file>
+        <file>setting.css</file>
     </qresource>
 </RCC>

@@ -1,5 +1,7 @@
 QT       += core gui
 
+RC_FILE += zenshot.rc
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -70,6 +72,7 @@ SOURCES += \
     screen/textassist.cpp \
     screen/toolbar.cpp \
     screen/workspace.cpp \
+    setting/settingdlg.cpp \
     shapes/arrow.cpp \
     shapes/curve.cpp \
     shapes/ellipse.cpp \
@@ -77,7 +80,9 @@ SOURCES += \
     shapes/mosaic.cpp \
     shapes/rectangle.cpp \
     shapes/text.cpp \
+    spdlogwrapper.cpp \
     starter.cpp \
+    starterui.cpp \
     stores/localstore.cpp \
     stores/memorystore.cpp \
     tools/arrowcreatetool.cpp \
@@ -131,6 +136,10 @@ HEADERS += \
     properties/mosaicbar.h \
     properties/rectanglebar.h \
     properties/textbar.h \
+    rapidxml/rapidxml.hpp \
+    rapidxml/rapidxml_iterators.hpp \
+    rapidxml/rapidxml_print.hpp \
+    rapidxml/rapidxml_utils.hpp \
     screen/handletool.h \
     screen/helper/screengetter.h \
     screen/hovertool.h \
@@ -144,6 +153,7 @@ HEADERS += \
     screen/textassist.h \
     screen/toolbar.h \
     screen/workspace.h \
+    setting/settingdlg.h \
     shapes/arrow.h \
     shapes/curve.h \
     shapes/ellipse.h \
@@ -151,7 +161,9 @@ HEADERS += \
     shapes/mosaic.h \
     shapes/rectangle.h \
     shapes/text.h \
+    spdlogwrapper.hpp \
     starter.h \
+    starterui.h \
     stores/localstore.h \
     stores/memorystore.h \
     tools/arrowcreatetool.h \
@@ -207,7 +219,8 @@ RESOURCES += \
 
 DISTFILES +=
 
-VERSION = 1.0.0.0
-RC_LANG = 0x0004
-QMAKE_TARGET_DESCRIPTION = "开源跨平台截图工具"
-QMAKE_TARGET_COPYRIGHT = "Copyright 2022 青岛易软天创网络科技有限公司"
+DEFINES += USE_SPDLOG_
+
+FORMS += \
+    setting.ui
+

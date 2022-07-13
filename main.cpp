@@ -25,15 +25,23 @@
 #include <QFontDatabase>
 #include <QWidget>
 
+#include "spdlogwrapper.hpp"
+
 #include "widget.h"
+#include "StarterUI.h"
+#include "starter.h"
 #include "core/screeninfo.h"
 #include "screen/helper/screengetter.h"
-#include "starter.h"
 #include "core/gparams.h"
 
+#include <direct.h>
 
 int main(int argc, char *argv[])
 {
+    mkdir("logs");
+    spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
+    L_TRACE("start");
+
     QApplication a(argc, argv);
 
     //加载并应用语言翻译界面
@@ -71,9 +79,12 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
-    Starter starter;
-    starter.init();
+    StarterUI ui;
+    ui.show();
 
+    //Starter starter;
+    //starter.init();
+    
     int ret = a.exec();
 
     return ret;
