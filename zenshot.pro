@@ -25,6 +25,7 @@ SOURCES += \
     commands/movecommand.cpp \
     commands/propscommand.cpp \
     commands/textcontentcommand.cpp \
+    config/xmlconfig.cpp \
     controls/colorbutton.cpp \
     controls/colorwidget.cpp \
     controls/pencombobox.cpp \
@@ -101,6 +102,7 @@ HEADERS += \
     commands/movecommand.h \
     commands/propscommand.h \
     commands/textcontentcommand.h \
+    config/xmlconfig.h \
     controls/colorbutton.h \
     controls/colorwidget.h \
     controls/pencombobox.h \
