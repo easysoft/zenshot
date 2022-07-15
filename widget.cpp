@@ -34,9 +34,9 @@ Widget::Widget(ScreenList *list, QWidget *parent)
     setWindowFlags(windowFlags() | Qt::Tool);
 
     //测试的时候去掉置顶，否则一些导致调试器奔溃的Bug会让机器直接没招
-    #ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN32
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-    #endif
+#endif
 
     setMouseTracking(true);
 

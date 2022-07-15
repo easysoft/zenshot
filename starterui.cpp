@@ -15,6 +15,8 @@ StarterUI::StarterUI()
 	, m_startShot(this)
 #endif // IS_TEST_VER
 {
+	qRegisterMetaType<Starter*>("Starter*");
+
 	setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 #if !IS_TEST_VER
 	setAttribute(Qt::WA_TranslucentBackground, true);
@@ -32,11 +34,26 @@ StarterUI::~StarterUI()
 
 void StarterUI::OnStartShot()
 {
-	SettingDlg dlg(this);
-	dlg.exec();
+	//SettingDlg dlg(this);
+	//dlg.exec();
 
-	//Starter starter;
-	//starter.init();
+	Starter* starter = nullptr;
+	if (m_Starer.empty()) {
+		starter = new Starter;
+
+		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
+	}
+	else {
+		starter = m_Starer.back();
+		m_Starer.pop_back();
+	}
+
+	starter->init();
+}
+
+void StarterUI::OnShotDone(Starter* starter)
+{
+	m_Starer.push_back(starter);
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -45,14 +62,13 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, qintptr*
 bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* result)
 #endif
 {
+#ifdef Q_OS_WIN32
 	if (!GetXMLConfig().GetConfigNum2("config", "enable")) {
 		return QWidget::nativeEvent(eventType, message, result);
 	}
-	
-#ifdef _WINDOWS
+
 	MSG* msg = static_cast<MSG*>(message);
 	if (msg->message == WM_HOTKEY) {
-		L_TRACE("hot key press");
 		emit SatrtShot();
 	}
 #endif // _WINDOWS

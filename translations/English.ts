@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="658"/>
+        <location filename="../screen/workspace.cpp" line="661"/>
         <source>save file</source>
         <translation type="unfinished">save file</translation>
     </message>
@@ -28,43 +28,55 @@
         <translation type="obsolete">save</translation>
     </message>
     <message>
+        <location filename="../setting.ui" line="51"/>
         <source>cancel</source>
-        <translation type="obsolete">cancel</translation>
+        <translation type="unfinished">cancel</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="50"/>
+        <location filename="../setting.ui" line="64"/>
+        <source>CheckBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting.ui" line="77"/>
+        <location filename="../setting.ui" line="90"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="63"/>
         <source>setting_title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="53"/>
+        <location filename="../setting/settingdlg.cpp" line="66"/>
         <source>hotkey_title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="56"/>
-        <location filename="../setting/settingdlg.cpp" line="109"/>
-        <location filename="../setting/settingdlg.cpp" line="138"/>
+        <location filename="../setting/settingdlg.cpp" line="69"/>
+        <location filename="../setting/settingdlg.cpp" line="111"/>
+        <location filename="../setting/settingdlg.cpp" line="149"/>
         <source>hotkey_default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="59"/>
+        <location filename="../setting/settingdlg.cpp" line="72"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="133"/>
+        <location filename="../setting/settingdlg.cpp" line="143"/>
         <source>reset_hotkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="64"/>
+        <location filename="../setting/settingdlg.cpp" line="77"/>
         <source>hotkey_save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="67"/>
+        <location filename="../setting/settingdlg.cpp" line="80"/>
         <source>hotkey_cancel</source>
         <translation type="unfinished"></translation>
     </message>

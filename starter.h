@@ -23,21 +23,25 @@
 
 #include "widget.h"
 
-class Starter : public QObject
+class Starter 
+    : public QObject
 {
     Q_OBJECT
 public:
     Starter();
+    virtual ~Starter();
 
     void init(QWidget *parent=nullptr);
 
 private:
     QList<Widget*> *m_widgets;
 
+signals:
+    void ShotDone(Starter*);
+
 private slots:
-    void close(int code);
+    void finishShot(int code);
     void finishConfirmArea();
 };
-
 
 #endif // APPINSTALL_H

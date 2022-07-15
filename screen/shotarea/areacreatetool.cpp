@@ -20,6 +20,8 @@
 #include "screen/helper/windowgetter.h"
 #include "screen/shotarea.h"
 #include "screen/workspace.h"
+#include "spdlogwrapper.hpp"
+
 #include <QtCore/QtMath>
 
 AreaCreateTool::AreaCreateTool(Workspace *wordspace):Tool(wordspace),m_isMousePress(false)
@@ -59,6 +61,7 @@ void AreaCreateTool::onMouseMove(QPoint mousePoint,QPoint mouseOffset)
 
 void AreaCreateTool::onMouseRelease(QPoint mousePoint)
 {
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     //确定选择区域
     m_workspace->confirmArea();
 }

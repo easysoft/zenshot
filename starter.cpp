@@ -31,7 +31,11 @@
 
 Starter::Starter():QObject()
 {
+}
 
+Starter::~Starter()
+{
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
 }
 
 void Starter::init(QWidget *parent)
@@ -51,20 +55,27 @@ void Starter::init(QWidget *parent)
         w->show();
 
         m_widgets->append(w);
-        connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(close(int)));
-        connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()));
+        connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
+        connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
+
+        L_TRACE("{0:x} init success", reinterpret_cast<uint32_t>(w));
     }
 
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
 }
 
-void Starter::close(int code)
+void Starter::finishShot(int code)
 {
+#ifdef Q_OS_WIN32
+    (void*)code;
+#endif // Q_OS_WIN32
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
     QVector<Widget*> widgets = m_widgets->toVector();
     for(Widget* w:widgets)
     {
         //w->close();
+        w->setVisible(false);
+
         QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
         animation->setDuration(0);
         animation->setStartValue(1);
@@ -72,7 +83,11 @@ void Starter::close(int code)
         animation->start();
     }
 
-//    QApplication::exit(code);
+#ifdef Q_OS_WIN32
+    emit ShotDone(this);
+#else
+    QApplication::exit(code);
+#endif // Q_OS_WIN32
 }
 
 void Starter::finishConfirmArea()

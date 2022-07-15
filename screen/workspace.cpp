@@ -42,6 +42,8 @@
 #include "properties/rectanglebar.h"
 #include "properties/textbar.h"
 
+#include "spdlogwrapper.hpp"
+
 #include "core/useroper.h"
 #include "commands/deletecommand.h"
 #include "commands/propscommand.h"
@@ -251,7 +253,7 @@ void Workspace::onMouseMove(QMouseEvent *event)
 void Workspace::onMouseRelease(QMouseEvent *event)
 {
     QPoint mousePoint = getMouse(event);
-
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     if(m_tool != nullptr)
     {
         m_tool->onMouseRelease(mousePoint);
@@ -287,6 +289,7 @@ void Workspace::moveArea(QPoint offsetPoint)
 
 void Workspace::confirmArea()
 {
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     m_tool = nullptr;
     m_shotArea.confirmArea();
     m_widget->update();
@@ -302,7 +305,7 @@ void Workspace::confirmArea()
         int result = saveImpl();
         closeImpl(result);
     }
-
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     emit finishConfirmArea();
 }
 
@@ -800,11 +803,13 @@ PropsBar *Workspace::createPropsBarFactory(QString shapeType)
 
 void Workspace::closeImpl(int code)
 {
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     emit quitShot(code);
 }
 
 void Workspace::close()
 {
+    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     closeImpl(0);
 }
 
