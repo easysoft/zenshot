@@ -9,6 +9,8 @@
 
 #include "ui_setting.h"
 
+#define SETTING_XML_NAME "./setting.xml"
+
 class SettingDlg : public QDialog {
     Q_OBJECT
 

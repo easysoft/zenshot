@@ -18,6 +18,8 @@
 
 #include "screenlist.h"
 
+#include "../spdlogwrapper.hpp"
+
 #include <QCursor>
 #include <QPainter>
 #include <QRect>
@@ -39,7 +41,7 @@ QRect ScreenList::allBoundary(bool isGlobal) const
 
 QPixmap ScreenList::allPixMap() const
 {
-    return m_allPixMap;
+    return *m_allPixMap;
 }
 
 QRect ScreenList::boundaryAt(int screenIndex,bool isGlobal)
@@ -109,13 +111,14 @@ void ScreenList::initParams()
         pixelRetio = m_List.at(0).object->devicePixelRatio();
     }
 
-    m_allPixMap = *new QPixmap(m_allBoundary.width()*pixelRetio,m_allBoundary.height()*pixelRetio);
+    L_TRACE("0x{0:08x} {1} : {2} -> m_allPixMap", reinterpret_cast<uint32_t>(this), __FUNCTION__, __LINE__);
+    m_allPixMap.reset(new QPixmap(m_allBoundary.width() * pixelRetio, m_allBoundary.height() * pixelRetio));
     QRect i_allBoundary(m_allBoundary.x() * pixelRetio,
                         m_allBoundary.y() * pixelRetio,
                         m_allBoundary.width() * pixelRetio,
                         m_allBoundary.height() * pixelRetio);
 
-    QPainter painter(&m_allPixMap);
+    QPainter painter(m_allPixMap.get());
 
     for(ScreenInfo info:m_List)
     {
@@ -154,8 +157,8 @@ float ScreenList::scale()
     QScreen *screen = m_List.size() == 1 ? m_List[0].object : QApplication::primaryScreen();
     float dpi = screen->logicalDotsPerInch();
 
-    float pixel120ToMM = 1.0/96.0 * 2.54 * 10.0;
-    float MMToDpiPixel = 1.0/2.54*dpi/10.0;
+    float pixel120ToMM = 1.0f/96.0f * 2.54f * 10.0f;
+    float MMToDpiPixel = 1.0f/2.54f*dpi/10.0f;
 
     return pixel120ToMM * MMToDpiPixel * screen->devicePixelRatio();
 
@@ -164,13 +167,15 @@ float ScreenList::scale()
 
 void ScreenList::draw(QPainter &painter)
 {
-    painter.drawPixmap(allBoundary(),m_allPixMap);
+    painter.drawPixmap(allBoundary(), *m_allPixMap);
 }
 
 void ScreenList::draw(QPainter &painter, QPainterPath maskPath, QBrush maskBrush)
 {
     QRect rect = allBoundary();
 
-    painter.drawPixmap(rect,m_allPixMap);
+    L_TRACE("{0} # {1} => rect left: {2}, top: {3}, right:{4}, bottom:{5}", __FUNCTION__, __LINE__, rect.left(), rect.top(), rect.right(), rect.bottom());
+
+    painter.drawPixmap(rect, *m_allPixMap);
     painter.fillPath(maskPath,maskBrush);
 }

@@ -68,7 +68,12 @@ public:
     /**
      * @brief 开始捕获
      */
-    void start(ScreenList *list);
+    void start(std::shared_ptr<ScreenList> list);
+
+    /**
+     * @brief 清理状态
+     */
+    void cleanup();
 
     /**
      * @brief 自动捕获屏幕及窗口
@@ -93,7 +98,7 @@ public:
      */
     QPixmap result();
 
-    QVector<Handle *> handles();
+    virtual QVector<Handle*> handles();
     void draw(QPainter &painter);
 
 
@@ -101,7 +106,7 @@ private:
     int m_nowScreenIndex;            //截图区域所在的屏幕
     QRect m_allScreenRect;           //截图区域所在屏幕的位置大小
     QPixmap m_maskPixmap;         //遮罩对应图像的数据
-    ScreenList *m_screenList;
+    std::shared_ptr<ScreenList> m_screenList;
 
     QVector<Handle*> m_handles;   //控制手柄列表
 

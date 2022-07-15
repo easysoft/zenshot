@@ -15,9 +15,6 @@
 #include <WinUser.h>
 #endif // _WINDOWS
 
-
-#define SETTING_XML_NAME "./setting.xml"
-
 SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)
     , m_KeyValue(0)
@@ -28,9 +25,6 @@ SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     setWindowFlags(windowFlags() | Qt::Tool);
 
     memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
-
-    qRegisterMetaType<int32_t>("int32_t");
-    qRegisterMetaType<uint32_t>("uint32_t");
 
     initDlg();
     initStat();

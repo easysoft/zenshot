@@ -32,6 +32,7 @@ public:
     virtual ~Starter();
 
     void init(QWidget *parent=nullptr);
+    void cleanup();
 
 private:
     QList<Widget*> *m_widgets;

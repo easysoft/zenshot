@@ -46,6 +46,11 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+	if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+		L_ERROR("system tray disabled");
+		return 1;
+	}
+
     //加载并应用语言翻译界面
     QLocale locale;
     QLocale::Language langEnum = locale.language();

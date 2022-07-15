@@ -10,5 +10,6 @@
         <file>images/cross32.png</file>
         <file>images/mosaic.png</file>
         <file>setting.css</file>
+        <file>zenshot.png</file>
     </qresource>
 </RCC>

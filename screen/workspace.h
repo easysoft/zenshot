@@ -86,7 +86,11 @@ public:
     /**
      * @brief 启动截屏
      */
-    void start(ScreenList *list);
+    void start(std::shared_ptr<ScreenList> list);
+    /**
+     * @brief 清理截屏
+     */
+    void cleanup();
 
     /**
      * @brief 鼠标按下事件处理

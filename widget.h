@@ -26,13 +26,18 @@
 
 #include "core/screenlist.h"
 
+#include <memory>
+
 class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    Widget(ScreenList *list, QWidget *parent = nullptr);
+    Widget(QWidget *parent = nullptr);
     ~Widget();
+
+    void start(std::shared_ptr<ScreenList> list);
+    void cleanup();
 
     Workspace* workspace() const;
     void finishConfirmArea();
@@ -40,6 +45,7 @@ public:
 private:
     QString m_status;  //unknown, active, giveup
     Workspace *m_workspace;
+    std::shared_ptr<ScreenList> m_screenlist;
 
     virtual void mousePressEvent(QMouseEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);

@@ -72,23 +72,19 @@
 
 Workspace::Workspace(QWidget *host):m_shotArea(this)
 {
-    m_selectedShape = nullptr;
-
     this->m_widget = host;
     this->m_tool = new AreaCreateTool(this);
     this->m_hoverTool = new HoverTool(this);
 
-    this->m_createTool = nullptr;
-    this->m_toolBar = nullptr;
-    this->m_propsBar = nullptr;
-
-    this->m_firstRender = false;
-
     m_textAssist = new TextAssist(this);
+
+    cleanup();
 }
 
 Workspace::~Workspace()
 {
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+
     if(m_tool != nullptr)
     {
         delete m_tool;
@@ -142,11 +138,26 @@ void Workspace::setAreaBoundary(QRect rect)
     m_shotArea.setBoundary(rect);
 }
 
-void Workspace::start(ScreenList *list)
+void Workspace::start(std::shared_ptr<ScreenList> list)
 {
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
     m_shotArea.start(list);
 
     GParams::instance()->setScale(list->scale());
+}
+
+void Workspace::cleanup()
+{
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+
+	m_selectedShape = nullptr;
+	m_createTool = nullptr;
+	m_toolBar = nullptr;
+	m_propsBar = nullptr;
+
+	m_firstRender = false;
+
+    m_shotArea.cleanup();
 }
 
 void Workspace::onMousePress(QMouseEvent *event)

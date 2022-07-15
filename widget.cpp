@@ -17,19 +17,19 @@
  */
 
 #include "widget.h"
+
+#include "spdlogwrapper.hpp"
 #include <QPainter>
 
 #include <QBitmap>
 
-Widget::Widget(ScreenList *list, QWidget *parent)
+Widget::Widget(QWidget *parent)
     : QWidget(parent)
+    , m_workspace(new Workspace(this))
+    , m_screenlist(nullptr)
 {
     setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-
-    m_status = "unknown";
-    m_workspace = new Workspace(this);
-    m_workspace->start(list);
 
     setWindowFlags(windowFlags() | Qt::Tool);
 
@@ -39,6 +39,23 @@ Widget::Widget(ScreenList *list, QWidget *parent)
 #endif
 
     setMouseTracking(true);
+}
+
+Widget::~Widget()
+{
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+
+    delete m_workspace;
+    m_workspace = nullptr;
+}
+
+void Widget::start(std::shared_ptr<ScreenList> list)
+{
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+
+    m_screenlist = list;
+    m_status = "unknown";
+    m_workspace->start(m_screenlist);
 
     QRect geometry = list->allBoundary(true);
     setGeometry(geometry);
@@ -46,10 +63,12 @@ Widget::Widget(ScreenList *list, QWidget *parent)
     showFullScreen();
 }
 
-Widget::~Widget()
+void Widget::cleanup()
 {
-    delete m_workspace;
-    m_workspace = nullptr;
+    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    m_status = "unknown";
+    hide();
+    m_workspace->cleanup();
 }
 
 Workspace* Widget::workspace() const

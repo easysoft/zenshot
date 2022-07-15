@@ -22,6 +22,8 @@
 #include "screen/shotarea/areahandle.h"
 #include "core/gscale.h"
 
+#include "../spdlogwrapper.hpp"
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QScreen>
@@ -32,18 +34,13 @@
 
 ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false)
 {
-    m_indicatorPen.setColor(QColor(151,151,151));
-    m_indicatorPen.setWidth(1);
     m_isGettingResult = false;
+
+    cleanup();
 }
 
 ShotArea::~ShotArea()
 {
-    delete m_screenList;
-    m_screenList = nullptr;
-
-    qDeleteAll(m_handles);
-    m_handles.clear();
 }
 
 QRect ShotArea::allBoundary()
@@ -66,12 +63,30 @@ bool ShotArea::areaConfirmed()
     return m_areaConfirmed;
 }
 
-void ShotArea::start(ScreenList *list)
+void ShotArea::start(std::shared_ptr<ScreenList> list)
 {
+    L_DEBUG("{0} @ {1}", __FUNCTION__, __LINE__);
+	m_indicatorPen.setColor(QColor(151, 151, 151));
+	m_indicatorPen.setWidth(1);
+
     m_screenList = list;
     m_allScreenRect = m_screenList->allBoundary();
 
     autoCapture();
+}
+
+void ShotArea::cleanup()
+{
+    L_DEBUG("{0} @ {1}", __FUNCTION__, __LINE__);
+
+	for (auto h : m_handles) {
+		delete h->locator();
+		delete h;
+	}
+	m_handles.clear();
+
+	m_areaConfirmed = m_isGettingResult = false;
+	setSelected(false);
 }
 
 void ShotArea::autoCapture()
@@ -108,15 +123,15 @@ void ShotArea::autoCaptureWindow()
 
 void ShotArea::confirmArea()
 {
-    m_handles = this->handles();
+    m_handles = std::move(handles());
     setSelected(true);
     m_areaConfirmed = true;
 
-    QScreen *current = m_screenList->screenAt(m_nowScreenIndex);
-    QSizeF physicalSize = current->physicalSize();
-    QRect geometryRect = current->geometry();
-    float pixel = current->physicalDotsPerInch();
-    float scale = current->devicePixelRatio();
+//     QScreen *current = m_screenList->screenAt(m_nowScreenIndex);
+//     QSizeF physicalSize = current->physicalSize();
+//     QRect geometryRect = current->geometry();
+//     float pixel = current->physicalDotsPerInch();
+//     float scale = current->devicePixelRatio();
 }
 
 Handle *ShotArea::handleAt(QPoint point)
@@ -152,8 +167,9 @@ QPixmap ShotArea::result()
     return  result;
 }
 
-QVector<Handle *> ShotArea::handles()
+QVector<Handle*> ShotArea::handles()
 {
+    L_TRACE("{0}@{1}", __FUNCTION__, __LINE__);
     if(m_handles.size() > 0)
         return m_handles;
 
@@ -192,12 +208,12 @@ QVector<Handle *> ShotArea::handles()
     AreaHandle *bottomRightHandle = new AreaHandle(bottomRight);
     results.append(bottomRightHandle);
 
-
-    return  results;
+    return results;
 }
 
 void ShotArea::drawMagnifier(QPainter &painter)
 {
+    L_TRACE("{0}@{1}", __FUNCTION__, __LINE__);
     GScale scale;  //modify temp for git push
 
     QRect pixBoundary = this->m_screenList->allBoundary();
@@ -306,6 +322,8 @@ void ShotArea::drawMagnifier(QPainter &painter)
 
 void ShotArea::draw(QPainter &painter)
 {
+    L_TRACE("############ START {0}@{1}", __FUNCTION__, __LINE__);
+    L_TRACE("m_selected = {0}", m_selected ? 1 : 0);
     if(m_selected == false)
         m_indicatorPen.setWidth(1);
     else
@@ -329,8 +347,9 @@ void ShotArea::draw(QPainter &painter)
     //painter.fillPath(maskPath,maskBrush);
 
     //绘制底图
-    m_screenList->draw(painter,maskPath,maskBrush);
+    m_screenList->draw(painter, maskPath, maskBrush);
 
+    L_TRACE("m_isGettingResult = {0}", m_isGettingResult ? 1 : 0);
     if(m_isGettingResult == false)
     {
         QRect rect(m_boundary.x(),
@@ -342,6 +361,7 @@ void ShotArea::draw(QPainter &painter)
         painter.setPen(m_indicatorPen);
         painter.drawRect(rect);
 
+        L_TRACE("m_handles size = {0}", m_handles.size());
         //绘制控制手柄
         foreach(Handle* hdle, m_handles)
         {
@@ -349,13 +369,15 @@ void ShotArea::draw(QPainter &painter)
         }
     }
 
+    L_TRACE("m_areaConfirmed = {0}", m_areaConfirmed ? 1 : 0);
     //如未确定选择区域，绘制放大镜提示
-    if(m_areaConfirmed == false)
+    if(!m_areaConfirmed)
     {
         drawMagnifier(painter);
     }
 
     painter.restore();
+    L_TRACE("$$$$$$$$$$$ END {0}@{1}", __FUNCTION__, __LINE__);
 }
 
 void ShotArea::loadPropsImpl(Store *store)

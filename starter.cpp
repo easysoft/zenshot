@@ -51,12 +51,15 @@ void Starter::init(QWidget *parent)
     //构造截图界面
     std::for_each(screanList.begin(), screanList.end(), [&](const QList<ScreenInfo>& list)
         {
+            std::shared_ptr<ScreenList> alone(new ScreenList(list));
+
             if (widgets.empty()) 
             {
-                ScreenList* alone = new ScreenList(list);
-
-                Widget* w = new Widget(alone, parent);
+                Widget* w = new Widget(parent);
+                w->start(alone);
                 w->show();
+
+                L_TRACE("++++++++++++++ new screen list & widget");
 
                 m_widgets->append(w);
                 connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
@@ -64,11 +67,23 @@ void Starter::init(QWidget *parent)
                 return;
             }
 
-            m_widgets->append(widgets.back());
+            L_TRACE("============== use old screen list & widget");
+            auto w = widgets.back();
+            w->start(alone);
+            w->show();
+            m_widgets->append(w);
             widgets.pop_back();
         });
 
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
+}
+
+void Starter::cleanup()
+{
+    for (auto w : *m_widgets)
+    {
+        w->cleanup();
+    }
 }
 
 void Starter::finishShot(int code)
@@ -79,8 +94,7 @@ void Starter::finishShot(int code)
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
     for(auto w : *m_widgets)
     {
-        //w->close();
-        w->setVisible(false);
+        w->hide();
 
         QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
         animation->setDuration(0);
@@ -88,7 +102,7 @@ void Starter::finishShot(int code)
         animation->setEndValue(0);
         animation->start();
     }
-
+    
 #ifdef Q_OS_WIN32
     emit ShotDone(this);
 #else

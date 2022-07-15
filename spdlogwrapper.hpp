@@ -14,7 +14,7 @@ logger* logger_ptr();
 #define L_DEBUG(...)	spdlog::logger_ptr()->debug(##__VA_ARGS__)
 #define L_INFO(...)		spdlog::logger_ptr()->info(##__VA_ARGS__)
 #define L_WARN(...)		spdlog::logger_ptr()->warn(##__VA_ARGS__)
-#define L_ERR(...)		spdlog::logger_ptr()->err(##__VA_ARGS__)
+#define L_ERROR(...)	spdlog::logger_ptr()->error(##__VA_ARGS__)
 #define L_CRITICAL(...) spdlog::logger_ptr()->critical(##__VA_ARGS__)
 #else
 #define L_TRACE(...) 

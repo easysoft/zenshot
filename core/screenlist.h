@@ -24,6 +24,8 @@
 
 #include "core/screeninfo.h"
 
+#include <memory>
+
 /**
  * @class : ScreenList
  * @brief : 屏幕列表集合
@@ -50,7 +52,7 @@ public:
 
 private:
     QRect m_allBoundary;
-    QPixmap m_allPixMap;
+    std::shared_ptr<QPixmap> m_allPixMap;
     QList<ScreenInfo> m_List;
 
     void initParams();
