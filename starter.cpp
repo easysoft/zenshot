@@ -29,7 +29,11 @@
 #include <QMessageBox>
 #include <QPropertyAnimation>
 
-Starter::Starter():QObject()
+#include <algorithm>
+
+Starter::Starter()
+    : QObject()
+    , m_widgets(new QList<Widget*>)
 {
 }
 
@@ -40,26 +44,32 @@ Starter::~Starter()
 
 void Starter::init(QWidget *parent)
 {
-    m_widgets = new QList<Widget*>();
-
+    QList<Widget*> widgets = std::move(*m_widgets);
     //收集屏幕信息
     QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
 
     //构造截图界面
-    for(QList<ScreenInfo> list:screanList)
-    {
-        ScreenList *alone = new ScreenList(list);
+    std::for_each(screanList.begin(), screanList.end(), [&](const QList<ScreenInfo>& list)
+        {
+            if (widgets.empty()) {
+                ScreenList* alone = new ScreenList(list);
 
-        Widget *w = new Widget(alone,parent);
-        w->setAttribute(Qt::WA_DeleteOnClose);
-        w->show();
+                Widget* w = new Widget(alone, parent);
+                w->setAttribute(Qt::WA_DeleteOnClose);
+                w->show();
 
-        m_widgets->append(w);
-        connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
-        connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
+                m_widgets->append(w);
+                connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
+                connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
 
-        L_TRACE("{0:x} init success", reinterpret_cast<uint32_t>(w));
-    }
+                L_TRACE("{0:x} init success", reinterpret_cast<uint32_t>(w));
+
+                return;
+            }
+
+            m_widgets->append(widgets.back());
+            widgets.pop_back();
+        });
 
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
 }
