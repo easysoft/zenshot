@@ -107,7 +107,8 @@ void SettingDlg::setupSingal()
 
 QString SettingDlg::getHotKeyStr(uint32_t value)
 {
-    if (!value) {
+    if (!value) 
+    {
         return tr("hotkey_default");
     }
 
@@ -118,16 +119,20 @@ QString SettingDlg::getHotKeyStr(uint32_t value)
     key0 = ((value >> 16) & 0x000000FF);
     key1 = ((value >> 8) & 0x000000FF);
     key2 = (value & 0x000000FF);
-    if (key0 && GetKeyNameTextA(MapVirtualKey(key0, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) {
+    if (key0 && GetKeyNameTextA(MapVirtualKey(key0, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) 
+    {
         vk_str.append(key_text).append("+");
     }
-    if (key1 && GetKeyNameTextA(MapVirtualKey(key1, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) {
+    if (key1 && GetKeyNameTextA(MapVirtualKey(key1, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) 
+    {
         vk_str.append(key_text).append("+");
     }
-    if (key2 && GetKeyNameTextA(MapVirtualKey(key2, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) {
+    if (key2 && GetKeyNameTextA(MapVirtualKey(key2, MAPVK_VK_TO_VSC) << 16, key_text, sizeof(key_text) / sizeof(key_text[0]) - 1)) 
+    {
         vk_str.append(key_text).append("+");
     }
-    if (!vk_str.empty()) {
+    if (!vk_str.empty()) 
+    {
         vk_str.pop_back();
     }
 #endif // Q_OS_WIN32
@@ -139,16 +144,20 @@ void SettingDlg::OnUseHotKeyChecked(int stat)
     QPushButton* hotkey_value = findChild<QPushButton*>("hotkeyValue");
     hotkey_value->setEnabled(stat == Qt::Checked);
 
-    if (stat == Qt::Checked) {
+    if (stat == Qt::Checked) 
+    {
         hotkey_value->setText(tr("reset_hotkey"));
         memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
     }
-    else {
+    else 
+    {
         int current_vk[3] = { 0 };
-        if (!current_vk[0]) {
+        if (!current_vk[0]) 
+        {
             hotkey_value->setText(tr("hotkey_default"));
         }
-        else {
+        else 
+        {
             QString vk;
             hotkey_value->setText(vk);
         }
@@ -166,14 +175,17 @@ void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 
 void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
 {
-    if (m_KeyValue && m_KeyValue == value) {
+    if (m_KeyValue && m_KeyValue == value) 
+    {
         return;
     }
-    if (m_KeyValue) {
+    if (m_KeyValue) 
+    {
         UnregisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), m_KeyValue);
         m_KeyValue = 0;
     }
-    if (!value) {
+    if (!value) 
+    {
         return;
     }
 #ifdef Q_OS_WIN32
@@ -184,23 +196,30 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
     key1 = ((value >> 8) & 0x000000FF);
     key2 = (value & 0x000000FF);
 
-    if (key0 == VK_CONTROL || key1 == VK_CONTROL || key2 == VK_CONTROL) {
+    if (key0 == VK_CONTROL || key1 == VK_CONTROL || key2 == VK_CONTROL) 
+    {
         fsModifiers |= MOD_CONTROL;
     }
-    if (key0 == VK_SHIFT || key1 == VK_SHIFT || key2 == VK_SHIFT) {
+    if (key0 == VK_SHIFT || key1 == VK_SHIFT || key2 == VK_SHIFT) 
+    {
         fsModifiers |= MOD_SHIFT;
     }
-    if ((key0 == VK_LWIN || key1 == VK_LWIN || key2 == VK_LWIN) || (key0 == VK_RWIN || key1 == VK_RWIN || key2 == VK_RWIN) ){
+    if ((key0 == VK_LWIN || key1 == VK_LWIN || key2 == VK_LWIN) || (key0 == VK_RWIN || key1 == VK_RWIN || key2 == VK_RWIN) )
+    {
         fsModifiers |= MOD_WIN;
     }
-    if (key0 == VK_MENU || key1 == VK_MENU || key2 == VK_MENU) {
+    if (key0 == VK_MENU || key1 == VK_MENU || key2 == VK_MENU) 
+    {
         fsModifiers |= MOD_ALT;
     }
-    if (key0 >= 0x30 && key0 <= 0x5A) {
+    if (key0 >= 0x30 && key0 <= 0x5A) 
+    {
         vk = key0;
-    } else if (key1 >= 0x30 && key1 <= 0x5A) {
+    } else if (key1 >= 0x30 && key1 <= 0x5A) 
+    {
         vk = key1;
-    } else if (key2 >= 0x30 && key2 <= 0x5A) {
+    } else if (key2 >= 0x30 && key2 <= 0x5A) 
+    {
         vk = key2;
     }
     if (!fsModifiers && !vk) {
@@ -211,7 +230,8 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
 
     emit UpdateHotKeyResult(result ? true : false);
     
-    if (!result) {
+    if (!result) 
+    {
         return;
     }
 
@@ -238,7 +258,8 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, qintptr
 bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* result)
 #endif
 {
-    if (!m_EnableHotKey->isChecked()) {
+    if (!m_EnableHotKey->isChecked()) 
+    {
         return QWidget::nativeEvent(eventType, message, result);
     }
 #ifdef Q_OS_WIN32
@@ -258,15 +279,20 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
         break;
     }
 
-    if (key_msg == 1) {
-        for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) {
-            if (m_SetKeyValue[i] == key) {
+    if (key_msg == 1) 
+    {
+        for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) 
+        {
+            if (m_SetKeyValue[i] == key) 
+            {
                 return QWidget::nativeEvent(eventType, message, result);
             }
         }
 
-        for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) {
-            if (!m_SetKeyValue[i]) {
+        for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) 
+        {
+            if (!m_SetKeyValue[i]) 
+            {
                 m_SetKeyValue[i] = key;
 
                 uint32_t value = ((m_SetKeyValue[0] << 16) & 0x00FF0000) | ((m_SetKeyValue[1] << 8) & 0x0000FF00) | (m_SetKeyValue[2] & 0x000000FF);
@@ -275,9 +301,12 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
             }
         }
     }
-    else if (key_msg == 2) {
-        for (int i = 0; i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) {
-            if (m_SetKeyValue[i] && (GetKeyState(m_SetKeyValue[i]) & 0x8000)) {
+    else if (key_msg == 2) 
+    {
+        for (int i = 0; i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) 
+        {
+            if (m_SetKeyValue[i] && (GetKeyState(m_SetKeyValue[i]) & 0x8000)) 
+            {
                 return QWidget::nativeEvent(eventType, message, result);
             }
         }

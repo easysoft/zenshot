@@ -38,9 +38,11 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef USE_SPDLOG_
     mkdir("logs");
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
+#endif // USE_SPDLOG_
 
     QApplication a(argc, argv);
 

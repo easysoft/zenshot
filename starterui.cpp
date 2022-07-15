@@ -38,12 +38,13 @@ void StarterUI::OnStartShot()
 	//dlg.exec();
 
 	Starter* starter = nullptr;
-	if (m_Starer.empty()) {
+	if (m_Starer.empty()) 
+	{
 		starter = new Starter;
-
 		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
 	}
-	else {
+	else 
+	{
 		starter = m_Starer.back();
 		m_Starer.pop_back();
 	}
@@ -63,12 +64,14 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 #endif
 {
 #ifdef Q_OS_WIN32
-	if (!GetXMLConfig().GetConfigNum2("config", "enable")) {
+	if (!GetXMLConfig().GetConfigNum2("config", "enable")) 
+	{
 		return QWidget::nativeEvent(eventType, message, result);
 	}
 
 	MSG* msg = static_cast<MSG*>(message);
-	if (msg->message == WM_HOTKEY) {
+	if (msg->message == WM_HOTKEY) 
+	{
 		emit SatrtShot();
 	}
 #endif // _WINDOWS

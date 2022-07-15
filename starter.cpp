@@ -51,19 +51,16 @@ void Starter::init(QWidget *parent)
     //构造截图界面
     std::for_each(screanList.begin(), screanList.end(), [&](const QList<ScreenInfo>& list)
         {
-            if (widgets.empty()) {
+            if (widgets.empty()) 
+            {
                 ScreenList* alone = new ScreenList(list);
 
                 Widget* w = new Widget(alone, parent);
-                w->setAttribute(Qt::WA_DeleteOnClose);
                 w->show();
 
                 m_widgets->append(w);
                 connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
                 connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
-
-                L_TRACE("{0:x} init success", reinterpret_cast<uint32_t>(w));
-
                 return;
             }
 
@@ -80,8 +77,7 @@ void Starter::finishShot(int code)
     (void*)code;
 #endif // Q_OS_WIN32
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
-    QVector<Widget*> widgets = m_widgets->toVector();
-    for(Widget* w:widgets)
+    for(auto w : *m_widgets)
     {
         //w->close();
         w->setVisible(false);
@@ -103,8 +99,7 @@ void Starter::finishShot(int code)
 void Starter::finishConfirmArea()
 {
     L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
-    QVector<Widget*> widgets = m_widgets->toVector();
-    for(Widget* w:widgets)
+    for (auto w : *m_widgets)
     {
         w->finishConfirmArea();
     }

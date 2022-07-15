@@ -13,11 +13,13 @@ void XMLConfig::LoadConfig(const char* file_name)
 #if XML_CONFIG_THREADSAFE == 1
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
-	try {
+	try 
+	{
 		m_File.reset(new rapidxml::file<>(file_name));
 		m_Doc.parse<0>(const_cast<char*>(m_File->data()));
 	}
-	catch (...) {
+	catch (...) 
+	{
 	}
 }
 
@@ -27,7 +29,8 @@ void XMLConfig::SaveConfig(const char* file_name)
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
 	FILE* fp = fopen(file_name, "w+t");
-	if (fp == nullptr) {
+	if (fp == nullptr) 
+	{
 		return;
 	}
 
@@ -45,20 +48,24 @@ std::string XMLConfig::GetConfigString3(const char* name, const char* sub_name, 
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
 	rapidxml::xml_node<>* root = m_Doc.first_node(name);
-	if (root == nullptr) {
+	if (root == nullptr) 
+	{
 		return "";
 	}
 
 	rapidxml::xml_node<>* node = root;
-	if (sub_name != nullptr) {
+	if (sub_name != nullptr) 
+	{
 		node = node->first_node(sub_name);
-		if (!node) {
+		if (!node) 
+		{
 			return "";
 		}
 	}
 
 	const char* value = node->value();
-	if (attr_name != nullptr) {
+	if (attr_name != nullptr) 
+	{
 		rapidxml::xml_attribute<>* attr = node->first_attribute(attr_name);
 		value = attr->value();
 	}
@@ -99,37 +106,46 @@ void XMLConfig::SetConfigString3(const char* name, const char* sub_name, const c
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
 	rapidxml::xml_node<>* root = m_Doc.first_node();
-	if (root == nullptr) {
+	if (root == nullptr) 
+	{
 		root = m_Doc.allocate_node(rapidxml::node_pi, m_Doc.allocate_string("xml version=\"1.0\" encoding=\"utf-8\""));
 		m_Doc.append_node(root);
 	}
 
 	root = m_Doc.first_node(name);
-	if (root == nullptr) {
+	if (root == nullptr) 
+	{
 		root = m_Doc.allocate_node(rapidxml::node_element, m_Doc.allocate_string(name));
 		m_Doc.append_node(root);
 	}
 	rapidxml::xml_node<>* node = nullptr;
-	if (sub_name != nullptr) {
+	if (sub_name != nullptr) 
+	
+	{
 		node = root->first_node(sub_name);
-		if (node == nullptr) {
+		if (node == nullptr) 
+		{
 			node = m_Doc.allocate_node(rapidxml::node_element, m_Doc.allocate_string(sub_name));
 			root->append_node(node);
 		}
-		else {
+		else 
+		{
 			rapidxml::xml_node<>* n = m_Doc.allocate_node(rapidxml::node_element, m_Doc.allocate_string(sub_name));
 			root->remove_node(node);
 			root->append_node(n);
 			node = n;
 		}
 	}
-	else {
+	else 
+	{
 		node = root;
 	}
 
-	if (attr_name != nullptr) {
+	if (attr_name != nullptr) 
+	{
 		rapidxml::xml_attribute<>* attr = node->first_attribute(m_Doc.allocate_string(attr_name));
-		if (attr == nullptr) {
+		if (attr == nullptr) 
+		{
 			attr = m_Doc.allocate_attribute(m_Doc.allocate_string(attr_name));
 			node->append_attribute(attr);
 		}
