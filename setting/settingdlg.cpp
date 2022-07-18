@@ -160,11 +160,8 @@ void SettingDlg::OnUseHotKeyChecked(int stat)
 
 void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 {
-    QPushButton* hotkey_value = findChild<QPushButton*>("hotkeyValue");
-    hotkey_value->setEnabled(stat != 0);
     QString vk_str = getHotKeyStr(value);
-
-    hotkey_value->setText(vk_str);
+    m_HotKeyValue->setText(vk_str);
 }
 
 void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
@@ -237,6 +234,7 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
 void SettingDlg::OnUpdateHotKeyResult(bool success)
 {
     m_HotKeyStat->setChecked(!success);
+    m_HotKeyStat->setText(success ? tr("hotkey_stat_normal") : tr("hotkey_stat_conflict"));
 }
 
 void SettingDlg::OnSaveHotKeyConfig()

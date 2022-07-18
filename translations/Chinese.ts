@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="661"/>
+        <location filename="../screen/workspace.cpp" line="672"/>
         <source>save file</source>
         <translation type="unfinished">保存图片</translation>
     </message>
@@ -60,24 +60,25 @@
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="63"/>
+        <location filename="../setting/settingdlg.cpp" line="57"/>
         <source>setting_title</source>
         <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="66"/>
+        <location filename="../setting/settingdlg.cpp" line="60"/>
         <source>hotkey_title</source>
         <translation type="unfinished">启用热键</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="69"/>
-        <location filename="../setting/settingdlg.cpp" line="111"/>
-        <location filename="../setting/settingdlg.cpp" line="149"/>
+        <location filename="../setting/settingdlg.cpp" line="63"/>
+        <location filename="../setting/settingdlg.cpp" line="106"/>
+        <location filename="../setting/settingdlg.cpp" line="151"/>
         <source>hotkey_default</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="72"/>
+        <location filename="../setting/settingdlg.cpp" line="66"/>
+        <location filename="../setting/settingdlg.cpp" line="237"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished">正常</translation>
     </message>
@@ -87,22 +88,41 @@
         <translation type="unfinished">请直接在键盘上输入新的快捷键</translation>
     </message>
     <message>
+        <location filename="../setting/settingdlg.cpp" line="237"/>
         <source>hotkey_stat_conflict</source>
-        <translation type="obsolete">热键冲突</translation>
+        <translation type="unfinished">热键冲突</translation>
     </message>
     <message>
         <source>hotkey_stat</source>
         <translation type="obsolete">正常</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="77"/>
+        <location filename="../setting/settingdlg.cpp" line="71"/>
         <source>hotkey_save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="80"/>
+        <location filename="../setting/settingdlg.cpp" line="74"/>
         <source>hotkey_cancel</source>
         <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
+    <name>StarterUI</name>
+    <message>
+        <location filename="../starterui.cpp" line="59"/>
+        <source>&amp;Shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="62"/>
+        <source>&amp;Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="77"/>
+        <source>zenshot</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

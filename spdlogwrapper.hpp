@@ -16,6 +16,7 @@ logger* logger_ptr();
 #define L_WARN(...)		spdlog::logger_ptr()->warn(##__VA_ARGS__)
 #define L_ERROR(...)	spdlog::logger_ptr()->error(##__VA_ARGS__)
 #define L_CRITICAL(...) spdlog::logger_ptr()->critical(##__VA_ARGS__)
+#define L_FUNCTION()	L_TRACE("function: {0} @ line: {1}", __FUNCTION__, __LINE__);
 #else
 #define L_TRACE(...) 
 #define L_DEBUG(...) 
@@ -23,6 +24,7 @@ logger* logger_ptr();
 #define L_WARN(...) 
 #define L_ERR(...) 
 #define L_CRITICAL(...) 
+#define L_FUNCTION()
 #endif // USE_SPDLOG_
 
 #endif // SPDLOGWRAPPER_HPP
