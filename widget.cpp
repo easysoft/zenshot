@@ -110,7 +110,10 @@ void Widget::showEvent(QShowEvent* event)
 
 void Widget::closeEvent(QCloseEvent* event)
 {
+<<<<<<< HEAD
     L_TRACE("{0} stat = {1}", __FUNCTION__, m_status.toStdString().c_str());
+=======
+>>>>>>> 1be9f81db0e361c60cab36f6eb39a3bd53b80997
     hide();
 }
 
