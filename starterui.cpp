@@ -50,10 +50,8 @@ StarterUI::StarterUI()
 		}
 	}
 
-<<<<<<< HEAD
 	resize(0, 0);
-=======
->>>>>>> 1be9f81db0e361c60cab36f6eb39a3bd53b80997
+
 	hide();
 }
 
@@ -90,17 +88,10 @@ void StarterUI::createTrayIcon()
 
 void StarterUI::OnStartShot()
 {
-<<<<<<< HEAD
 	if (m_Shotting)
 	{
 		return;
 	}
-=======
-// 	if (m_Shotting)
-// 	{
-// 		return;
-// 	}
->>>>>>> 1be9f81db0e361c60cab36f6eb39a3bd53b80997
 
 	L_DEBUG(">>>>>>>>>>>>>>>>>>>>>>>>>> GAME START <<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	m_Shotting = true;
