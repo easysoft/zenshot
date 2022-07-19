@@ -27,8 +27,10 @@ signals:
 private slots:
 	void OnStartShot();
 	void OnShotDone(Starter* starer);
+	void OnShowSetting();
 
 protected:
+	void closeEvent(QCloseEvent*) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 	virtual bool nativeEvent(const QByteArray& eventType, void* message, qintptr* result);
 #else
@@ -44,7 +46,10 @@ private:
 	QPushButton m_startShot;
 #endif // IS_TEST_VER
 	std::list<Starter*> m_Starer;
+
+	bool m_Shotting;
 	
+	QAction* settingAction;
 	QAction* shotAction;
 	QAction* quitAction;
 

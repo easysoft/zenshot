@@ -59,8 +59,8 @@ void SettingDlg::initDlg()
     m_EnableHotKey = findChild<QCheckBox*>("checkHotKey");
     m_EnableHotKey->setText(tr("hotkey_title"));
 
-    QPushButton* hotkey_value = findChild<QPushButton*>("hotkeyValue");
-    hotkey_value->setText(tr("hotkey_default"));
+    m_HotKeyValue = findChild<QPushButton*>("hotkeyValue");
+    m_HotKeyValue->setText(tr("hotkey_default"));
 
     m_HotKeyStat = findChild<QPushButton*>("hotkeyStatus");
     m_HotKeyStat->setText(tr("hotkey_stat_normal"));
@@ -93,7 +93,8 @@ void SettingDlg::setupSingal()
     connect(this, SIGNAL(UpdateHotKeyResult(bool)), this, SLOT(OnUpdateHotKeyResult(bool)));
 
     QPushButton* save = findChild<QPushButton*>("settingSaveBtn");
-    connect(save, SIGNAL(clicked()), this, SLOT(OnSaveHotKeyConfig()));
+    connect(save, SIGNAL(clicked()), this, SIGNAL(SaveHotKeyConfig()));
+    connect(this, SIGNAL(SaveHotKeyConfig()), this, SLOT(OnSaveHotKeyConfig()));
 
     QPushButton* cancel = findChild<QPushButton*>("settingCancelBtn");
     connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
@@ -166,6 +167,7 @@ void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 
 void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
 {
+#ifdef Q_OS_WIN32
     if (m_KeyValue && m_KeyValue == value) 
     {
         return;
@@ -179,7 +181,7 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
     {
         return;
     }
-#ifdef Q_OS_WIN32
+
     UINT fsModifiers, vk;
     fsModifiers = vk = 0;
     uint8_t key0, key1, key2;
@@ -226,8 +228,8 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
         return;
     }
 
-    m_KeyValue = value;
-    OnSaveHotKeyConfig();
+	m_KeyValue = value;
+    Q_EMIT SaveHotKeyConfig();
 #endif // Q_OS_WIN32
 }
 

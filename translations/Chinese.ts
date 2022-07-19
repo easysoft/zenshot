@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="672"/>
+        <location filename="../screen/workspace.cpp" line="668"/>
         <source>save file</source>
         <translation type="unfinished">保存图片</translation>
     </message>
@@ -71,24 +71,24 @@
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="63"/>
-        <location filename="../setting/settingdlg.cpp" line="106"/>
-        <location filename="../setting/settingdlg.cpp" line="151"/>
+        <location filename="../setting/settingdlg.cpp" line="107"/>
+        <location filename="../setting/settingdlg.cpp" line="152"/>
         <source>hotkey_default</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="66"/>
-        <location filename="../setting/settingdlg.cpp" line="237"/>
+        <location filename="../setting/settingdlg.cpp" line="239"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished">正常</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="143"/>
+        <location filename="../setting/settingdlg.cpp" line="144"/>
         <source>reset_hotkey</source>
         <translation type="unfinished">请直接在键盘上输入新的快捷键</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="237"/>
+        <location filename="../setting/settingdlg.cpp" line="239"/>
         <source>hotkey_stat_conflict</source>
         <translation type="unfinished">热键冲突</translation>
     </message>
@@ -110,19 +110,28 @@
 <context>
     <name>StarterUI</name>
     <message>
-        <location filename="../starterui.cpp" line="59"/>
         <source>&amp;Shot</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">开始截图</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="62"/>
-        <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <source>S&amp;eeting</source>
+        <translation type="unfinished">设置</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="77"/>
+        <location filename="../starterui.cpp" line="66"/>
+        <source>S&amp;hot</source>
+        <translation type="unfinished">截图</translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="69"/>
+        <source>&amp;Quit</source>
+        <translation type="unfinished">退出</translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="84"/>
         <source>zenshot</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ZenShot</translation>
     </message>
 </context>
 <context>
@@ -146,62 +155,62 @@
 <context>
     <name>ToolBar</name>
     <message>
-        <location filename="../screen/toolbar.cpp" line="79"/>
+        <location filename="../screen/toolbar.cpp" line="90"/>
         <source>rectangle</source>
         <translation type="unfinished">矩形</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="80"/>
+        <location filename="../screen/toolbar.cpp" line="91"/>
         <source>ellipse</source>
         <translation type="unfinished">椭圆</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="81"/>
+        <location filename="../screen/toolbar.cpp" line="92"/>
         <source>line</source>
         <translation type="unfinished">直线</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="82"/>
+        <location filename="../screen/toolbar.cpp" line="93"/>
         <source>arrow</source>
         <translation type="unfinished">箭头</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="83"/>
+        <location filename="../screen/toolbar.cpp" line="94"/>
         <source>pie</source>
         <translation type="unfinished">铅笔</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="84"/>
+        <location filename="../screen/toolbar.cpp" line="95"/>
         <source>text</source>
         <translation type="unfinished">文本</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="85"/>
+        <location filename="../screen/toolbar.cpp" line="96"/>
         <source>mosaic</source>
         <translation type="unfinished">马赛克</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="96"/>
+        <location filename="../screen/toolbar.cpp" line="107"/>
         <source>undo</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="97"/>
+        <location filename="../screen/toolbar.cpp" line="108"/>
         <source>redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="104"/>
+        <location filename="../screen/toolbar.cpp" line="115"/>
         <source>download</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="105"/>
+        <location filename="../screen/toolbar.cpp" line="116"/>
         <source>exit</source>
         <translation type="unfinished">退出</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="106"/>
+        <location filename="../screen/toolbar.cpp" line="117"/>
         <source>finish</source>
         <translation type="unfinished">完成</translation>
     </message>

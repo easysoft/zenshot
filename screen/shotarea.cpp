@@ -65,20 +65,20 @@ bool ShotArea::areaConfirmed()
 
 void ShotArea::start(std::shared_ptr<ScreenList> list)
 {
-    L_DEBUG("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
 	m_indicatorPen.setColor(QColor(151, 151, 151));
 	m_indicatorPen.setWidth(1);
 
     m_screenList = list;
     m_allScreenRect = m_screenList->allBoundary();
+    L_TRACE("m_allScreenRect: left: {0}, top: {1}, right: {2}, bottom: {3}", m_allScreenRect.left(), m_allScreenRect.top(), m_allScreenRect.right(), m_allScreenRect.bottom());
 
     autoCapture();
 }
 
 void ShotArea::cleanup()
 {
-    L_DEBUG("{0} @ {1}", __FUNCTION__, __LINE__);
-
+    L_FUNCTION();
 	for (auto h : m_handles) {
 		delete h->locator();
 		delete h;
@@ -100,6 +100,8 @@ void ShotArea::autoCaptureScreen()
 {
     //获取鼠标所在位置的屏幕
     m_nowScreenIndex = m_screenList->indexAtMouse();
+
+    L_TRACE("m_nowScreenIndex: {0}", m_nowScreenIndex);
 }
 
 void ShotArea::autoCaptureWindow()
@@ -110,6 +112,8 @@ void ShotArea::autoCaptureWindow()
 
     QRect area = m_screenList->toLocal(globalArea);
     m_boundary.setRect(area.x(),area.y(),area.width(),area.height());
+    
+    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom());
 
     //根据屏幕大小来进一步约束选择区域
     int x1 = m_boundary.x() < m_allScreenRect.x() ? m_allScreenRect.x() : m_boundary.x();
@@ -119,6 +123,8 @@ void ShotArea::autoCaptureWindow()
     int y2 = m_boundary.bottom() > m_allScreenRect.bottom() ? m_allScreenRect.bottom() : m_boundary.bottom();
 
     m_boundary.setRect(x1,y1,x2-x1,y2-y1);
+
+    L_TRACE("### FIXED m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom());
 }
 
 void ShotArea::confirmArea()
@@ -169,7 +175,7 @@ QPixmap ShotArea::result()
 
 QVector<Handle*> ShotArea::handles()
 {
-    L_TRACE("{0}@{1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     if(m_handles.size() > 0)
         return m_handles;
 
@@ -213,7 +219,7 @@ QVector<Handle*> ShotArea::handles()
 
 void ShotArea::drawMagnifier(QPainter &painter)
 {
-    L_TRACE("{0}@{1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     GScale scale;  //modify temp for git push
 
     QRect pixBoundary = this->m_screenList->allBoundary();
@@ -226,6 +232,9 @@ void ShotArea::drawMagnifier(QPainter &painter)
 
     QString posStr = "POS: (" + QString::number(mousePoint.x()) + "," + QString::number(mousePoint.y()) + ")";
     QString rgbStr = "RGB: (" + QString::number(mouseColor.red()) + "," + QString::number(mouseColor.green()) + "," + QString::number(mouseColor.blue()) + ")";
+
+    L_TRACE("{0}", posStr.toStdString().c_str());
+    L_TRACE("{0}", rgbStr.toStdString().c_str());
 
     QFont font;
     font.setFamily("微软雅黑");
@@ -322,7 +331,8 @@ void ShotArea::drawMagnifier(QPainter &painter)
 
 void ShotArea::draw(QPainter &painter)
 {
-    L_TRACE("############ START {0}@{1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
+    L_TRACE("############ START {0}", painter.isActive() ? 1 : 0);
     L_TRACE("m_selected = {0}", m_selected ? 1 : 0);
     if(m_selected == false)
         m_indicatorPen.setWidth(1);
@@ -334,6 +344,8 @@ void ShotArea::draw(QPainter &painter)
     //绘制底图
     //m_screenList->draw(painter);
 
+    L_TRACE("mask path: m_screenList->allBoundary() [{0}, {1}, {2}, {3}]", m_screenList->allBoundary().left(), m_screenList->allBoundary().top(), m_screenList->allBoundary().right(), m_screenList->allBoundary().bottom());
+    L_TRACE("mask path: m_boundary() [{0}, {1}, {2}, {3}]", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom());
     //初始化遮罩
     QPainterPath maskPath;
     maskPath.addRect(m_screenList->allBoundary());
@@ -377,7 +389,7 @@ void ShotArea::draw(QPainter &painter)
     }
 
     painter.restore();
-    L_TRACE("$$$$$$$$$$$ END {0}@{1}", __FUNCTION__, __LINE__);
+    L_TRACE("$$$$$$$$$$$ END");
 }
 
 void ShotArea::loadPropsImpl(Store *store)

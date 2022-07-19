@@ -103,8 +103,8 @@ public:
 
 
 private:
-    int m_nowScreenIndex;            //截图区域所在的屏幕
-    QRect m_allScreenRect;           //截图区域所在屏幕的位置大小
+    int m_nowScreenIndex;         //截图区域所在的屏幕
+    QRect m_allScreenRect;        //截图区域所在屏幕的位置大小
     QPixmap m_maskPixmap;         //遮罩对应图像的数据
     std::shared_ptr<ScreenList> m_screenList;
 

@@ -34,7 +34,7 @@ QString ArrowCreateTool::forType()
 
 void ArrowCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Arrow(m_workspace);
+    m_shape.reset(new Arrow(m_workspace));
 
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
@@ -48,7 +48,7 @@ void ArrowCreateTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 
     if(m_isInlist == false)
     {
-        m_workspace->addShape(m_shape);
+        m_workspace->addShape(m_shape.get());
         m_isInlist = true;
     }
 
@@ -67,13 +67,13 @@ void ArrowCreateTool::onMouseRelease(QPoint mousePoint)
 
     if(Utils::distance(start,end) < Utils::Auto_Remove_Line)
     {
-        m_workspace->removeShape(m_shape);
+        m_workspace->removeShape(m_shape.get());
     }
     else
     {
-        if(m_autoSelected == true) m_workspace->setSelected(m_shape);
+        if(m_autoSelected == true) m_workspace->setSelected(m_shape.get());
 
-        AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+        AddCommand *addComm = new AddCommand(m_workspace,m_shape.get());
         UserOper::add(addComm);
     }
 

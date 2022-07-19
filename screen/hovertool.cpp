@@ -17,12 +17,15 @@
  */
 
 #include "hovertool.h"
+
+#include "../spdlogwrapper.hpp"
+
 #include "screen/workspace.h"
 #include "core/utils.h"
 
 HoverTool::HoverTool(Workspace *workspace):Tool(workspace),m_shotAreaSelf(false)
 {
-
+    L_INFO("{0}, {1}", __FUNCTION__, __LINE__);
 }
 
 Handle *HoverTool::shapeHandle() const

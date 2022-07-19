@@ -14,6 +14,7 @@ StarterUI::StarterUI()
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
+	, m_Shotting(false)
 #if IS_TEST_VER
 	, m_startShot(this)
 #endif // IS_TEST_VER
@@ -48,6 +49,9 @@ StarterUI::StarterUI()
 			emit CheckHotKey(value);
 		}
 	}
+
+	resize(0, 0);
+	hide();
 }
 
 StarterUI::~StarterUI()
@@ -56,7 +60,10 @@ StarterUI::~StarterUI()
 
 void StarterUI::createActions()
 {
-	shotAction = new QAction(tr("&Shot"), this);
+	settingAction = new QAction(tr("S&eeting"), this);
+	connect(settingAction, &QAction::triggered, this, &StarterUI::OnShowSetting);
+
+	shotAction = new QAction(tr("S&hot"), this);
 	connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
 
 	quitAction = new QAction(tr("&Quit"), this);
@@ -66,6 +73,7 @@ void StarterUI::createActions()
 void StarterUI::createTrayIcon()
 {
 	trayIconMenu = new QMenu(this);
+	trayIconMenu->addAction(settingAction);
 	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addSeparator();
 	trayIconMenu->addAction(quitAction);
@@ -79,8 +87,13 @@ void StarterUI::createTrayIcon()
 
 void StarterUI::OnStartShot()
 {
-	L_DEBUG(">>>>>>>>>>>>>>>>>>>>>>>>>> GAME START <<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	if (m_Shotting)
+	{
+		return;
+	}
 
+	L_DEBUG(">>>>>>>>>>>>>>>>>>>>>>>>>> GAME START <<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	m_Shotting = true;
 	Starter* starter = nullptr;
 	if (m_Starer.empty()) 
 	{
@@ -100,11 +113,17 @@ void StarterUI::OnStartShot()
 
 void StarterUI::OnShotDone(Starter* starter)
 {
+	m_Shotting = false;
 	starter->cleanup();
-	m_Starer.push_back(starter);
+//	m_Starer.push_back(starter);
 
 	L_TRACE("!!!!!!!!!!!!! m_Starer size = {0}", m_Starer.size());
 	L_DEBUG("@@@@@@@@@@@@@@@@@@@@@@@@ GAME END @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+}
+
+void StarterUI::closeEvent(QCloseEvent*)
+{
+	QApplication::exit(0);
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -122,4 +141,9 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 #endif // _WINDOWS
 
 	return QWidget::nativeEvent(eventType, message, result);
+}
+
+void StarterUI::OnShowSetting()
+{
+	m_SettingDlg.exec();
 }

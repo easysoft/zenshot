@@ -39,11 +39,12 @@ Starter::Starter()
 
 Starter::~Starter()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
 }
 
 void Starter::init(QWidget *parent)
 {
+    L_FUNCTION();
     QList<Widget*> widgets = std::move(*m_widgets);
     //收集屏幕信息
     QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
@@ -74,8 +75,6 @@ void Starter::init(QWidget *parent)
             m_widgets->append(w);
             widgets.pop_back();
         });
-
-    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
 }
 
 void Starter::cleanup()
@@ -91,7 +90,7 @@ void Starter::finishShot(int code)
 #ifdef Q_OS_WIN32
     (void*)code;
 #endif // Q_OS_WIN32
-    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
+    L_FUNCTION();
     for(auto w : *m_widgets)
     {
         w->hide();
@@ -112,7 +111,7 @@ void Starter::finishShot(int code)
 
 void Starter::finishConfirmArea()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, time(0));
+	L_FUNCTION();
     for (auto w : *m_widgets)
     {
         w->finishConfirmArea();
