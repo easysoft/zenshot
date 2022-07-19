@@ -27,15 +27,24 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , m_workspace(new Workspace(this))
     , m_screenlist(nullptr)
+    , m_status("unknown")
 {
     setWindowFlag(Qt::FramelessWindowHint);
+#ifndef USE_SPDLOG_
     setAttribute(Qt::WA_TranslucentBackground);
+#endif // USE_SPDLOG_
 
-    setWindowFlags(windowFlags() | Qt::Tool);
+    setWindowFlags(windowFlags()
+#ifndef USE_SPDLOG_
+        | Qt::Tool
+#endif // USE_SPDLOG_
+    );
 
     //测试的时候去掉置顶，否则一些导致调试器奔溃的Bug会让机器直接没招
 #ifdef Q_OS_WIN32
+#ifndef USE_SPDLOG_
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+#endif // USE_SPDLOG_
 #endif
 
     setMouseTracking(true);
@@ -43,7 +52,7 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_ERROR("{0}", __FUNCTION__);
 
     delete m_workspace;
     m_workspace = nullptr;
@@ -51,23 +60,29 @@ Widget::~Widget()
 
 void Widget::start(std::shared_ptr<ScreenList> list)
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
 
     m_screenlist = list;
-    m_status = "unknown";
     m_workspace->start(m_screenlist);
 
     QRect geometry = list->allBoundary(true);
     setGeometry(geometry);
 
+    setEnabled(true);
+
     showFullScreen();
+    
+    L_TRACE("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4} & geometry[{5}, {6}, {7}, {8}]$$$m_status ={9}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), geometry.left(), geometry.top(), geometry.right(), geometry.bottom(), m_status.toStdString().c_str());
 }
 
 void Widget::cleanup()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
-    m_status = "unknown";
+    L_FUNCTION();
     hide();
+
+    L_TRACE("is visable = {0} && w: {1}, h: {2}", this->isVisible(), size().width(), size().height());
+
+    m_status = "unknown";
     m_workspace->cleanup();
 }
 
@@ -84,6 +99,20 @@ void Widget::finishConfirmArea()
         m_status = "giveup";
 }
 
+void Widget::showEvent(QShowEvent* event)
+{
+    L_FUNCTION();
+	raise();
+	activateWindow();
+
+    L_WARN("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str());
+}
+
+void Widget::closeEvent(QCloseEvent* event)
+{
+    hide();
+}
+
 void Widget::mousePressEvent(QMouseEvent *event)
 {
     if(m_status != "giveup")
@@ -92,6 +121,7 @@ void Widget::mousePressEvent(QMouseEvent *event)
 
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
+    L_TRACE("{0} stat = {1}", __FUNCTION__, m_status.toStdString().c_str());
     if(m_status != "giveup")
         m_workspace->onMouseMove(event);
 }
@@ -109,17 +139,27 @@ void Widget::keyPressEvent(QKeyEvent *event)
 
 void Widget::paintEvent(QPaintEvent *event)
 {
+    L_FUNCTION();
     QPainter painter(this);
 
     m_workspace->draw(painter);
 }
 
+void Widget::enterEvent(QEvent* event)
+{
+    L_FUNCTION();
+    L_DEBUG("*************************************************");
+}
+
 void Widget::leaveEvent(QEvent *event)
 {
+    L_FUNCTION();
     if(m_workspace->areaConfirmed() == false)
     {
-        m_workspace->setAreaBoundary(QRect(0,0,0,0));
-        update();
+        L_DEBUG("..............................................");
+        setEnabled(false);
+//         m_workspace->setAreaBoundary(QRect(0,0,0,0));
+//         update();
     }
 }
 

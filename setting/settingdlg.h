@@ -37,6 +37,7 @@ private:
     QString getHotKeyStr(uint32_t value);
 
 signals:
+    void SaveHotKeyConfig();
     void UpdateHotKeyText(uint32_t value);
     void UpdateHotKeyValue(uint32_t value);
     void UpdateHotKeyResult(bool success);

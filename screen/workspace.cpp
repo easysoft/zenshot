@@ -70,35 +70,20 @@
 #include <QDebug>
 
 
-Workspace::Workspace(QWidget *host):m_shotArea(this)
+Workspace::Workspace(QWidget *host)
+    : m_shotArea(this)
+    , m_widget(host)
+    , m_tool(new AreaCreateTool(this))
+    , m_hoverTool(new HoverTool(this))
+    , m_textAssist(new TextAssist(this))
+    , m_firstRender(false)
 {
-    this->m_widget = host;
-    this->m_tool = new AreaCreateTool(this);
-    this->m_hoverTool = new HoverTool(this);
-
-    m_textAssist = new TextAssist(this);
-
     cleanup();
 }
 
 Workspace::~Workspace()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
-
-    if(m_tool != nullptr)
-    {
-        delete m_tool;
-        m_tool = nullptr;
-    }
-
-    delete m_hoverTool;
-    m_hoverTool = nullptr;
-
-    if(m_createTool != nullptr)
-    {
-        delete m_createTool;
-        m_createTool = nullptr;
-    }
+	L_FUNCTION();
 
     qDeleteAll(m_activeHandles);
     m_activeHandles.clear();
@@ -110,12 +95,12 @@ Workspace::~Workspace()
 
 QWidget* Workspace::widget()
 {
-    return m_widget;
+    return m_widget.get();
 }
 
 TextAssist *Workspace::textAssist() const
 {
-    return m_textAssist;
+    return m_textAssist.get();
 }
 
 QRect Workspace::limitBoundary()
@@ -140,22 +125,31 @@ void Workspace::setAreaBoundary(QRect rect)
 
 void Workspace::start(std::shared_ptr<ScreenList> list)
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     m_shotArea.start(list);
 
+    L_TRACE("list->scale() = {0}, m_widget isvisable: {1}", list->scale(), m_widget->isVisible() ? 1 : 0);
     GParams::instance()->setScale(list->scale());
 }
 
 void Workspace::cleanup()
 {
-    L_TRACE("{0} @ {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
 
 	m_selectedShape = nullptr;
-	m_createTool = nullptr;
-	m_toolBar = nullptr;
+	
+    if (m_toolBar != nullptr) {
+		m_toolBar->move(0, -1000);
+		m_toolBar->show();
+		m_toolBar->setVisible(false);
+    }
 	m_propsBar = nullptr;
 
-	m_firstRender = false;
+	qDeleteAll(m_activeHandles);
+	m_activeHandles.clear();
+
+	qDeleteAll(m_shapeList);
+	m_shapeList.clear();
 
     m_shotArea.cleanup();
 }
@@ -197,11 +191,11 @@ void Workspace::onMousePress(QMouseEvent *event)
 
         if(handle != nullptr)
         {
-            m_tool = new HandleTool(this,handle);
+            m_tool.reset(new HandleTool(this,handle));
         }
         else if(areaHandle != nullptr)
         {
-            m_tool = new AreaHandleTool(this,areaHandle);
+            m_tool.reset(new AreaHandleTool(this,areaHandle));
         }
         else if(shape != nullptr)
         {
@@ -219,13 +213,13 @@ void Workspace::onMousePress(QMouseEvent *event)
                     setSelected(shape);
                 }
 
-                m_tool = new MoveTool(this,shape);
+                m_tool.reset(new MoveTool(this,shape));
             }
         }
         else if(isSelf == true && hasCreateTool() == false)
         {
             AreaMoveTool *areaMoveTool = new AreaMoveTool(this);
-            m_tool = areaMoveTool;
+            m_tool.reset(areaMoveTool);
         }
         else if(m_createTool != nullptr)
         {
@@ -247,15 +241,16 @@ void Workspace::onMousePress(QMouseEvent *event)
     m_lastMosue = mousePoint;
 }
 
-void Workspace::onMouseMove(QMouseEvent *event)
+void Workspace::onMouseMove(QMouseEvent* event)
 {
     //if(m_textAssist->editing() == true)
     //    return;
 
     QPoint mousePoint = getMouse(event);
 
-    QPoint mouseOffset(mousePoint.x()-m_lastMosue.x(), mousePoint.y()-m_lastMosue.y());
+    QPoint mouseOffset(mousePoint.x() - m_lastMosue.x(), mousePoint.y() - m_lastMosue.y());
 
+    L_TRACE("m_tool = {0}", m_tool != nullptr ? "++++++++++++++" : "----------------");
     if(m_tool != nullptr) m_tool->onMouseMove(mousePoint,mouseOffset);
 
     m_lastMosue = mousePoint;
@@ -263,8 +258,9 @@ void Workspace::onMouseMove(QMouseEvent *event)
 
 void Workspace::onMouseRelease(QMouseEvent *event)
 {
+    L_FUNCTION();
+
     QPoint mousePoint = getMouse(event);
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
     if(m_tool != nullptr)
     {
         m_tool->onMouseRelease(mousePoint);
@@ -300,7 +296,7 @@ void Workspace::moveArea(QPoint offsetPoint)
 
 void Workspace::confirmArea()
 {
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     m_tool = nullptr;
     m_shotArea.confirmArea();
     m_widget->update();
@@ -316,7 +312,7 @@ void Workspace::confirmArea()
         int result = saveImpl();
         closeImpl(result);
     }
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
+
     emit finishConfirmArea();
 }
 
@@ -355,10 +351,12 @@ void Workspace::draw(QPainter &painter)
 
     if(m_firstRender == false && GParams::instance()->mark() == "yes")
     {
+        L_DEBUG("create tool bar");
+
         m_firstRender = true;
 
         loadResource();
-        m_toolBar = new ToolBar(this);
+        m_toolBar.reset(new ToolBar(this));
         m_toolBar->move(0,-1000);
         m_toolBar->show();
         m_toolBar->setVisible(false);
@@ -473,15 +471,18 @@ bool Workspace::hasCreateTool()
 
 void Workspace::setSelected(Shape *newSelected)
 {
+    L_FUNCTION();
     if(m_selectedShape == newSelected)
         return;
 
     //之前的图形设置成未选中状态
     if(m_selectedShape != nullptr)
     {
+        L_DEBUG("m_selectedShape->setSelected(false)");
         m_selectedShape->setSelected(false);
     }
 
+    L_DEBUG("m_activeHandles.clear()");
     //删除控制手柄并重置选中的图形
     m_activeHandles.clear();
     m_selectedShape = newSelected;
@@ -489,6 +490,7 @@ void Workspace::setSelected(Shape *newSelected)
     //设置新图形的选中状态，并获取对应的控制手柄
     if(m_selectedShape != nullptr)
     {
+        L_DEBUG("m_selectedShape->setSelected(true)");
         m_selectedShape->setSelected(true);
         m_activeHandles = m_selectedShape->handles();
     }
@@ -496,9 +498,10 @@ void Workspace::setSelected(Shape *newSelected)
     //重置创建工具，及其面板上图形创建工具的激活状态
     if(m_selectedShape != nullptr && m_toolBar != nullptr)
     {
+        L_DEBUG("m_selectedShape->saveProps()");
         m_selectedShape->saveProps();
         m_toolBar->highlightCreateBtn(m_selectedShape->type());
-        m_createTool = createCreateToolFactory(m_selectedShape->type());
+        m_createTool.reset(createCreateToolFactory(m_selectedShape->type()));
     }
 
     refreshDraw();
@@ -541,28 +544,24 @@ void Workspace::deleteSelected()
 
 void Workspace::createToolBar()
 {
+    L_FUNCTION();
     //loadResource();
     //m_toolBar = new ToolBar(this);
     //m_toolBar->show();
 
     m_toolBar->setVisible(true);
 
-    connect(m_toolBar,SIGNAL(createChanged(QString)),this,SLOT(createToolChanged(QString)));
-    connect(m_toolBar,SIGNAL(download()),this,SLOT(download()));
-    connect(m_toolBar,SIGNAL(closeProgram()),this,SLOT(close()));
-    connect(m_toolBar,SIGNAL(save()),this,SLOT(save()));
+    connect(m_toolBar.get(), SIGNAL(createChanged(QString)), this, SLOT(createToolChanged(QString)));
+    connect(m_toolBar.get(),SIGNAL(download()),this,SLOT(download()));
+    connect(m_toolBar.get(),SIGNAL(closeProgram()),this,SLOT(close()));
+    connect(m_toolBar.get(),SIGNAL(save()),this,SLOT(save()));
 
     rePositionBar();
 }
 
 void Workspace::createPropsBar()
 {
-    if(m_propsBar != nullptr)
-    {
-        m_propsBar->deleteLater();
-        m_propsBar = nullptr;
-    }
-
+    L_FUNCTION();
     QString shapeType = "";
 
     if(m_selectedShape != nullptr)
@@ -570,19 +569,15 @@ void Workspace::createPropsBar()
     else if(m_createTool != nullptr)
         shapeType = m_createTool->forType();
 
-    m_propsBar = createPropsBarFactory(shapeType);
-
-    if(m_propsBar != nullptr)
-    {
-        m_propsBar->show();
-    }
+    m_propsBar.reset(createPropsBarFactory(shapeType));
+    m_propsBar->show();
 
     rePositionBar();
 }
 
 Tool *Workspace::createTool() const
 {
-    return m_createTool;
+    return m_createTool ? m_createTool.get() : nullptr;
 }
 
 void Workspace::rePositionBar()
@@ -652,7 +647,8 @@ void Workspace::rePositionBar()
 
 void Workspace::createToolChanged(QString shapeType)
 {
-    m_createTool = createCreateToolFactory(shapeType);
+    L_FUNCTION();
+    m_createTool.reset(createCreateToolFactory(shapeType));
 
     setSelected(nullptr);
     createPropsBar();
@@ -814,13 +810,13 @@ PropsBar *Workspace::createPropsBarFactory(QString shapeType)
 
 void Workspace::closeImpl(int code)
 {
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     emit quitShot(code);
 }
 
 void Workspace::close()
 {
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     closeImpl(0);
 }
 

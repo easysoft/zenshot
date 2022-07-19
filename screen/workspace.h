@@ -243,16 +243,16 @@ public:
 private:
     QFont m_iconfont;
 
-    QWidget *m_widget;
+    std::shared_ptr<QWidget> m_widget;
     ShotArea m_shotArea;
-    TextAssist *m_textAssist;
+    std::shared_ptr<TextAssist> m_textAssist;
 
-    Tool *m_tool;
-    Tool *m_createTool;
-    HoverTool *m_hoverTool;
+    std::shared_ptr<Tool> m_tool;
+    std::shared_ptr<Tool> m_createTool;
+    std::shared_ptr<HoverTool> m_hoverTool;
 
-    ToolBar *m_toolBar;
-    PropsBar *m_propsBar;
+    std::shared_ptr<ToolBar> m_toolBar;
+    std::shared_ptr<PropsBar> m_propsBar;
 
     QPoint m_lastMosue;
 

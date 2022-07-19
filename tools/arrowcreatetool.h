@@ -33,7 +33,7 @@ public:
     void onMouseRelease(QPoint mousePoint);
 
 private:
-    Arrow *m_shape;
+    std::shared_ptr<Arrow> m_shape;
     bool m_isInlist;
 };
 

@@ -61,7 +61,7 @@ void AreaCreateTool::onMouseMove(QPoint mousePoint,QPoint mouseOffset)
 
 void AreaCreateTool::onMouseRelease(QPoint mousePoint)
 {
-    L_TRACE("{0} {1}", __FUNCTION__, __LINE__);
+    L_FUNCTION();
     m_isMousePress = false;
     //确定选择区域
     m_workspace->confirmArea();

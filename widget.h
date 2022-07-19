@@ -42,17 +42,22 @@ public:
     Workspace* workspace() const;
     void finishConfirmArea();
 
-private:
-    QString m_status;  //unknown, active, giveup
-    Workspace *m_workspace;
-    std::shared_ptr<ScreenList> m_screenlist;
+protected:
+    void showEvent(QShowEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
-    virtual void keyPressEvent(QKeyEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    virtual void leaveEvent(QEvent *event);
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void mouseMoveEvent(QMouseEvent *) override;
+    void keyPressEvent(QKeyEvent *) override;
+    void paintEvent(QPaintEvent *) override;
+    void enterEvent(QEvent* event) override;
+    void leaveEvent(QEvent *event) override;
+
+private:
+	QString m_status;  //unknown, active, giveup
+	Workspace* m_workspace;
+	std::shared_ptr<ScreenList> m_screenlist;
 };
 
 #endif // WIDGET_H

@@ -17,6 +17,9 @@
  */
 
 #include "toolbar.h"
+
+#include "../spdlogwrapper.hpp"
+
 #include <QVariant>
 #include <QApplication>
 
@@ -24,7 +27,12 @@
 #include "core/utils.h"
 #include "core/useroper.h"
 
-ToolBar::ToolBar(Workspace *workspace):QWidget(workspace->widget())
+ToolBar::ToolBar(Workspace *workspace)
+    : QWidget(workspace->widget())
+    , m_layout()
+    , btnGroup(this)
+    , m_undoBtn(nullptr)
+    , m_redoBtn(nullptr)
 {
     setAttribute(Qt::WA_StyledBackground);
 
@@ -34,16 +42,21 @@ ToolBar::ToolBar(Workspace *workspace):QWidget(workspace->widget())
     this->setCursor(Qt::ArrowCursor);
 
     createChild();
+
+    L_WARN("{0}, {1}", __FUNCTION__, __LINE__);
+}
+
+ToolBar::~ToolBar()
+{
+    L_WARN("{0}, {1}", __FUNCTION__, __LINE__);
 }
 
 void ToolBar::createChild()
 {
-    m_layout = new QHBoxLayout();
+    m_layout.setContentsMargins(ts(4),ts(2),ts(4),ts(2));
+    m_layout.setSpacing(ts(0));
 
-    m_layout->setContentsMargins(ts(4),ts(2),ts(4),ts(2));
-    m_layout->setSpacing(ts(0));
-
-    this->setLayout(m_layout);
+    this->setLayout(&m_layout);
 
     createCreateButtons();
     createFunctionButons();
@@ -53,40 +66,38 @@ void ToolBar::createChild()
 
 void ToolBar::addSeperator()
 {
-    m_layout->addSpacing(ts(3));
+    m_layout.addSpacing(ts(3));
 
     QFrame *splite = new QFrame();
     splite->setObjectName("vSplit");
     splite->setFrameShape(QFrame::VLine);
     splite->setLineWidth(ts(1));
-    m_layout->addWidget(splite);
+    m_layout.addWidget(splite);
 
-    m_layout->addSpacing(ts(2));
+    m_layout.addSpacing(ts(2));
 }
 
 void ToolBar::highlightCreateBtn(QString shapeType)
 {
     int index = m_createBtnKeyList.indexOf(shapeType);
-    QAbstractButton *btn = btnGroup->button(index);
+    QAbstractButton *btn = btnGroup.button(index);
 
     btn->setChecked(true);
 }
 
 void ToolBar::createCreateButtons()
 {
-    btnGroup = new QButtonGroup(this);
+    createSingleCreateButton(&btnGroup,Utils::forRectKey(),QChar(0xe906),tr("rectangle"));
+    createSingleCreateButton(&btnGroup,Utils::forEllipseKey(),QChar(0xe903),tr("ellipse"));
+    createSingleCreateButton(&btnGroup,Utils::forLineKey(),QChar(0xe905),tr("line"));
+    createSingleCreateButton(&btnGroup,Utils::forArrowKey(),QChar(0xe900),tr("arrow"));
+    createSingleCreateButton(&btnGroup,Utils::forCurveKey(),QChar(0xe90a),tr("pie"));
+    createSingleCreateButton(&btnGroup,Utils::forTextKey(),QChar(0xe90b),tr("text"));
+    createSingleCreateButton(&btnGroup,Utils::forMosaicKey(),QChar(0xe909),tr("mosaic"));
 
-    createSingleCreateButton(btnGroup,Utils::forRectKey(),QChar(0xe906),tr("rectangle"));
-    createSingleCreateButton(btnGroup,Utils::forEllipseKey(),QChar(0xe903),tr("ellipse"));
-    createSingleCreateButton(btnGroup,Utils::forLineKey(),QChar(0xe905),tr("line"));
-    createSingleCreateButton(btnGroup,Utils::forArrowKey(),QChar(0xe900),tr("arrow"));
-    createSingleCreateButton(btnGroup,Utils::forCurveKey(),QChar(0xe90a),tr("pie"));
-    createSingleCreateButton(btnGroup,Utils::forTextKey(),QChar(0xe90b),tr("text"));
-    createSingleCreateButton(btnGroup,Utils::forMosaicKey(),QChar(0xe909),tr("mosaic"));
+    btnGroup.setExclusive(true);
 
-    btnGroup->setExclusive(true);
-
-    connect(btnGroup,SIGNAL(buttonClicked(int)),this,SLOT(createBtnClicked(int)));
+    connect(&btnGroup,SIGNAL(buttonClicked(int)),this,SLOT(createBtnClicked(int)));
 }
 
 void ToolBar::createFunctionButons()
@@ -124,7 +135,7 @@ void ToolBar::createSingleCreateButton(QButtonGroup *group, QString shapeType, Q
     btn->setToolTip(tipStr);
 
     group->addButton(btn,m_createBtnKeyList.count());
-    m_layout->addWidget(btn);
+    m_layout.addWidget(btn);
 
     m_createBtnKeyList.append(shapeType);
 }
@@ -144,7 +155,7 @@ QPushButton *ToolBar::createSingleFunctionButton(QString iconStr,QString tipStr,
 
     btn->setToolTip(tipStr);
 
-    m_layout->addWidget(btn);
+    m_layout.addWidget(btn);
 
     return btn;
 }

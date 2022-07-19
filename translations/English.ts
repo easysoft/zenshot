@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="672"/>
+        <location filename="../screen/workspace.cpp" line="668"/>
         <source>save file</source>
         <translation type="unfinished">save file</translation>
     </message>
@@ -55,24 +55,24 @@
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="63"/>
-        <location filename="../setting/settingdlg.cpp" line="106"/>
-        <location filename="../setting/settingdlg.cpp" line="151"/>
+        <location filename="../setting/settingdlg.cpp" line="107"/>
+        <location filename="../setting/settingdlg.cpp" line="152"/>
         <source>hotkey_default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="66"/>
-        <location filename="../setting/settingdlg.cpp" line="237"/>
+        <location filename="../setting/settingdlg.cpp" line="239"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="143"/>
+        <location filename="../setting/settingdlg.cpp" line="144"/>
         <source>reset_hotkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="237"/>
+        <location filename="../setting/settingdlg.cpp" line="239"/>
         <source>hotkey_stat_conflict</source>
         <translation type="unfinished"></translation>
     </message>
@@ -90,17 +90,27 @@
 <context>
     <name>StarterUI</name>
     <message>
-        <location filename="../starterui.cpp" line="59"/>
         <source>&amp;Shot</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Quit</translatorcomment>
+        <translation type="obsolete">Start shot</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="62"/>
+        <source>S&amp;eeting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="66"/>
+        <source>S&amp;hot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="69"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="77"/>
+        <location filename="../starterui.cpp" line="84"/>
         <source>zenshot</source>
         <translation type="unfinished"></translation>
     </message>
@@ -126,62 +136,62 @@
 <context>
     <name>ToolBar</name>
     <message>
-        <location filename="../screen/toolbar.cpp" line="79"/>
+        <location filename="../screen/toolbar.cpp" line="90"/>
         <source>rectangle</source>
         <translation type="unfinished">Rectangle</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="80"/>
+        <location filename="../screen/toolbar.cpp" line="91"/>
         <source>ellipse</source>
         <translation type="unfinished">Ellipse</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="81"/>
+        <location filename="../screen/toolbar.cpp" line="92"/>
         <source>line</source>
         <translation type="unfinished">Line</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="82"/>
+        <location filename="../screen/toolbar.cpp" line="93"/>
         <source>arrow</source>
         <translation type="unfinished">Arrow</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="83"/>
+        <location filename="../screen/toolbar.cpp" line="94"/>
         <source>pie</source>
         <translation type="unfinished">Pie</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="84"/>
+        <location filename="../screen/toolbar.cpp" line="95"/>
         <source>text</source>
         <translation type="unfinished">Text</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="85"/>
+        <location filename="../screen/toolbar.cpp" line="96"/>
         <source>mosaic</source>
         <translation type="unfinished">Mosaic</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="96"/>
+        <location filename="../screen/toolbar.cpp" line="107"/>
         <source>undo</source>
         <translation type="unfinished">Undo</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="97"/>
+        <location filename="../screen/toolbar.cpp" line="108"/>
         <source>redo</source>
         <translation type="unfinished">Redo</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="104"/>
+        <location filename="../screen/toolbar.cpp" line="115"/>
         <source>download</source>
         <translation type="unfinished">Save</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="105"/>
+        <location filename="../screen/toolbar.cpp" line="116"/>
         <source>exit</source>
         <translation type="unfinished">Exit</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="106"/>
+        <location filename="../screen/toolbar.cpp" line="117"/>
         <source>finish</source>
         <translation type="unfinished">Finish</translation>
     </message>

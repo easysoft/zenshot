@@ -39,13 +39,14 @@ class ToolBar : public QWidget,GScale
     Q_OBJECT
 public:
     explicit ToolBar(Workspace *workspace);
+    virtual ~ToolBar();
 
     void createChild();
     void highlightCreateBtn(QString shapeType);
 
 private:
-    QHBoxLayout *m_layout;
-    QButtonGroup *btnGroup;
+    QHBoxLayout m_layout;
+    QButtonGroup btnGroup;
 
     Workspace *m_workspace;
     QVector<QString> m_createBtnKeyList;

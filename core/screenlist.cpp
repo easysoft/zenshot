@@ -111,7 +111,6 @@ void ScreenList::initParams()
         pixelRetio = m_List.at(0).object->devicePixelRatio();
     }
 
-    L_TRACE("0x{0:08x} {1} : {2} -> m_allPixMap", reinterpret_cast<uint32_t>(this), __FUNCTION__, __LINE__);
     m_allPixMap.reset(new QPixmap(m_allBoundary.width() * pixelRetio, m_allBoundary.height() * pixelRetio));
     QRect i_allBoundary(m_allBoundary.x() * pixelRetio,
                         m_allBoundary.y() * pixelRetio,
@@ -120,15 +119,17 @@ void ScreenList::initParams()
 
     QPainter painter(m_allPixMap.get());
 
-    for(ScreenInfo info:m_List)
+    for(ScreenInfo& info:m_List)
     {
         QRect mRect(info.boundary.x() * pixelRetio,
                        info.boundary.y() * pixelRetio,
                        info.boundary.width() * pixelRetio,
                        info.boundary.height() * pixelRetio);
-        QPixmap mPixmap = info.pixmap;
+        const auto& mPixmap = info.pixmap;
 
         QRect rRect(mRect.x()-i_allBoundary.x(),mRect.y()-i_allBoundary.y(),mRect.width(),mRect.height());
+
+        L_TRACE("rRect: [{0}, {1}, {2}, {3}], mPixmap: {4}, {5}", rRect.left(), rRect.top(), rRect.right(), rRect.bottom(), mPixmap.width(), mPixmap.height());
 
         painter.drawPixmap(rRect,mPixmap);
     }
@@ -173,8 +174,8 @@ void ScreenList::draw(QPainter &painter)
 void ScreenList::draw(QPainter &painter, QPainterPath maskPath, QBrush maskBrush)
 {
     QRect rect = allBoundary();
-
-    L_TRACE("{0} # {1} => rect left: {2}, top: {3}, right:{4}, bottom:{5}", __FUNCTION__, __LINE__, rect.left(), rect.top(), rect.right(), rect.bottom());
+    L_FUNCTION();
+    L_TRACE("rect left: {0}, top: {1}, right:{2}, bottom:{3}", rect.left(), rect.top(), rect.right(), rect.bottom());
 
     painter.drawPixmap(rect, *m_allPixMap);
     painter.fillPath(maskPath,maskBrush);
