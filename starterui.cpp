@@ -115,7 +115,7 @@ void StarterUI::OnShotDone(Starter* starter)
 {
 	m_Shotting = false;
 	starter->cleanup();
-//	m_Starer.push_back(starter);
+	m_Starer.push_back(starter);
 
 	L_TRACE("!!!!!!!!!!!!! m_Starer size = {0}", m_Starer.size());
 	L_DEBUG("@@@@@@@@@@@@@@@@@@@@@@@@ GAME END @@@@@@@@@@@@@@@@@@@@@@@@@@@@");

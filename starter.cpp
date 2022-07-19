@@ -95,11 +95,11 @@ void Starter::finishShot(int code)
     {
         w->hide();
 
-        QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
-        animation->setDuration(0);
-        animation->setStartValue(1);
-        animation->setEndValue(0);
-        animation->start();
+//         QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
+//         animation->setDuration(0);
+//         animation->setStartValue(1);
+//         animation->setEndValue(0);
+//         animation->start();
     }
     
 #ifdef Q_OS_WIN32
