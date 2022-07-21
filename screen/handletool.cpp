@@ -17,6 +17,9 @@
  */
 
 #include "handletool.h"
+
+#include "../spdlogwrapper.hpp"
+
 #include "screen/workspace.h"
 #include "core/useroper.h"
 #include "commands/locatorcommand.h"
@@ -35,6 +38,7 @@ void HandleTool::onMousePress(QPoint mousePoint)
 
 void HandleTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 {
+    L_FUNCTION();
     m_handle->move(mousePoint);
     m_workspace->refreshDraw();
 }

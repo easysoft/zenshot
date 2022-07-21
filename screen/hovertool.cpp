@@ -123,6 +123,8 @@ void HoverTool::setCursor(QPoint mousePoint)
 
 void HoverTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 {
+    L_FUNCTION();
+
     refresh(mousePoint);
     setCursor(mousePoint);
 }

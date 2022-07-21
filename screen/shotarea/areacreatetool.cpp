@@ -37,6 +37,7 @@ void AreaCreateTool::onMousePress(QPoint mousePoint)
 
 void AreaCreateTool::onMouseMove(QPoint mousePoint,QPoint mouseOffset)
 {
+    L_FUNCTION();
     if(m_isMousePress == false)
     {
         m_workspace->autoCapture();

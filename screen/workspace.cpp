@@ -73,7 +73,7 @@
 Workspace::Workspace(QWidget *host)
     : m_shotArea(this)
     , m_widget(host)
-    , m_tool(new AreaCreateTool(this))
+    , m_tool(nullptr)
     , m_hoverTool(new HoverTool(this))
     , m_textAssist(new TextAssist(this))
     , m_firstRender(false)
@@ -88,7 +88,6 @@ Workspace::~Workspace()
     qDeleteAll(m_activeHandles);
     m_activeHandles.clear();
 
-    qDeleteAll(m_shapeList);
     m_shapeList.clear();
 
 }
@@ -126,6 +125,7 @@ void Workspace::setAreaBoundary(QRect rect)
 void Workspace::start(std::shared_ptr<ScreenList> list)
 {
     L_FUNCTION();
+    m_tool.reset(new AreaCreateTool(this));
     m_shotArea.start(list);
 
     L_TRACE("list->scale() = {0}, m_widget isvisable: {1}", list->scale(), m_widget->isVisible() ? 1 : 0);
@@ -148,7 +148,6 @@ void Workspace::cleanup()
 	qDeleteAll(m_activeHandles);
 	m_activeHandles.clear();
 
-	qDeleteAll(m_shapeList);
 	m_shapeList.clear();
 
     m_shotArea.cleanup();
@@ -334,9 +333,9 @@ void Workspace::draw(QPainter &painter)
 
     painter.setClipRect(areaBoundary());
 
-    foreach(Shape *shape, m_shapeList)
+    foreach(auto shape, m_shapeList)
     {
-        if(shape == m_selectedShape &&
+        if(shape.get() == m_selectedShape &&
            m_selectedShape->type() == Utils::forTextKey() &&
            m_textAssist->editing() == true){
             continue;
@@ -381,10 +380,10 @@ Handle *Workspace::getShapeHandleAt(QPoint point)
 
 Shape *Workspace::getShapeAt(QPoint point)
 {
-    for(Shape* shape:m_shapeList)
+    for(auto shape:m_shapeList)
     {
-        if(shape->contain(point) == true)
-            return  shape;
+        if(shape->contain(point))
+            return  shape.get();
     }
 
     return  nullptr;
@@ -405,7 +404,8 @@ bool Workspace::isShotAreaSelfAt(QPoint point)
 
 void Workspace::addShape(Shape *shape)
 {
-    m_shapeList.append(shape);
+    std::shared_ptr<Shape> ptr(shape);
+    m_shapeList.append(ptr);
 }
 
 void Workspace::addMosaic(Shape *shape)
@@ -420,20 +420,26 @@ void Workspace::addMosaic(Shape *shape)
         }
     }
 
-    m_shapeList.insert(newIndex,shape);
+    std::shared_ptr<Shape> ptr(shape);
+    m_shapeList.insert(newIndex, ptr);
 }
 
 void Workspace::removeShape(Shape *shape,bool tempOper)
 {
-    if(m_shapeList.contains(shape))
-    {
-        m_shapeList.removeOne(shape);
-
-        if(tempOper == false && m_selectedShape == shape)
+    auto iter = std::find_if(m_shapeList.begin(), m_shapeList.end(), [=](std::shared_ptr<Shape> ptr)
         {
-            setSelected(nullptr);
-        }
+            return ptr.get() == shape;
+        });
+    if (iter == m_shapeList.end())
+    {
+        return;
     }
+
+    if (!tempOper && m_selectedShape == shape) 
+    {
+        setSelected(nullptr);
+    }
+    m_shapeList.erase(iter);
 }
 
 void Workspace::refreshProps()

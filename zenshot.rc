@@ -27,7 +27,7 @@ VS_VERSION_INFO VERSIONINFO
                 VALUE "FileVersion", "1.0.0.1\0"
                 VALUE "LegalCopyright", "Copyright 2022 青岛易软天创网络科技有限公司\0"
                 VALUE "OriginalFilename", "zenshot.exe\0"
-                VALUE "ProductName", "enshot\0"
+                VALUE "ProductName", "zenshot\0"
                 VALUE "ProductVersion", "1.0\0"
             END
         END

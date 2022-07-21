@@ -46,8 +46,6 @@ Widget::Widget(QWidget *parent)
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 #endif // USE_SPDLOG_
 #endif
-
-    setMouseTracking(true);
 }
 
 Widget::~Widget()
@@ -105,7 +103,14 @@ void Widget::showEvent(QShowEvent* event)
 	raise();
 	activateWindow();
 
+    setMouseTracking(true);
+
     L_WARN("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str());
+}
+
+void Widget::hideEvent(QHideEvent* event)
+{
+    setMouseTracking(false);
 }
 
 void Widget::closeEvent(QCloseEvent* event)

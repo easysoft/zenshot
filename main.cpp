@@ -76,8 +76,6 @@ int main(int argc, char *argv[])
     QFont defaultFont("微软雅黑",9);
     a.setFont(defaultFont);
 
-
-
     //解析命令行参数
     int result = GParams::instance()->fromArgs(argc,argv);
 

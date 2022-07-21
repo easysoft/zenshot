@@ -256,7 +256,7 @@ private:
 
     QPoint m_lastMosue;
 
-    QVector<Shape*> m_shapeList;
+    QVector<std::shared_ptr<Shape>> m_shapeList;
     Shape* m_selectedShape;
     QVector<Handle*> m_activeHandles;
 

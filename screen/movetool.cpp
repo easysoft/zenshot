@@ -17,6 +17,7 @@
  */
 
 #include "movetool.h"
+#include "../spdlogwrapper.hpp"
 #include "screen/workspace.h"
 #include "core/useroper.h"
 #include "commands/movecommand.h"
@@ -36,6 +37,8 @@ void MoveTool::onMousePress(QPoint mousePoint)
 
 void MoveTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 {
+    L_FUNCTION();
+
     m_shape->move(mouseOffset);
     m_workspace->refreshDraw();
 

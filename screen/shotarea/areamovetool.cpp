@@ -19,6 +19,8 @@
 #include "areamovetool.h"
 #include "screen/workspace.h"
 
+#include "../spdlogwrapper.hpp"
+
 
 AreaMoveTool::AreaMoveTool(Workspace *workspace):Tool(workspace)
 {
@@ -32,6 +34,7 @@ void AreaMoveTool::onMousePress(QPoint mousePoint)
 
 void AreaMoveTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 {
+    L_FUNCTION();
     m_workspace->moveArea(mouseOffset);
 
     QRectF areaRect = m_workspace->areaBoundary();

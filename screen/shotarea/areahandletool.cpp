@@ -17,6 +17,7 @@
  */
 
 #include "areahandletool.h"
+#include "../spdlogwrapper.hpp"
 #include "screen/workspace.h"
 
 AreaHandleTool::AreaHandleTool(Workspace *workspace,Handle *handle):Tool(workspace)
@@ -36,6 +37,8 @@ void AreaHandleTool::onMousePress(QPoint mousePoint)
 
 void AreaHandleTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 {
+    L_FUNCTION();
+
     QRect rect = m_workspace->limitBoundary();
 
     int x = mousePoint.x();
