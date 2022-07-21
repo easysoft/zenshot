@@ -17,7 +17,7 @@
  */
 
 #include "areahandletool.h"
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 #include "screen/workspace.h"
 
 AreaHandleTool::AreaHandleTool(Workspace *workspace,Handle *handle):Tool(workspace)

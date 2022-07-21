@@ -18,7 +18,7 @@
 
 #include "screenlist.h"
 
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 
 #include <QCursor>
 #include <QPainter>

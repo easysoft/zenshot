@@ -235,7 +235,7 @@ public:
      * @brief 获取当前控制手柄
      * @return 控制手柄集合
      */
-    QVector<Handle *> activeHandles() const;
+    const QVector<Handle *>& activeHandles() const;
 
     void normalbeforeUndo();
 

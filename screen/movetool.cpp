@@ -17,7 +17,7 @@
  */
 
 #include "movetool.h"
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 #include "screen/workspace.h"
 #include "core/useroper.h"
 #include "commands/movecommand.h"

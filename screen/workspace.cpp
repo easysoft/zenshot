@@ -514,7 +514,7 @@ void Workspace::setSelected(Shape *newSelected)
     createPropsBar();
 }
 
-QVector<Handle *> Workspace::activeHandles() const
+const QVector<Handle *>& Workspace::activeHandles() const
 {
     return m_activeHandles;
 }

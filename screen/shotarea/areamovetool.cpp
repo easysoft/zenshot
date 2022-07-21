@@ -19,7 +19,7 @@
 #include "areamovetool.h"
 #include "screen/workspace.h"
 
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 
 
 AreaMoveTool::AreaMoveTool(Workspace *workspace):Tool(workspace)

@@ -148,7 +148,7 @@ void RectLocator::setLocation(QPoint point)
     if(isXFlip == true || isYFlip == true)
     {
         Workspace *workspace = m_shape->workspace();
-        QVector<Handle*> handles = workspace->activeHandles();
+        auto& handles = workspace->activeHandles();
 
         for(Handle *hdl:handles)
         {

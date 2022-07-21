@@ -18,7 +18,7 @@
 
 #include "toolbar.h"
 
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 
 #include <QVariant>
 #include <QApplication>

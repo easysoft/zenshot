@@ -18,7 +18,7 @@
 
 #include "handletool.h"
 
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 
 #include "screen/workspace.h"
 #include "core/useroper.h"

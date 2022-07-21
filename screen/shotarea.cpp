@@ -22,7 +22,7 @@
 #include "screen/shotarea/areahandle.h"
 #include "core/gscale.h"
 
-#include "../spdlogwrapper.hpp"
+#include "spdlogwrapper.hpp"
 
 #include <QApplication>
 #include <QDesktopWidget>
