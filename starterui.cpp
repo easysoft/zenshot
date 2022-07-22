@@ -35,7 +35,6 @@ StarterUI::StarterUI()
 #endif // IS_TEST_VER
 
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
-	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(UpdateHotKeyValue(uint32_t)));
 // 	connect(trayIcon, &QSystemTrayIcon::activated, this, &Window::iconActivated);
 
 	trayIcon->show();

@@ -23,7 +23,8 @@ public:
     virtual ~SettingDlg();
 
 protected:
-    void closeEvent(QCloseEvent*) override;
+	void closeEvent(QCloseEvent*) override;
+	void showEvent(QShowEvent*) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     virtual bool nativeEvent(const QByteArray& eventType, void* message, qintptr* result);
 #else
@@ -39,19 +40,18 @@ private:
 signals:
     void SaveHotKeyConfig();
     void UpdateHotKeyText(uint32_t value);
-    void UpdateHotKeyValue(uint32_t value);
     void UpdateHotKeyResult(bool success);
 
 private slots:
     void OnUseHotKeyChecked(int stat);
-    void OnUpdateHotKeyText(uint32_t value);        // 更新热键显示
-    void OnUpdateHotKeyValue(uint32_t value);       // 注册热键
-    void OnUpdateHotKeyResult(bool success);        // 热键注册结果
+    void OnUpdateHotKeyText(uint32_t value);                    // 更新热键显示
+    void OnUpdateHotKeyValue();                                 // 注册热键
+    void OnUpdateHotKeyResult(bool success);                    // 热键注册结果
     void OnSaveHotKeyConfig();
 
 private:
     Ui::SettingDlg ui;
-    uint32_t m_KeyValue;
+    uint32_t m_KeyValue, m_OrigKeyValue;
     uint32_t m_SetKeyValue[3];
     QCheckBox* m_EnableHotKey;
     QPushButton* m_HotKeyStat;

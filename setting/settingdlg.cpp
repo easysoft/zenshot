@@ -9,6 +9,7 @@
 
 #include <QFile>
 #include <QVariant>
+#include <QCloseEvent>
 
 #ifdef _WINDOWS
 #include <Windows.h>
@@ -20,6 +21,7 @@ SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     , m_KeyValue(0)
     , m_EnableHotKey(0)
     , m_HotKeyStat(0)
+    , m_OrigKeyValue(0)
 {
     ui.setupUi(this);
     setWindowFlags(windowFlags() | Qt::Tool);
@@ -37,8 +39,14 @@ SettingDlg::~SettingDlg()
 
 void SettingDlg::closeEvent(QCloseEvent* event)
 {
-    (void*)event;
+    event->ignore();
     hide();
+}
+
+void SettingDlg::showEvent(QShowEvent* event)
+{
+    initStat();
+    QDialog::showEvent(event);
 }
 
 void SettingDlg::initDlg()
@@ -80,16 +88,19 @@ void SettingDlg::initStat()
     int32_t stat = static_cast<int32_t>(GetXMLConfig().GetConfigNum2("config", "enable"));
     uint32_t value = static_cast<uint32_t>(GetXMLConfig().GetConfigNum2("config", "hotkey"));
     m_EnableHotKey->setChecked(stat != 0);
-    
+
     emit UpdateHotKeyText(value);
-    emit UpdateHotKeyValue(value);
+
+	m_KeyValue = value;
+
+	OnUpdateHotKeyValue();
+	m_OrigKeyValue = value;
 }
 
 void SettingDlg::setupSingal()
 {
     connect(m_EnableHotKey, SIGNAL(stateChanged(int)), this, SLOT(OnUseHotKeyChecked(int)));
     connect(this, SIGNAL(UpdateHotKeyText(uint32_t)), this, SLOT(OnUpdateHotKeyText(uint32_t)));
-    connect(this, SIGNAL(UpdateHotKeyValue(uint32_t)), this, SLOT(OnUpdateHotKeyValue(uint32_t)));
     connect(this, SIGNAL(UpdateHotKeyResult(bool)), this, SLOT(OnUpdateHotKeyResult(bool)));
 
     QPushButton* save = findChild<QPushButton*>("settingSaveBtn");
@@ -163,31 +174,28 @@ void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 {
     QString vk_str = getHotKeyStr(value);
     m_HotKeyValue->setText(vk_str);
+
+    m_KeyValue = value;
 }
 
-void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
+void SettingDlg::OnUpdateHotKeyValue()
 {
 #ifdef Q_OS_WIN32
-    if (m_KeyValue && m_KeyValue == value) 
+    if (m_OrigKeyValue && m_OrigKeyValue == m_KeyValue)
     {
         return;
     }
-    if (m_KeyValue) 
+    if (m_OrigKeyValue)
     {
-        UnregisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), m_KeyValue);
-        m_KeyValue = 0;
-    }
-    if (!value) 
-    {
-        return;
+        UnregisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), m_OrigKeyValue);
     }
 
     UINT fsModifiers, vk;
     fsModifiers = vk = 0;
     uint8_t key0, key1, key2;
-    key0 = ((value >> 16) & 0x000000FF);
-    key1 = ((value >> 8) & 0x000000FF);
-    key2 = (value & 0x000000FF);
+    key0 = ((m_KeyValue >> 16) & 0x000000FF);
+    key1 = ((m_KeyValue >> 8) & 0x000000FF);
+    key2 = (m_KeyValue & 0x000000FF);
 
     if (key0 == VK_CONTROL || key1 == VK_CONTROL || key2 == VK_CONTROL) 
     {
@@ -219,17 +227,9 @@ void SettingDlg::OnUpdateHotKeyValue(uint32_t value)
         return;
     }
 
-    BOOL result = RegisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), value, fsModifiers, vk);
+    BOOL result = RegisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), m_KeyValue, fsModifiers, vk);
 
     emit UpdateHotKeyResult(result ? true : false);
-    
-    if (!result) 
-    {
-        return;
-    }
-
-	m_KeyValue = value;
-    Q_EMIT SaveHotKeyConfig();
 #endif // Q_OS_WIN32
 }
 
@@ -241,6 +241,10 @@ void SettingDlg::OnUpdateHotKeyResult(bool success)
 
 void SettingDlg::OnSaveHotKeyConfig()
 {
+    OnUpdateHotKeyValue();
+
+    m_OrigKeyValue = m_KeyValue;
+
     GetXMLConfig().SetConfigNum2("config", "enable", m_EnableHotKey->isChecked() ? 1 : 0);
     GetXMLConfig().SetConfigNum2("config", "hotkey", m_KeyValue);
     GetXMLConfig().SaveConfig(SETTING_XML_NAME);
@@ -273,7 +277,12 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
         break;
     }
 
-    if (key_msg == 1) 
+    if (key == VK_ESCAPE || key == VK_RETURN || key == VK_CAPITAL) 
+    {
+        return QWidget::nativeEvent(eventType, message, result);
+    }
+
+    if (key_msg == 1)
     {
         for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) 
         {
@@ -288,26 +297,45 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
             if (!m_SetKeyValue[i]) 
             {
                 m_SetKeyValue[i] = key;
-
-                uint32_t value = ((m_SetKeyValue[0] << 16) & 0x00FF0000) | ((m_SetKeyValue[1] << 8) & 0x0000FF00) | (m_SetKeyValue[2] & 0x000000FF);
-                emit UpdateHotKeyText(value);
                 break;
             }
         }
     }
     else if (key_msg == 2) 
     {
-        for (int i = 0; i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++) 
+        int c = 0;
+        for (; c < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); c++)
         {
-            if (m_SetKeyValue[i] && (GetKeyState(m_SetKeyValue[i]) & 0x8000)) 
+            if (!m_SetKeyValue[c])
             {
-                return QWidget::nativeEvent(eventType, message, result);
+                break;
             }
         }
 
-        uint32_t value = ((m_SetKeyValue[0] << 16) & 0x00FF0000) | ((m_SetKeyValue[1] << 8) & 0x0000FF00) | (m_SetKeyValue[2] & 0x000000FF);
-        emit UpdateHotKeyValue(value);
+        if (c <= 1)
+        {
+            return QWidget::nativeEvent(eventType, message, result);
+        }
+
+        for (int i = 0; i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++)
+        {
+            for (int j = i; j < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); j++)
+            {
+                if (m_SetKeyValue[i] < m_SetKeyValue[j])
+                {
+                    std::swap(m_SetKeyValue[i], m_SetKeyValue[j]);
+                }
+            }
+        }
+
+        if (m_SetKeyValue[1] == VK_CONTROL) {
+            std::swap(m_SetKeyValue[1], m_SetKeyValue[2]);
+        }
+
+        uint32_t value = ((m_SetKeyValue[2] << 16) & 0x00FF0000) | ((m_SetKeyValue[1] << 8) & 0x0000FF00) | (m_SetKeyValue[0] & 0x000000FF);
         emit UpdateHotKeyText(value);
+
+        memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
     }
 #endif // _WINDOWS
 

@@ -13,3 +13,4 @@ ui_*.h
 *.pro.user
 *.vcxproj*
 logs
+setting.xml
