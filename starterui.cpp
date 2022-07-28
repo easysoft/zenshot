@@ -1,4 +1,4 @@
-#include "StarterUI.h"
+#include "starterui.h"
 
 #include "starter.h"
 #include "config/xmlconfig.h"

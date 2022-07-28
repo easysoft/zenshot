@@ -10,12 +10,12 @@ logger* logger_ptr();
 } // spdlog
 
 #ifdef USE_SPDLOG_
-#define L_TRACE(...)	spdlog::logger_ptr()->trace(##__VA_ARGS__)
-#define L_DEBUG(...)	spdlog::logger_ptr()->debug(##__VA_ARGS__)
-#define L_INFO(...)		spdlog::logger_ptr()->info(##__VA_ARGS__)
-#define L_WARN(...)		spdlog::logger_ptr()->warn(##__VA_ARGS__)
-#define L_ERROR(...)	spdlog::logger_ptr()->error(##__VA_ARGS__)
-#define L_CRITICAL(...) spdlog::logger_ptr()->critical(##__VA_ARGS__)
+#define L_TRACE(fmt, ...)	spdlog::logger_ptr()->trace(fmt, ##__VA_ARGS__);
+#define L_DEBUG(fmt, ...)	spdlog::logger_ptr()->debug(fmt, ##__VA_ARGS__);
+#define L_INFO(fmt, ...)		spdlog::logger_ptr()->info(fmt, ##__VA_ARGS__);
+#define L_WARN(fmt, ...)		spdlog::logger_ptr()->warn(fmt, ##__VA_ARGS__);
+#define L_ERROR(fmt, ...)	spdlog::logger_ptr()->error(fmt, ##__VA_ARGS__);
+#define L_CRITICAL(fmt, ...) spdlog::logger_ptr()->critical(fmt, ##__VA_ARGS__);
 #define L_FUNCTION()	L_TRACE("function: {0} @ line: {1}", __FUNCTION__, __LINE__);
 #else
 #define L_TRACE(...) 

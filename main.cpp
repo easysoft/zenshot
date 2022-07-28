@@ -28,18 +28,27 @@
 #include "spdlogwrapper.hpp"
 
 #include "widget.h"
-#include "StarterUI.h"
+#include "starterui.h"
 #include "starter.h"
 #include "core/screeninfo.h"
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
+#ifdef QS_WIN32
 #include <direct.h>
+#else
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif // QS_WIN32
 
 int main(int argc, char *argv[])
 {
 #ifdef USE_SPDLOG_
+#ifdef QS_WIN32
     mkdir("logs");
+#else
+    mkdir("logs", S_IRWXU);
+#endif // QS_WIN32
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
 #endif // USE_SPDLOG_
