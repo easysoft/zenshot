@@ -34,7 +34,7 @@
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
-#ifdef QS_WIN32
+#ifdef Q_OS_WIN32
 #include <direct.h>
 #else
 #include <sys/stat.h>
@@ -44,7 +44,7 @@
 int main(int argc, char *argv[])
 {
 #ifdef USE_SPDLOG_
-#ifdef QS_WIN32
+#ifdef Q_OS_WIN32
     mkdir("logs");
 #else
     mkdir("logs", S_IRWXU);

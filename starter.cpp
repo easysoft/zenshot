@@ -31,9 +31,11 @@
 
 #include <algorithm>
 
-Starter::Starter()
+Starter::Starter(bool exit_process)
     : QObject()
     , m_widgets(new QList<Widget*>)
+    , m_unused_widgets(new QList<Widget*>)
+    , m_bExit(exit_process)
 {
 }
 
@@ -42,10 +44,12 @@ Starter::~Starter()
     L_FUNCTION();
 }
 
-void Starter::init(QWidget *parent)
+void Starter::init(QWidget* parent)
 {
     L_FUNCTION();
-    QList<Widget*> widgets = std::move(*m_widgets);
+    std::copy(m_widgets->begin(), m_widgets->end(), std::back_inserter(*m_unused_widgets));
+    m_widgets->clear();
+
     //收集屏幕信息
     QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
 
@@ -53,28 +57,34 @@ void Starter::init(QWidget *parent)
     std::for_each(screanList.begin(), screanList.end(), [&](const QList<ScreenInfo>& list)
         {
             std::shared_ptr<ScreenList> alone(new ScreenList(list));
-
-            if (widgets.empty()) 
+            Widget* w = nullptr;
+            if (m_unused_widgets->empty())
             {
-                Widget* w = new Widget(parent);
-                w->start(alone);
-                w->show();
-
                 L_TRACE("++++++++++++++ new screen list & widget");
-
-                m_widgets->append(w);
+                QString title;
+                title.append("Widget =>>>>>>>>> ").append(std::to_string(m_widgets->size()).c_str());
+                w = new Widget(parent);
+                w->setWindowTitle(title);
                 connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
                 connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
-                return;
+            }
+            else
+            {
+                L_TRACE("============== use old screen list & widget");
+                w = m_unused_widgets->back();
+                m_unused_widgets->pop_back();
             }
 
-            L_TRACE("============== use old screen list & widget");
-            auto w = widgets.back();
             w->start(alone);
-            w->show();
+            w->showFullScreen();
+
+            w->raise();
+            w->activateWindow();
+
             m_widgets->append(w);
-            widgets.pop_back();
         });
+
+    L_DEBUG("m_unused_widgets size: {0}, m_widgets size: {1}", m_unused_widgets->size(), m_widgets->size());
 }
 
 void Starter::cleanup()
@@ -87,31 +97,23 @@ void Starter::cleanup()
 
 void Starter::finishShot(int code)
 {
-#ifdef Q_OS_WIN32
-    (void*)code;
-#endif // Q_OS_WIN32
     L_FUNCTION();
-    for(auto w : *m_widgets)
+    for (auto w : *m_widgets)
     {
         w->hide();
-
-//         QPropertyAnimation *animation = new QPropertyAnimation(w,"windowOpacity");
-//         animation->setDuration(0);
-//         animation->setStartValue(1);
-//         animation->setEndValue(0);
-//         animation->start();
     }
-    
-#ifdef Q_OS_WIN32
+
     emit ShotDone(this);
-#else
-    QApplication::exit(code);
-#endif // Q_OS_WIN32
+
+    if (m_bExit)
+    {
+        QApplication::exit(code);
+    }
 }
 
 void Starter::finishConfirmArea()
 {
-	L_FUNCTION();
+    L_FUNCTION();
     for (auto w : *m_widgets)
     {
         w->finishConfirmArea();

@@ -1,4 +1,4 @@
-#include "starterui.h"
+#include "StarterUI.h"
 
 #include "starter.h"
 #include "config/xmlconfig.h"
@@ -61,12 +61,18 @@ StarterUI::~StarterUI()
 void StarterUI::createActions()
 {
 	settingAction = new QAction(tr("S&eeting"), this);
+	QIcon settingIcon(":/images/menu-setting.png");
+	settingAction->setIcon(settingIcon);
 	connect(settingAction, &QAction::triggered, this, &StarterUI::OnShowSetting);
 
 	shotAction = new QAction(tr("S&hot"), this);
+	QIcon shotIcon(":/images/menu-shot.png");
+	shotAction->setIcon(shotIcon);
 	connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
 
 	quitAction = new QAction(tr("&Quit"), this);
+	QIcon quitIcon(":/images/menu-exit.png");
+	quitAction->setIcon(quitIcon);
 	connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 }
 
@@ -75,7 +81,6 @@ void StarterUI::createTrayIcon()
 	trayIconMenu = new QMenu(this);
 	trayIconMenu->addAction(settingAction);
 	trayIconMenu->addAction(shotAction);
-	trayIconMenu->addSeparator();
 	trayIconMenu->addAction(quitAction);
 
 	trayIcon = new QSystemTrayIcon(this);
@@ -97,7 +102,7 @@ void StarterUI::OnStartShot()
 	Starter* starter = nullptr;
 	if (m_Starer.empty()) 
 	{
-		starter = new Starter;
+		starter = new Starter(false);
 		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
 	}
 	else 
@@ -134,7 +139,7 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 {
 #ifdef Q_OS_WIN32
 	MSG* msg = static_cast<MSG*>(message);
-	if (msg->message == WM_HOTKEY && GetXMLConfig().GetConfigNum2("config", "enable"))
+	if (msg->message == WM_HOTKEY)
 	{
 		emit SatrtShot();
 	}
@@ -145,5 +150,11 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 
 void StarterUI::OnShowSetting()
 {
-	m_SettingDlg.exec();
+	if (!m_SettingDlg.isVisible()) 
+	{
+		m_SettingDlg.show();
+	}
+	
+	m_SettingDlg.raise();
+	m_SettingDlg.activateWindow();
 }

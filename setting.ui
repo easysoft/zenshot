@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>355</width>
-    <height>151</height>
+    <height>103</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -28,48 +28,22 @@
   <widget class="QPushButton" name="settingSaveBtn">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>120</y>
-     <width>75</width>
-     <height>23</height>
+     <x>270</x>
+     <y>40</y>
+     <width>71</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string notr="true">save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="settingCancelBtn">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>120</y>
-     <width>81</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>cancel</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="checkHotKey">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>30</y>
-     <width>73</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CheckBox</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="hotkeyStatus">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>70</y>
-     <width>311</width>
+     <width>331</width>
      <height>31</height>
     </rect>
    </property>
@@ -80,14 +54,40 @@
   <widget class="QPushButton" name="hotkeyValue">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>23</y>
-     <width>231</width>
+     <x>10</x>
+     <y>40</y>
+     <width>241</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="titleLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="closeButton">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>10</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>close</string>
    </property>
   </widget>
  </widget>

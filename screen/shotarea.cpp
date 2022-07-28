@@ -35,8 +35,6 @@
 ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false)
 {
     m_isGettingResult = false;
-
-    cleanup();
 }
 
 ShotArea::~ShotArea()

@@ -11,5 +11,9 @@
         <file>images/mosaic.png</file>
         <file>setting.css</file>
         <file>zenshot.png</file>
+        <file>images/close_button.png</file>
+        <file>images/menu-exit.png</file>
+        <file>images/menu-setting.png</file>
+        <file>images/menu-shot.png</file>
     </qresource>
 </RCC>

@@ -53,7 +53,6 @@ private:
     Ui::SettingDlg ui;
     uint32_t m_KeyValue, m_OrigKeyValue;
     uint32_t m_SetKeyValue[3];
-    QCheckBox* m_EnableHotKey;
     QPushButton* m_HotKeyStat;
     QPushButton* m_HotKeyValue;
 }; // SettingDlg

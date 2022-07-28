@@ -1,21 +1,45 @@
 
 QDialog#SettingDlg {
-    background-color: #fcfcfc;
+    background-color: #ffffff;
     border: 0px;
     margin: 0px;
     padding: 0px;
     color: #161515;
+    font-family: ZenShotIcon;
+}
+
+QLabel {
+    background-color: transparent;
+    color: black;
+}
+
+QLabel#titleLabel {
+    width: 32px;
+    min-height: 20px;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+}
+
+QPushButton {
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: center;
+}
+
+QPushButton#closeButton {
+    width: 10px;
+    height: 10px;
+    
+    background-image: url(:/images/close_button.png);
 }
 
 QPushButton#settingSaveBtn {
-    background-color: rgba(136, 79, 212, 80%);
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
-    width: 80px;
-    height: 28px;
-    border-radius: 2px;
-    color: #d7d7d7;
+    width: 144.9px;
+    height: 30px;
+    background: #AD86E1;
+    border-radius: 4px;
+    color: #FFFFFF;
 }
 QPushButton#settingSaveBtn:hover {
     background-color: rgb(136, 79, 212);
@@ -26,39 +50,31 @@ QPushButton#settingSaveBtn:pressed {
     border-radius: 4px;
 }
 
-QPushButton#settingCancelBtn {
-    background-color: #d7d7d7;
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
-    width: 80px;
-    height: 28px;
-    color: #333333;
-}
-
-QLabel {
-    background-color: transparent;
-    color: black;
-}
-
 QPushButton#hotkeyValue {
-    color: #1a0909;
-    border: 1px solid rgb(73, 67, 215);
-    border-radius: 3px;
-    background-color: transparent;
-}
-QPushButton#hotkeyValue:disabled {
-    color: #3a3939;
-    border: 1px solid rgb(31, 31, 56);
-    border-radius: 3px;
-    background-color: #777373;
+    width: 210px;
+    height: 30px;
+    border: 1px solid rgba(159,113,220,1);
+    border-radius: 4px;
+    padding-left: 20px;
+    text-align: left;
 }
 
 QPushButton.setting-check {
-    background-color: transparent;
-    color: green;
+    width: 156px;
+    height: 12px;
+    font-size: 12px;
+    color: #FF9090;
+    text-align: left;
+    padding-left: 3px;
+    font-weight: 400;
 }
 
 QPushButton.setting-check:checked {
-    color: red;
+    width: 156px;
+    height: 12px;
+    font-size: 12px;
+    color: #FF9090;
+    text-align: left;
+    padding-left: 3px;
+    font-weight: 400;
 }

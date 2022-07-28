@@ -2,9 +2,27 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
+    <name>Dialog</name>
+    <message>
+        <location filename="../zentaosetting.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosetting.ui" line="26"/>
+        <source>save</source>
+        <translation type="unfinished">save</translation>
+    </message>
+    <message>
+        <location filename="../zentaosetting.ui" line="39"/>
+        <source>cancel</source>
+        <translation type="unfinished">cancel</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="668"/>
+        <location filename="../screen/workspace.cpp" line="674"/>
         <source>save file</source>
         <translation type="unfinished">save file</translation>
     </message>
@@ -28,62 +46,57 @@
         <translation type="obsolete">save</translation>
     </message>
     <message>
-        <location filename="../setting.ui" line="51"/>
         <source>cancel</source>
-        <translation type="unfinished">cancel</translation>
+        <translation type="obsolete">cancel</translation>
     </message>
     <message>
+        <location filename="../setting.ui" line="51"/>
         <location filename="../setting.ui" line="64"/>
-        <source>CheckBox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting.ui" line="77"/>
-        <location filename="../setting.ui" line="90"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="57"/>
+        <location filename="../setting.ui" line="77"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting.ui" line="90"/>
+        <source>close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/settingdlg.cpp" line="70"/>
+        <location filename="../setting/settingdlg.cpp" line="73"/>
         <source>setting_title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="60"/>
-        <source>hotkey_title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/settingdlg.cpp" line="63"/>
-        <location filename="../setting/settingdlg.cpp" line="107"/>
-        <location filename="../setting/settingdlg.cpp" line="152"/>
+        <location filename="../setting/settingdlg.cpp" line="78"/>
+        <location filename="../setting/settingdlg.cpp" line="120"/>
+        <location filename="../setting/settingdlg.cpp" line="165"/>
         <source>hotkey_default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="66"/>
-        <location filename="../setting/settingdlg.cpp" line="239"/>
+        <location filename="../setting/settingdlg.cpp" line="81"/>
+        <location filename="../setting/settingdlg.cpp" line="245"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="144"/>
+        <location filename="../setting/settingdlg.cpp" line="157"/>
         <source>reset_hotkey</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="239"/>
+        <location filename="../setting/settingdlg.cpp" line="245"/>
         <source>hotkey_stat_conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="71"/>
+        <location filename="../setting/settingdlg.cpp" line="87"/>
         <source>hotkey_save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/settingdlg.cpp" line="74"/>
-        <source>hotkey_cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -95,7 +108,7 @@
         <translation type="obsolete">Start shot</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="62"/>
+        <location filename="../starterui.cpp" line="63"/>
         <source>S&amp;eeting</source>
         <translation type="unfinished"></translation>
     </message>
@@ -110,7 +123,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="84"/>
+        <location filename="../starterui.cpp" line="85"/>
         <source>zenshot</source>
         <translation type="unfinished"></translation>
     </message>

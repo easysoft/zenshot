@@ -78,7 +78,6 @@ Workspace::Workspace(QWidget *host)
     , m_textAssist(new TextAssist(this))
     , m_firstRender(false)
 {
-    cleanup();
 }
 
 Workspace::~Workspace()
