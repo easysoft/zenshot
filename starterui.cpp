@@ -4,9 +4,9 @@
 #include "config/xmlconfig.h"
 #include "spdlogwrapper.hpp"
 
-#ifdef _WINDOWS
+#ifdef Q_OS_WIN
 #include <Windows.h>
-#endif // _WINDOWS
+#endif // Q_OS_WIN
 #include <QMenu>
 
 StarterUI::StarterUI()
@@ -137,13 +137,13 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, qintptr*
 bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* result)
 #endif
 {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 	MSG* msg = static_cast<MSG*>(message);
 	if (msg->message == WM_HOTKEY)
 	{
 		emit SatrtShot();
 	}
-#endif // _WINDOWS
+#endif // Q_OS_WIN
 
 	return QWidget::nativeEvent(eventType, message, result);
 }
