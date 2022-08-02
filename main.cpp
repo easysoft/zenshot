@@ -34,21 +34,21 @@
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #include <direct.h>
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
-#endif // QS_WIN32
+#endif // Q_OS_WIN
 
 int main(int argc, char *argv[])
 {
 #ifdef USE_SPDLOG_
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     mkdir("logs");
 #else
     mkdir("logs", S_IRWXU);
-#endif // QS_WIN32
+#endif // Q_OS_WIN
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
 #endif // USE_SPDLOG_
@@ -93,12 +93,14 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
+#ifdef Q_OS_WIN
     StarterUI ui;
     ui.show();
+#else
+    Starter starter;
+    starter.init();
+#endif // Q_OS_WIN
 
-    //Starter starter;
-    //starter.init();
-    
     int ret = a.exec();
 
     return ret;

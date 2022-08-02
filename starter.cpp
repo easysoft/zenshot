@@ -61,6 +61,7 @@ void Starter::init(QWidget* parent)
             if (m_unused_widgets->empty())
             {
                 L_TRACE("++++++++++++++ new screen list & widget");
+                // TODO: for test
                 QString title;
                 title.append("Widget =>>>>>>>>> ").append(std::to_string(m_widgets->size()).c_str());
                 w = new Widget(parent);

@@ -11,10 +11,10 @@
 #include <QVariant>
 #include <QCloseEvent>
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 #include <qt_windows.h>
 #include <Windowsx.h>
-#endif // Q_OS_WIN32
+#endif // Q_OS_WIN
 
 SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)
@@ -121,7 +121,7 @@ QString SettingDlg::getHotKeyStr(uint32_t value)
     }
 
     std::string vk_str;
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     char key_text[0x10] = { 0 };
     uint8_t key0, key1, key2;
     key0 = ((value >> 16) & 0x000000FF);
@@ -143,7 +143,7 @@ QString SettingDlg::getHotKeyStr(uint32_t value)
     {
         vk_str.pop_back();
     }
-#endif // Q_OS_WIN32
+#endif // Q_OS_WIN
     return vk_str.c_str();
 }
 
@@ -182,7 +182,7 @@ void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 
 void SettingDlg::OnUpdateHotKeyValue()
 {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     if (m_OrigKeyValue && m_OrigKeyValue == m_KeyValue)
     {
         return;
@@ -199,31 +199,31 @@ void SettingDlg::OnUpdateHotKeyValue()
     key1 = ((m_KeyValue >> 8) & 0x000000FF);
     key2 = (m_KeyValue & 0x000000FF);
 
-    if (key0 == VK_CONTROL || key1 == VK_CONTROL || key2 == VK_CONTROL) 
+    if (key0 == VK_CONTROL || key1 == VK_CONTROL || key2 == VK_CONTROL)
     {
         fsModifiers |= MOD_CONTROL;
     }
-    if (key0 == VK_SHIFT || key1 == VK_SHIFT || key2 == VK_SHIFT) 
+    if (key0 == VK_SHIFT || key1 == VK_SHIFT || key2 == VK_SHIFT)
     {
         fsModifiers |= MOD_SHIFT;
     }
-    if ((key0 == VK_LWIN || key1 == VK_LWIN || key2 == VK_LWIN) || (key0 == VK_RWIN || key1 == VK_RWIN || key2 == VK_RWIN) )
+    if ((key0 == VK_LWIN || key1 == VK_LWIN || key2 == VK_LWIN) || (key0 == VK_RWIN || key1 == VK_RWIN || key2 == VK_RWIN))
     {
         fsModifiers |= MOD_WIN;
     }
-    if (key0 == VK_MENU || key1 == VK_MENU || key2 == VK_MENU) 
+    if (key0 == VK_MENU || key1 == VK_MENU || key2 == VK_MENU)
     {
         fsModifiers |= MOD_ALT;
     }
-    if (key0 >= 0x30 && key0 <= 0x5A) 
+    if (key0 >= 0x30 && key0 <= 0x5A)
     {
         vk = key0;
-    } 
-    else if (key1 >= 0x30 && key1 <= 0x5A) 
+    }
+    else if (key1 >= 0x30 && key1 <= 0x5A)
     {
         vk = key1;
-    } 
-    else if (key2 >= 0x30 && key2 <= 0x5A) 
+    }
+    else if (key2 >= 0x30 && key2 <= 0x5A)
     {
         vk = key2;
     }
@@ -239,7 +239,7 @@ void SettingDlg::OnUpdateHotKeyValue()
     }
 
     emit UpdateHotKeyResult(result ? true : false);
-#endif // Q_OS_WIN32
+#endif // Q_OS_WIN
 }
 
 void SettingDlg::OnUpdateHotKeyResult(bool success)
@@ -267,7 +267,7 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, qintptr
 bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* result)
 #endif
 {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     MSG* msg = static_cast<MSG*>(message);
     uint8_t key = 0;
     uint8_t key_msg = 0;
@@ -311,7 +311,7 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
 
         for (int i = 0; key && i < sizeof(m_SetKeyValue) / sizeof(m_SetKeyValue[0]); i++)
         {
-            if (!m_SetKeyValue[i]) 
+            if (!m_SetKeyValue[i])
             {
                 m_SetKeyValue[i] = key;
                 break;
@@ -355,7 +355,7 @@ bool SettingDlg::nativeEvent(const QByteArray& eventType, void* message, long* r
 
         memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
     }
-#endif // _WINDOWS
+#endif // Q_OS_WIN
 
     return QWidget::nativeEvent(eventType, message, result);
 }
