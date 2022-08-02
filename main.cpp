@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     StarterUI ui;
     ui.show();
 #else
-    Starter starter;
+    Starter starter(true);
     starter.init();
 #endif // Q_OS_WIN
 
