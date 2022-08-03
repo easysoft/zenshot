@@ -30,7 +30,7 @@ Widget::Widget(QWidget* parent)
     , m_status("unknown")
 {
 #ifndef USE_SPDLOG_
-    setWindowFlag(Qt::FramelessWindowHint | Qt::Tool);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
 #endif // USE_SPDLOG_
 }
@@ -87,6 +87,7 @@ void Widget::showEvent(QShowEvent* event)
 
     setMouseTracking(true);
 
+    QWidget::showEvent(event);
     L_WARN("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str());
 }
 
@@ -95,6 +96,8 @@ void Widget::hideEvent(QHideEvent* event)
     Q_UNUSED(event);
 
     setMouseTracking(false);
+
+    QWidget::hideEvent(event);
 }
 
 void Widget::closeEvent(QCloseEvent* event)

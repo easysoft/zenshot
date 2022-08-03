@@ -100,12 +100,12 @@ void StarterUI::OnStartShot()
 	L_DEBUG(">>>>>>>>>>>>>>>>>>>>>>>>>> GAME START <<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	m_Shotting = true;
 	Starter* starter = nullptr;
-	if (m_Starer.empty()) 
+	if (m_Starer.empty())
 	{
 		starter = new Starter(false);
 		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
 	}
-	else 
+	else
 	{
 		starter = m_Starer.back();
 		m_Starer.pop_back();

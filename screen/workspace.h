@@ -34,6 +34,8 @@
 #include "screen/toolbar.h"
 #include "core/screenlist.h"
 
+#include <memory>
+
 /**
  * @class : Workspace
  * @brief : 截图入口类定义

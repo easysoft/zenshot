@@ -24,6 +24,8 @@
 
 #include "core/utils.h"
 
+#include <memory>
+
 class Workspace;
 
 /**
