@@ -8,14 +8,14 @@ XMLConfig::XMLConfig()
 {
 }
 
-void XMLConfig::LoadConfig(const char* file_name)
+void XMLConfig::LoadConfig(const std::string& file_name)
 {
 #if XML_CONFIG_THREADSAFE == 1
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
 	try 
 	{
-		m_File.reset(new rapidxml::file<>(file_name));
+		m_File.reset(new rapidxml::file<>(file_name.c_str()));
 		m_Doc.parse<0>(const_cast<char*>(m_File->data()));
 	}
 	catch (...) 
@@ -23,12 +23,12 @@ void XMLConfig::LoadConfig(const char* file_name)
 	}
 }
 
-void XMLConfig::SaveConfig(const char* file_name)
+void XMLConfig::SaveConfig(const std::string& file_name)
 {
 #if XML_CONFIG_THREADSAFE == 1
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
-	FILE* fp = fopen(file_name, "w+t");
+	FILE* fp = fopen(file_name.c_str(), "w+t");
 	if (fp == nullptr) 
 	{
 		return;

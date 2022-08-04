@@ -10,11 +10,15 @@
 #include <QFile>
 #include <QVariant>
 #include <QCloseEvent>
+#include <QDir>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #include <Windowsx.h>
+#include <shlobj.h>
 #endif // Q_OS_WIN
+
+std::string SETTING_XML_NAME = "./setting.xml";
 
 SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)
@@ -26,6 +30,19 @@ SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     setWindowFlags(windowFlags() | Qt::Tool | Qt::FramelessWindowHint);
 
     memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
+
+#ifdef Q_OS_WIN
+    char config_path[MAX_PATH] = { 0 };
+    if (SHGetSpecialFolderPathA(0, config_path, CSIDL_LOCAL_APPDATA, FALSE)) {
+        SETTING_XML_NAME = config_path;
+        SETTING_XML_NAME.append("/ZenShot/");
+        QDir dir;
+        if (!dir.exists(SETTING_XML_NAME.c_str())) {
+            dir.mkdir(SETTING_XML_NAME.c_str());
+        }
+        SETTING_XML_NAME.append("setting.xml");
+    }
+#endif // Q_OS_WIN
 
     GetXMLConfig().LoadConfig(SETTING_XML_NAME);
 

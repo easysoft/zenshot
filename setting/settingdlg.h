@@ -9,7 +9,7 @@
 
 #include "ui_setting.h"
 
-#define SETTING_XML_NAME "./setting.xml"
+extern std::string SETTING_XML_NAME;
 
 class SettingDlg : public QDialog {
     Q_OBJECT

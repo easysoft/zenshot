@@ -19,8 +19,8 @@ public:
 	XMLConfig();
 	~XMLConfig() {}
 
-	void LoadConfig(const char* file_name);
-	void SaveConfig(const char* file_name);
+	void LoadConfig(const std::string& file_name);
+	void SaveConfig(const std::string& file_name);
 	
 	// read: <config> <setting enable="1"/></config>
 	std::string GetConfigString3(const char* name, const char* sub_name, const char* attr_name);
