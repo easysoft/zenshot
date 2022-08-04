@@ -18,12 +18,12 @@ logger* logger_ptr();
 #define L_CRITICAL(fmt, ...) spdlog::logger_ptr()->critical(fmt, ##__VA_ARGS__);
 #define L_FUNCTION()    L_TRACE("function: {0} @ line: {1}", __FUNCTION__, __LINE__);
 #else
-#define L_TRACE(...) 
-#define L_DEBUG(...) 
-#define L_INFO(...) 
-#define L_WARN(...) 
-#define L_ERROR(...) 
-#define L_CRITICAL(...) 
+#define L_TRACE(fmt, ...) 
+#define L_DEBUG(fmt, ...) 
+#define L_INFO(fmt, ...) 
+#define L_WARN(fmt, ...) 
+#define L_ERROR(fmt, ...) 
+#define L_CRITICAL(fmt, ...) 
 #define L_FUNCTION()
 #endif // USE_SPDLOG_
 

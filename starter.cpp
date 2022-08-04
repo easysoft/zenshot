@@ -77,10 +77,10 @@ void Starter::init(QWidget* parent)
             }
 
             w->start(alone);
-            w->showFullScreen();
+			w->showFullScreen();
 
-            w->raise();
-            w->activateWindow();
+			w->raise();
+			w->activateWindow();
 
             m_widgets->append(w);
         });

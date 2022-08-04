@@ -52,6 +52,12 @@ StarterUI::StarterUI()
 	resize(0, 0);
 
 	hide();
+
+	Starter* starter = new Starter(false);
+	connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
+	starter->init();
+	starter->cleanup();
+	m_Starer.push_back(starter);
 }
 
 StarterUI::~StarterUI()

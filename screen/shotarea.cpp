@@ -226,6 +226,8 @@ void ShotArea::drawMagnifier(QPainter &painter)
     QImage bgImg = pixPixmap.toImage();
     QPoint mousePoint = QCursor::pos();
 
+    L_TRACE("bgImg.width = {0}, bgImg.height = {1}", bgImg.width(), bgImg.height());
+
     QColor mouseColor = bgImg.pixel(mousePoint.x(),mousePoint.y());
 
     QString posStr = "POS: (" + QString::number(mousePoint.x()) + "," + QString::number(mousePoint.y()) + ")";

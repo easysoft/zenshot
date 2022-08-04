@@ -150,5 +150,3 @@ void ColorWidget::itemChanged(int newColorIndex)
         emit colorChanged();
     }
 }
-
-

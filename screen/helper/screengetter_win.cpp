@@ -18,19 +18,25 @@
 
 #include "screengetter.h"
 
+#include "spdlogwrapper.hpp"
+
 #include <QApplication>
 #include <QDesktopWidget>
+
+#define IS_CROSS_SCREEN_VER_ 0
 
 QList<QList<ScreenInfo>> ScreenGetter::screenList()
 {
     QList<ScreenInfo> tmpResults;
 
+    int w = 0, h = 0;
     QList<QScreen*> oList = QApplication::screens();
     for(QScreen* screen:oList)
     {
         double pixelRatio = screen->devicePixelRatio();
 
         QRect mRect = screen->geometry();
+        L_TRACE("********** mRect: {0}, {1}, {2}, {3}", mRect.left(), mRect.top(), mRect.right(), mRect.bottom());
         QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
                                              mRect.x(),
                                              mRect.y(),
@@ -45,20 +51,20 @@ QList<QList<ScreenInfo>> ScreenGetter::screenList()
     }
 
     QList<QList<ScreenInfo>> results;
+#if IS_CROSS_SCREEN_VER_
+	//允许跨多屏截图
+	results.append(tmpResults);
+	return results;
+#else
+	//下面的不支持跨多屏截图
+	for (ScreenInfo info : tmpResults)
+	{
+		QList<ScreenInfo> alone;
+		alone.append(info);
 
-    //允许跨多屏截图
-    //results.append(tmpResults);
-    //return results;
-
-    //下面的不支持跨多屏截图
-    for(ScreenInfo info:tmpResults)
-    {
-        QList<ScreenInfo> alone;
-        alone.append(info);
-
-        results.append(alone);
+		results.append(alone);
     }
+#endif // IS_SINGLE_SCREEN_VER_
 
     return results;
 }
-
