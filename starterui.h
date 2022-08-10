@@ -28,6 +28,7 @@ private slots:
 	void OnStartShot();
 	void OnShotDone(Starter* starer);
 	void OnShowSetting();
+    void OnTrayActivite(QSystemTrayIcon::ActivationReason reason);
 
 protected:
 	void closeEvent(QCloseEvent*) override;

@@ -221,7 +221,7 @@ RESOURCES += \
 
 DISTFILES +=
 
-DEFINES += USE_SPDLOG_
+# DEFINES += USE_SPDLOG_
 
 FORMS += \
     setting.ui

@@ -4,25 +4,18 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../zentaosetting.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../zentaosetting.ui" line="26"/>
         <source>save</source>
-        <translation type="unfinished">保存</translation>
+        <translation type="obsolete">保存</translation>
     </message>
     <message>
-        <location filename="../zentaosetting.ui" line="39"/>
         <source>cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="674"/>
+        <location filename="../screen/workspace.cpp" line="673"/>
         <source>save file</source>
         <translation type="unfinished">保存图片</translation>
     </message>
@@ -82,8 +75,8 @@
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="70"/>
-        <location filename="../setting/settingdlg.cpp" line="73"/>
+        <location filename="../setting/settingdlg.cpp" line="88"/>
+        <location filename="../setting/settingdlg.cpp" line="91"/>
         <source>setting_title</source>
         <translation type="unfinished">设置</translation>
     </message>
@@ -92,25 +85,25 @@
         <translation type="obsolete">启用热键</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="78"/>
-        <location filename="../setting/settingdlg.cpp" line="120"/>
-        <location filename="../setting/settingdlg.cpp" line="165"/>
+        <location filename="../setting/settingdlg.cpp" line="96"/>
+        <location filename="../setting/settingdlg.cpp" line="137"/>
+        <location filename="../setting/settingdlg.cpp" line="182"/>
         <source>hotkey_default</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="81"/>
-        <location filename="../setting/settingdlg.cpp" line="245"/>
+        <location filename="../setting/settingdlg.cpp" line="99"/>
+        <location filename="../setting/settingdlg.cpp" line="265"/>
         <source>hotkey_stat_normal</source>
         <translation type="unfinished"> </translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="157"/>
+        <location filename="../setting/settingdlg.cpp" line="174"/>
         <source>reset_hotkey</source>
         <translation type="unfinished">请直接在键盘上输入新的快捷键</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="245"/>
+        <location filename="../setting/settingdlg.cpp" line="265"/>
         <source>hotkey_stat_conflict</source>
         <translation type="unfinished">您的快捷键冲突，请重新设置</translation>
     </message>
@@ -119,7 +112,7 @@
         <translation type="obsolete">正常</translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="87"/>
+        <location filename="../setting/settingdlg.cpp" line="105"/>
         <source>hotkey_save</source>
         <translation type="unfinished">保存</translation>
     </message>
@@ -135,24 +128,28 @@
         <translation type="obsolete">开始截图</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="63"/>
         <source>S&amp;eeting</source>
-        <translation type="unfinished">设置</translation>
-    </message>
-    <message>
-        <location filename="../starterui.cpp" line="66"/>
-        <source>S&amp;hot</source>
-        <translation type="unfinished">截图</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="69"/>
-        <source>&amp;Quit</source>
-        <translation type="unfinished">退出</translation>
+        <source>S&amp;hot</source>
+        <translation>截图</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="85"/>
+        <location filename="../starterui.cpp" line="74"/>
+        <source>S&amp;eting</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="79"/>
+        <source>&amp;Quit</source>
+        <translation>退出</translation>
+    </message>
+    <message>
+        <location filename="../starterui.cpp" line="96"/>
         <source>zenshot</source>
-        <translation type="unfinished">ZenShot</translation>
+        <translation>ZenShot</translation>
     </message>
 </context>
 <context>

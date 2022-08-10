@@ -66,15 +66,15 @@ StarterUI::~StarterUI()
 
 void StarterUI::createActions()
 {
-	settingAction = new QAction(tr("S&eeting"), this);
+    shotAction = new QAction(tr("S&hot"), this);
+    QIcon shotIcon(":/images/menu-shot.png");
+    shotAction->setIcon(shotIcon);
+    connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
+
+    settingAction = new QAction(tr("S&eting"), this);
 	QIcon settingIcon(":/images/menu-setting.png");
 	settingAction->setIcon(settingIcon);
 	connect(settingAction, &QAction::triggered, this, &StarterUI::OnShowSetting);
-
-	shotAction = new QAction(tr("S&hot"), this);
-	QIcon shotIcon(":/images/menu-shot.png");
-	shotAction->setIcon(shotIcon);
-	connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
 
 	quitAction = new QAction(tr("&Quit"), this);
 	QIcon quitIcon(":/images/menu-exit.png");
@@ -85,8 +85,8 @@ void StarterUI::createActions()
 void StarterUI::createTrayIcon()
 {
 	trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(settingAction);
-	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(quitAction);
 
 	trayIcon = new QSystemTrayIcon(this);
@@ -94,6 +94,8 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
+
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnTrayActivite);
 }
 
 void StarterUI::OnStartShot()
@@ -163,4 +165,14 @@ void StarterUI::OnShowSetting()
 	
 	m_SettingDlg.raise();
 	m_SettingDlg.activateWindow();
+}
+
+void StarterUI::OnTrayActivite(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+    case QSystemTrayIcon::Trigger:
+        emit SatrtShot();
+        break;
+    }
 }
