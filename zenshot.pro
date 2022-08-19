@@ -2,7 +2,7 @@ QT       += core gui
 
 RC_FILE += zenshot.rc
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 CONFIG += c++11
 QMAKE_CXXFLAGS_RELEASE += -O2
@@ -51,6 +51,7 @@ SOURCES += \
     core/useroper.cpp \
     core/utils.cpp \
     handles/rectshapehandle.cpp \
+    httprequest/zhttprequest.cpp \
     locators/pointlocator.cpp \
     locators/rectlocator.cpp \
     main.cpp \
@@ -74,6 +75,8 @@ SOURCES += \
     screen/toolbar.cpp \
     screen/workspace.cpp \
     setting/settingdlg.cpp \
+    setting/zentaosetting.cpp \
+    setting/ztsettingItem.cpp \
     shapes/arrow.cpp \
     shapes/curve.cpp \
     shapes/ellipse.cpp \
@@ -93,7 +96,9 @@ SOURCES += \
     tools/mosaiccreatetool.cpp \
     tools/rectcreatetool.cpp \
     tools/textcreatetool.cpp \
-    widget.cpp
+    httprequest/zhttprequest.cpp \
+    widget.cpp \
+    zentaopage/zentaopageui.cpp
 
 HEADERS += \
     commands/addcommand.h \
@@ -129,6 +134,8 @@ HEADERS += \
     core/useroper.h \
     core/utils.h \
     handles/rectshapehandle.h \
+    http/zhttp.h \
+    httprequest/zhttprequest.h \
     locators/pointlocator.h \
     locators/rectlocator.h \
     properties/arrowbar.h \
@@ -156,6 +163,8 @@ HEADERS += \
     screen/toolbar.h \
     screen/workspace.h \
     setting/settingdlg.h \
+    setting/zentaosetting.h \
+    setting/ztsettingItem.h \
     shapes/arrow.h \
     shapes/curve.h \
     shapes/ellipse.h \
@@ -175,7 +184,9 @@ HEADERS += \
     tools/mosaiccreatetool.h \
     tools/rectcreatetool.h \
     tools/textcreatetool.h \
-    widget.h
+    httprequest/zhttprequest.h \
+    widget.h \
+    zentaopage/zentaopageui.h
 
 TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
@@ -221,8 +232,11 @@ RESOURCES += \
 
 DISTFILES +=
 
-# DEFINES += USE_SPDLOG_
+DEFINES += USE_SPDLOG_
 
 FORMS += \
-    setting.ui
+    setting.ui \
+    zentaopage.ui \
+    zentaosetting.ui \
+    zentaosetting.ui
 

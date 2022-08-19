@@ -32,7 +32,7 @@
 #include <QBrush>
 #include <QtMath>
 
-ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false)
+ShotArea::ShotArea(Workspace *workspace):RectShape(workspace),m_areaConfirmed(false), m_nowScreenIndex(0)
 {
     m_isGettingResult = false;
 }
@@ -66,7 +66,7 @@ void ShotArea::start(std::shared_ptr<ScreenList> list)
     L_FUNCTION();
 	m_indicatorPen.setColor(QColor(151, 151, 151));
 	m_indicatorPen.setWidth(1);
-
+    
     m_screenList = list;
     m_allScreenRect = m_screenList->allBoundary();
     L_TRACE("m_allScreenRect: left: {0}, top: {1}, right: {2}, bottom: {3}", m_allScreenRect.left(), m_allScreenRect.top(), m_allScreenRect.right(), m_allScreenRect.bottom());
@@ -111,7 +111,7 @@ void ShotArea::autoCaptureWindow()
     QRect area = m_screenList->toLocal(globalArea);
     m_boundary.setRect(area.x(),area.y(),area.width(),area.height());
     
-    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom());
+    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3} & this = {4:d}, index = {5}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom(), (unsigned)this, m_nowScreenIndex);
 
     //根据屏幕大小来进一步约束选择区域
     int x1 = m_boundary.x() < m_allScreenRect.x() ? m_allScreenRect.x() : m_boundary.x();

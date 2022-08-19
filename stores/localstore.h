@@ -28,6 +28,9 @@ public:
 
     void write(const QString &group, const QString &key, const QVariant &value);
     QVariant read(const QString &group, const QString &key, const QVariant &defaultvalue);
+
+private:
+    std::string setting_ini;
 };
 
 #endif // LOCALSTORE_H

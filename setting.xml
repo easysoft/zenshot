@@ -1,5 +1,7 @@
 <config>
-	<enable>1</enable>
 	<hotkey>1118801</hotkey>
+	<zentao0 name="" url="2" usr="" pass=""/>
+	<zentao1 name="" url="3" usr="" pass=""/>
+	<zentao2 name="" url="4" usr="" pass=""/>
 </config>
 

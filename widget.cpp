@@ -23,6 +23,9 @@
 
 #include <QBitmap>
 
+#define UNVISIABLE_X -819200
+#define UNVISIABLE_Y -819200
+
 Widget::Widget(QWidget* parent)
     : QWidget(parent)
     , m_workspace(new Workspace(this))
@@ -30,7 +33,7 @@ Widget::Widget(QWidget* parent)
     , m_status("unknown")
 {
 #ifndef USE_SPDLOG_
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    setWindowFlags(Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
 #endif // USE_SPDLOG_
 }
@@ -44,13 +47,16 @@ void Widget::start(std::shared_ptr<ScreenList> list)
 {
     L_FUNCTION();
 
-    m_screenlist = list;
-    m_workspace->start(m_screenlist);
+	QRect geometry = list->allBoundary(true);
+	setGeometry(geometry);
 
-    QRect geometry = list->allBoundary(true);
-    setGeometry(geometry);
+    showFullScreen();
 
-    L_TRACE("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4} & geometry[{5}, {6}, {7}, {8}]$$$m_status ={9}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), geometry.left(), geometry.top(), geometry.right(), geometry.bottom(), m_status.toStdString().c_str());
+    raise();
+    activateWindow();
+
+	m_screenlist = list;
+	m_workspace->start(m_screenlist);
 }
 
 void Widget::cleanup()
@@ -58,7 +64,7 @@ void Widget::cleanup()
     L_FUNCTION();
     hide();
 
-    L_TRACE("is visable = {0} && w: {1}, h: {2}", this->isVisible(), size().width(), size().height());
+    L_TRACE("is visable = {0} && w: {1}, h: {2} @ {3}", this->isVisible(), size().width(), size().height(), __FUNCTION__);
 
     m_status = "unknown";
     m_workspace->cleanup();
@@ -79,30 +85,35 @@ void Widget::finishConfirmArea()
 
 void Widget::showEvent(QShowEvent* event)
 {
-    Q_UNUSED(event);
-
     L_FUNCTION();
+
     raise();
     activateWindow();
 
     setMouseTracking(true);
 
     QWidget::showEvent(event);
-    L_WARN("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4}", this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str());
+    L_WARN("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4} @ {5} --- {6}"
+        , this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str()
+        , __FUNCTION__);
 }
 
 void Widget::hideEvent(QHideEvent* event)
 {
-    Q_UNUSED(event);
-
     setMouseTracking(false);
 
+    resize(0, 0);
+
     QWidget::hideEvent(event);
+
+    L_INFO("is visable = {0} && x: {1}, y: {2}, w: {3}, h: {4} @ {5} --- {6}"
+        , this->isVisible(), pos().x(), pos().y(), size().width(), size().height(), m_status.toStdString().c_str()
+        , __FUNCTION__);
 }
 
 void Widget::closeEvent(QCloseEvent* event)
 {
-    Q_UNUSED(event);
+    event->ignore();
 
     L_TRACE("{0} stat = {1}", __FUNCTION__, m_status.toStdString().c_str());
 
@@ -135,8 +146,10 @@ void Widget::keyPressEvent(QKeyEvent* event)
 
 void Widget::paintEvent(QPaintEvent* event)
 {
-    Q_UNUSED(event);
     L_FUNCTION();
+
+    Q_UNUSED(event);
+    
     QPainter painter(this);
 
     m_workspace->draw(painter);
@@ -156,7 +169,7 @@ void Widget::leaveEvent(QEvent* event)
     if (m_workspace->areaConfirmed() == false)
     {
         L_DEBUG("..............................................");
-        //         m_workspace->setAreaBoundary(QRect(0,0,0,0));
-        //         update();
+//         m_workspace->setAreaBoundary(QRect(0,0,0,0));
+//         update();
     }
 }

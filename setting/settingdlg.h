@@ -9,8 +9,6 @@
 
 #include "ui_setting.h"
 
-extern std::string SETTING_XML_NAME;
-
 class SettingDlg : public QDialog {
     Q_OBJECT
 
@@ -41,12 +39,13 @@ signals:
     void SaveHotKeyConfig();
     void UpdateHotKeyText(uint32_t value);
     void UpdateHotKeyResult(bool success);
+    void InitHotKeyValue(uint32_t value);
 
 private slots:
-    void OnUseHotKeyChecked(int stat);
     void OnUpdateHotKeyText(uint32_t value);                    // 更新热键显示
     void OnUpdateHotKeyValue();                                 // 注册热键
     void OnUpdateHotKeyResult(bool success);                    // 热键注册结果
+    void OnInitHotKeyValue(uint32_t value);                     // 初始化热键
     void OnSaveHotKeyConfig();
 
 private:

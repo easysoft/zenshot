@@ -18,7 +18,7 @@
 #include <shlobj.h>
 #endif // Q_OS_WIN
 
-std::string SETTING_XML_NAME = "./setting.xml";
+extern std::string SETTING_XML_NAME;
 
 SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f)
@@ -31,25 +31,8 @@ SettingDlg::SettingDlg(QWidget *parent, Qt::WindowFlags f)
 
     memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
 
-#ifdef Q_OS_WIN
-    char config_path[MAX_PATH] = { 0 };
-    if (SHGetSpecialFolderPathA(0, config_path, CSIDL_LOCAL_APPDATA, FALSE)) {
-        SETTING_XML_NAME = config_path;
-        SETTING_XML_NAME.append("/ZenShot/");
-        QDir dir;
-        if (!dir.exists(SETTING_XML_NAME.c_str())) {
-            dir.mkdir(SETTING_XML_NAME.c_str());
-        }
-        SETTING_XML_NAME.append("setting.xml");
-    }
-#endif // Q_OS_WIN
-
-    GetXMLConfig().LoadConfig(SETTING_XML_NAME);
-
     initDlg();
     setupSingal();
-
-    initStat();
 }
 
 SettingDlg::~SettingDlg()
@@ -79,13 +62,11 @@ void SettingDlg::initDlg()
     QFile file(qssFile);
 
     file.open(QFile::ReadOnly);
-    QString qss = QLatin1String(file.readAll());
+    QString qss = QString::fromLatin1(file.readAll());
     file.close();
 
     // modif style
     setStyleSheet(qss);
-
-    setWindowTitle(tr("setting_title"));
 
     QLabel* title = findChild<QLabel*>("titleLabel");
     title->setText(tr("setting_title"));
@@ -121,6 +102,7 @@ void SettingDlg::setupSingal()
 {
     connect(this, SIGNAL(UpdateHotKeyText(uint32_t)), this, SLOT(OnUpdateHotKeyText(uint32_t)));
     connect(this, SIGNAL(UpdateHotKeyResult(bool)), this, SLOT(OnUpdateHotKeyResult(bool)));
+    connect(this, SIGNAL(InitHotKeyValue(uint32_t)), this, SLOT(OnInitHotKeyValue(uint32_t)));
 
     QPushButton* save = findChild<QPushButton*>("settingSaveBtn");
     connect(save, SIGNAL(clicked()), this, SIGNAL(SaveHotKeyConfig()));
@@ -164,31 +146,6 @@ QString SettingDlg::getHotKeyStr(uint32_t value)
     return vk_str.c_str();
 }
 
-void SettingDlg::OnUseHotKeyChecked(int stat)
-{
-    QPushButton* hotkey_value = findChild<QPushButton*>("hotkeyValue");
-    hotkey_value->setEnabled(stat == Qt::Checked);
-
-    if (stat == Qt::Checked) 
-    {
-        hotkey_value->setText(tr("reset_hotkey"));
-        memset(m_SetKeyValue, 0, sizeof(m_SetKeyValue));
-    }
-    else 
-    {
-        int current_vk[3] = { 0 };
-        if (!current_vk[0]) 
-        {
-            hotkey_value->setText(tr("hotkey_default"));
-        }
-        else 
-        {
-            QString vk;
-            hotkey_value->setText(vk);
-        }
-    }
-}
-
 void SettingDlg::OnUpdateHotKeyText(uint32_t value)
 {
     QString vk_str = getHotKeyStr(value);
@@ -207,6 +164,12 @@ void SettingDlg::OnUpdateHotKeyValue()
     if (m_OrigKeyValue)
     {
         UnregisterHotKey(reinterpret_cast<HWND>(parentWidget()->winId()), m_OrigKeyValue);
+    }
+
+    if (!m_KeyValue)
+    {
+        emit UpdateHotKeyResult(true);
+        return;
     }
 
     UINT fsModifiers, vk;
@@ -276,6 +239,12 @@ void SettingDlg::OnSaveHotKeyConfig()
     {
         hide();
     }
+}
+
+void SettingDlg::OnInitHotKeyValue(uint32_t value)
+{
+    m_KeyValue = value;
+    OnUpdateHotKeyValue();
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

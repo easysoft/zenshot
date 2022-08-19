@@ -1,0 +1,98 @@
+
+#ZTSettingDlg {
+    background-color: #ffffff;
+    color: #1B1F28;
+    font-size: 13px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    width: 1080px;
+    height: 282px;
+    min-width: 1080px;
+    min-height: 282px;
+    background-clip: border-box;
+}
+
+QLabel {
+    background-color: transparent;
+    color: black;
+}
+
+QLabel#titleLabel {
+    color: #1B1F28;
+    font-size: 18px;
+    text-align: center;
+}
+
+QLineEdit[subitem="settingitem"] {
+    color: #1B1F28;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid rgb(223, 223, 223);
+    min-height: 38px;
+}
+
+QPushButton {
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: center;
+}
+
+QPushButton#newItemButton {
+    background-image: url(:/images/new-item.png);
+}
+QPushButton#removeItemButton {
+    background-image: url(:/images/remove-item.png);
+}
+
+QPushButton#closeButton {
+    width: 10px;
+    height: 10px;
+    
+    background-image: url(:/images/close_button.png);
+}
+
+QPushButton#settingSaveBtn {
+    width: 160px;
+    height: 40px;
+    max-width: 160px;
+    max-height: 40px;
+    background: #AD86E1;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 15px;
+}
+QPushButton#settingSaveBtn:hover {
+    background-color: rgb(136, 79, 212);
+}
+QPushButton#settingSaveBtn:pressed {
+    background-color: rgb(136, 79, 212);
+    border: 2px solid rgb(73, 67, 215);
+    border-radius: 4px;
+}
+
+QPushButton#settingCancelBtn {
+    width: 160px;
+    height: 40px;
+    max-width: 160px;
+    max-height: 40px;
+    background: transparent;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 4px;
+    color: #1B1F28;
+    font-size: 15px;
+}
+
+QPushButton[checkbtn="checkbox"] {
+    min-width: 76px;
+    min-height: 18px;
+    max-width: 76px;
+    background-color: transparent;
+    text-align: right;
+
+    background-image: url(:/images/uncheck.png);
+    font-size: 14px;
+}
+
+QPushButton[checkbtn="checkbox"]:checked {
+    background-image: url(:/images/check.png);
+}

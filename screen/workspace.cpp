@@ -556,11 +556,6 @@ void Workspace::createToolBar()
 
     m_toolBar->setVisible(true);
 
-    disconnect(m_toolBar.get(), SIGNAL(createChanged(QString)), this, SLOT(createToolChanged(QString)));
-    disconnect(m_toolBar.get(),SIGNAL(download()),this,SLOT(download()));
-    disconnect(m_toolBar.get(),SIGNAL(closeProgram()),this,SLOT(close()));
-    disconnect(m_toolBar.get(),SIGNAL(save()),this,SLOT(save()));
-
     connect(m_toolBar.get(), SIGNAL(createChanged(QString)), this, SLOT(createToolChanged(QString)));
     connect(m_toolBar.get(),SIGNAL(download()),this,SLOT(download()));
     connect(m_toolBar.get(),SIGNAL(closeProgram()),this,SLOT(close()));

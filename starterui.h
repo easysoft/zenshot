@@ -5,6 +5,7 @@
 #include "starter.h"
 
 #include "setting/settingdlg.h"
+#include "setting/zentaosetting.h"
 
 #include <QWidget>
 #include <QSystemTrayIcon>
@@ -27,8 +28,13 @@ signals:
 private slots:
 	void OnStartShot();
 	void OnShotDone(Starter* starer);
+	void OnExitShot();
 	void OnShowSetting();
-    void OnTrayActivite(QSystemTrayIcon::ActivationReason reason);
+
+	void OnIconActivated(QSystemTrayIcon::ActivationReason reason);
+#if !NZENTAO_VER_
+	void OnShowZenTaoSetting();
+#endif // NZENTAO_VER_
 
 protected:
 	void closeEvent(QCloseEvent*) override;
@@ -51,10 +57,16 @@ private:
 	bool m_Shotting;
 	
 	QAction* settingAction;
+#if !NZENTAO_VER_
+	QAction* zentaoSettingAction;
+#endif // NZENTAO_VER_
 	QAction* shotAction;
 	QAction* quitAction;
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayIconMenu;
 	SettingDlg m_SettingDlg;
+#if !NZENTAO_VER_
+	ZTSettingDlg m_ZTSettingDlg;
+#endif // NZENTAO_VER_
 }; // StarterUI

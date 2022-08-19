@@ -2,6 +2,8 @@
 
 #include "spdlogwrapper.hpp"
 
+std::string SETTING_XML_NAME = "./setting.xml";
+
 XMLConfig::XMLConfig()
 	: m_File(nullptr)
 	, m_Doc()
@@ -13,10 +15,10 @@ void XMLConfig::LoadConfig(const std::string& file_name)
 #if XML_CONFIG_THREADSAFE == 1
 	std::lock_guard<std::mutex> l__(m_Mutex);
 #endif // XML_CONFIG_THREADSAFE
-	try 
+	try
 	{
 		m_File.reset(new rapidxml::file<>(file_name.c_str()));
-		m_Doc.parse<0>(const_cast<char*>(m_File->data()));
+		m_Doc.parse<rapidxml::parse_no_data_nodes>(const_cast<char*>(m_File->data()));
 	}
 	catch (...) 
 	{
@@ -119,21 +121,13 @@ void XMLConfig::SetConfigString3(const char* name, const char* sub_name, const c
 		m_Doc.append_node(root);
 	}
 	rapidxml::xml_node<>* node = nullptr;
-	if (sub_name != nullptr) 
-	
+	if (sub_name != nullptr)
 	{
 		node = root->first_node(sub_name);
 		if (node == nullptr) 
 		{
 			node = m_Doc.allocate_node(rapidxml::node_element, m_Doc.allocate_string(sub_name));
 			root->append_node(node);
-		}
-		else 
-		{
-			rapidxml::xml_node<>* n = m_Doc.allocate_node(rapidxml::node_element, m_Doc.allocate_string(sub_name));
-			root->remove_node(node);
-			root->append_node(n);
-			node = n;
 		}
 	}
 	else 
@@ -179,4 +173,59 @@ void XMLConfig::SetConfigNum2(const char* name, const char* sub_name, uint64_t v
 void XMLConfig::SetConfigNum1(const char* name, uint64_t value)
 {
 	SetConfigString1(name, std::to_string(value).c_str());
+}
+
+void XMLConfig::RemoveConfig3(const char* name, const char* sub_name, const char* attr_name)
+{
+#if XML_CONFIG_THREADSAFE == 1
+	std::lock_guard<std::mutex> l__(m_Mutex);
+#endif // XML_CONFIG_THREADSAFE
+	rapidxml::xml_node<>* root = m_Doc.first_node();
+	if (root == nullptr)
+	{
+		return;
+	}
+
+	root = m_Doc.first_node(name);
+	if (root == nullptr)
+	{
+		return;
+	}
+	rapidxml::xml_node<>* node = nullptr;
+	if (sub_name != nullptr)
+	{
+		node = root->first_node(sub_name);
+		if (node == nullptr)
+		{
+			return;
+		}
+	}
+	else
+	{
+		node = root;
+	}
+
+	if (attr_name != nullptr)
+	{
+		rapidxml::xml_attribute<>* attr = node->first_attribute(m_Doc.allocate_string(attr_name));
+		if (attr == nullptr)
+		{
+			return;
+		}
+
+		node->remove_attribute(attr);
+		return;
+	}
+
+	root->remove_node(node);
+}
+
+void XMLConfig::RemoveConfig2(const char* name, const char* sub_name)
+{
+	RemoveConfig3(name, sub_name, nullptr);
+}
+
+void XMLConfig::RemoveConfig1(const char* name)
+{
+	RemoveConfig2(name, nullptr);
 }

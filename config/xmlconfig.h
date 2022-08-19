@@ -14,6 +14,8 @@
 #include <mutex>
 #endif // XML_CONFIG_THREADSAFE
 
+extern std::string SETTING_XML_NAME;
+
 class XMLConfig {
 public:
 	XMLConfig();
@@ -44,6 +46,9 @@ public:
 	void SetConfigNum2(const char* name, const char* sub_name, uint64_t value);
 	void SetConfigNum1(const char* name, uint64_t value);
 
+	void RemoveConfig3(const char* name, const char* sub_name, const char* attr_name);
+	void RemoveConfig2(const char* name, const char* sub_name);
+	void RemoveConfig1(const char* name);
 private:
 #if XML_CONFIG_THREADSAFE == 1
 	std::mutex m_Mutex;

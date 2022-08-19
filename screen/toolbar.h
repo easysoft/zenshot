@@ -68,6 +68,9 @@ signals:
     void download();
     void closeProgram();
 
+    void submitRequirement();
+    void submitBug();
+
 private slots:
     void undo();
     void redo();
@@ -75,7 +78,11 @@ private slots:
     void createBtnClicked(int index);
     void downloadBtnClicked();
     void saveBtnClicked();
+    void Send2ZenTaoClicked();
     void closeProgramBtnClicked();
+
+    void submitRequirementBtnClicked();
+    void submitBugBtnClicked();
 };
 
 #endif // TOOLBAR_H

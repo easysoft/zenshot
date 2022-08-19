@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <QMessageBox>
+#include <QDesktopWidget>
 #include <QPropertyAnimation>
 
 #include <algorithm>
@@ -52,38 +53,32 @@ void Starter::init(QWidget* parent)
 
     //收集屏幕信息
     QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
-
     //构造截图界面
-    std::for_each(screanList.begin(), screanList.end(), [&](const QList<ScreenInfo>& list)
+    for (const auto& list : screanList)
+    {
+        L_DEBUG("list size = {0}", list.size());
+        std::shared_ptr<ScreenList> alone(new ScreenList(list));
+        Widget* w = nullptr;
+        if (m_unused_widgets->empty())
         {
-            std::shared_ptr<ScreenList> alone(new ScreenList(list));
-            Widget* w = nullptr;
-            if (m_unused_widgets->empty())
-            {
-                L_TRACE("++++++++++++++ new screen list & widget");
-                // TODO: for test
-                QString title;
-                title.append("Widget =>>>>>>>>> ").append(std::to_string(m_widgets->size()).c_str());
-                w = new Widget(parent);
-                w->setWindowTitle(title);
-                connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
-                connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
-            }
-            else
-            {
-                L_TRACE("============== use old screen list & widget");
-                w = m_unused_widgets->back();
-                m_unused_widgets->pop_back();
-            }
+            L_TRACE("++++++++++++++ new screen list & widget");
+            w = new Widget(parent);
+            connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
+            connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
+        }
+        else
+        {
+            L_TRACE("============== use old screen list & widget");
+            w = m_unused_widgets->back();
+            m_unused_widgets->pop_back();
+        }
 
-            w->start(alone);
-			w->showFullScreen();
+        w->start(alone);
 
-			w->raise();
-			w->activateWindow();
+        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3} =>> %{4}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height(), (unsigned)w);
 
-            m_widgets->append(w);
-        });
+        m_widgets->append(w);
+    }
 
     L_DEBUG("m_unused_widgets size: {0}, m_widgets size: {1}", m_unused_widgets->size(), m_widgets->size());
 }

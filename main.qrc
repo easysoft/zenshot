@@ -15,5 +15,11 @@
         <file>images/menu-exit.png</file>
         <file>images/menu-setting.png</file>
         <file>images/menu-shot.png</file>
+        <file>images/menu-ztsetting.png</file>
+        <file>zentaosetting.css</file>
+        <file>images/new-item.png</file>
+        <file>images/remove-item.png</file>
+        <file>images/check.png</file>
+        <file>images/uncheck.png</file>
     </qresource>
 </RCC>

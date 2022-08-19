@@ -4,16 +4,25 @@
 #include "config/xmlconfig.h"
 #include "spdlogwrapper.hpp"
 
-#ifdef Q_OS_WIN
-#include <Windows.h>
-#endif // Q_OS_WIN
 #include <QMenu>
+#include <QDir>
+
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#include <Windowsx.h>
+#include <shlobj.h>
+#endif // Q_OS_WIN
+
+extern std::string SETTING_XML_NAME;
 
 StarterUI::StarterUI()
 	: QWidget(0)
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
+#if !NZENTAO_VER_
+	, m_ZTSettingDlg(this)
+#endif // NZENTAO_VER_
 	, m_Shotting(false)
 #if IS_TEST_VER
 	, m_startShot(this)
@@ -35,29 +44,34 @@ StarterUI::StarterUI()
 #endif // IS_TEST_VER
 
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
-// 	connect(trayIcon, &QSystemTrayIcon::activated, this, &Window::iconActivated);
+	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
+ 	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
 
 	trayIcon->show();
 
-	GetXMLConfig().LoadConfig(SETTING_XML_NAME);
-	if (GetXMLConfig().GetConfigNum2("config", "enable")) 
-	{
-		uint32_t value = GetXMLConfig().GetConfigNum2("config", "hotkey");
-		if (value)
-		{
-			emit CheckHotKey(value);
+#ifdef Q_OS_WIN
+	char config_path[MAX_PATH] = { 0 };
+	if (SHGetSpecialFolderPathA(0, config_path, CSIDL_LOCAL_APPDATA, FALSE)) {
+		SETTING_XML_NAME = config_path;
+		SETTING_XML_NAME.append("/ZenShot/");
+		QDir dir;
+		if (!dir.exists(SETTING_XML_NAME.c_str())) {
+			dir.mkdir(SETTING_XML_NAME.c_str());
 		}
+		SETTING_XML_NAME.append("setting.xml");
+	}
+#endif // Q_OS_WIN
+
+	GetXMLConfig().LoadConfig(SETTING_XML_NAME);
+	uint32_t value = GetXMLConfig().GetConfigNum2("config", "hotkey");
+	if (value)
+	{
+		emit CheckHotKey(value);
 	}
 
 	resize(0, 0);
 
 	hide();
-
-	Starter* starter = new Starter(false);
-	connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
-	starter->init();
-	starter->cleanup();
-	m_Starer.push_back(starter);
 }
 
 StarterUI::~StarterUI()
@@ -66,27 +80,36 @@ StarterUI::~StarterUI()
 
 void StarterUI::createActions()
 {
-    shotAction = new QAction(tr("S&hot"), this);
-    QIcon shotIcon(":/images/menu-shot.png");
-    shotAction->setIcon(shotIcon);
-    connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
-
-    settingAction = new QAction(tr("S&eting"), this);
+	settingAction = new QAction(tr("S&eeting"), this);
 	QIcon settingIcon(":/images/menu-setting.png");
 	settingAction->setIcon(settingIcon);
 	connect(settingAction, &QAction::triggered, this, &StarterUI::OnShowSetting);
 
+#if !NZENTAO_VER_
+	zentaoSettingAction = new QAction(tr("Z&enTaoSeeting"), this);
+	QIcon zentaosettingIcon(":/images/menu-ztsetting.png");
+	zentaoSettingAction->setIcon(zentaosettingIcon);
+	connect(zentaoSettingAction, &QAction::triggered, this, &StarterUI::OnShowZenTaoSetting);
+#endif // NZENTAO_VER_
+	shotAction = new QAction(tr("S&hot"), this);
+	QIcon shotIcon(":/images/menu-shot.png");
+	shotAction->setIcon(shotIcon);
+	connect(shotAction, &QAction::triggered, this, &StarterUI::OnStartShot);
+
 	quitAction = new QAction(tr("&Quit"), this);
 	QIcon quitIcon(":/images/menu-exit.png");
 	quitAction->setIcon(quitIcon);
-	connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+	connect(quitAction, &QAction::triggered, this, &StarterUI::OnExitShot);
 }
 
 void StarterUI::createTrayIcon()
 {
 	trayIconMenu = new QMenu(this);
-    trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(settingAction);
+#if !NZENTAO_VER_
+	trayIconMenu->addAction(zentaoSettingAction);
+#endif // NZENTAO_VER_
+	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(quitAction);
 
 	trayIcon = new QSystemTrayIcon(this);
@@ -94,8 +117,6 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
-
-    connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnTrayActivite);
 }
 
 void StarterUI::OnStartShot()
@@ -134,9 +155,22 @@ void StarterUI::OnShotDone(Starter* starter)
 	L_DEBUG("@@@@@@@@@@@@@@@@@@@@@@@@ GAME END @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 }
 
+void StarterUI::OnExitShot()
+{
+#ifdef Q_OS_WIN
+	ExitProcess(0);
+#else
+	QApplication::exit(0);
+#endif // Q_OS_WIN
+}
+
 void StarterUI::closeEvent(QCloseEvent*)
 {
+#ifdef Q_OS_WIN
+	ExitProcess(0);
+#else
 	QApplication::exit(0);
+#endif // Q_OS_WIN
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -156,6 +190,16 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 	return QWidget::nativeEvent(eventType, message, result);
 }
 
+void StarterUI::OnIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+	switch (reason)
+	{
+	case QSystemTrayIcon::Trigger: /* 来自于单击激活。 */
+		emit SatrtShot();
+		break;
+	}
+}
+
 void StarterUI::OnShowSetting()
 {
 	if (!m_SettingDlg.isVisible()) 
@@ -167,12 +211,15 @@ void StarterUI::OnShowSetting()
 	m_SettingDlg.activateWindow();
 }
 
-void StarterUI::OnTrayActivite(QSystemTrayIcon::ActivationReason reason)
+#if !NZENTAO_VER_
+void StarterUI::OnShowZenTaoSetting()
 {
-    switch (reason)
-    {
-    case QSystemTrayIcon::Trigger:
-        emit SatrtShot();
-        break;
-    }
+	if (!m_ZTSettingDlg.isVisible())
+	{
+		m_ZTSettingDlg.show();
+	}
+
+	m_ZTSettingDlg.raise();
+	m_ZTSettingDlg.activateWindow();
 }
+#endif // NZENTAO_VER_

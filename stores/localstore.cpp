@@ -19,15 +19,33 @@
 #include "localstore.h"
 
 #include <QSettings>
+#include <QDir>
 
-LocalStore::LocalStore():Store()
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#include <Windowsx.h>
+#include <shlobj.h>
+#endif // Q_OS_WIN
+
+LocalStore::LocalStore():Store(), setting_ini()
 {
-
+#ifdef Q_OS_WIN
+	char config_path[MAX_PATH] = { 0 };
+	if (SHGetSpecialFolderPathA(0, config_path, CSIDL_LOCAL_APPDATA, FALSE)) {
+		setting_ini = config_path;
+		setting_ini.append("/ZenShot/");
+		QDir dir;
+		if (!dir.exists(setting_ini.c_str())) {
+			dir.mkdir(setting_ini.c_str());
+		}
+		setting_ini.append("setting.ini");
+	}
+#endif // Q_OS_WIN
 }
 
 void LocalStore::write(const QString &group, const QString &key, const QVariant &value)
 {
-    QSettings settings("./setting.ini",QSettings::IniFormat);
+    QSettings settings(setting_ini.c_str(),QSettings::IniFormat);
     settings.beginGroup(group);
     settings.setValue(key,value);
 }
@@ -36,7 +54,7 @@ QVariant LocalStore::read(const QString &group, const QString &key, const QVaria
 {
     QVariant val;
     QString keyPos=group+"/"+key;
-    QSettings settings("./setting.ini",QSettings::IniFormat);
+    QSettings settings(setting_ini.c_str(),QSettings::IniFormat);
     val=settings.value(keyPos,defaultvalue);
 
     return val;

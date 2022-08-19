@@ -115,6 +115,7 @@ void ToolBar::createFunctionButons()
     QPushButton *downloadBtn = createSingleFunctionButton(QChar(0xe907),tr("download"));
     QPushButton *closeBtn = createSingleFunctionButton(QChar(0xe904),tr("exit"),"cancelBtn");
     QPushButton *clipboardBtn = createSingleFunctionButton(QChar(0xe902),tr("finish"),"saveBtn");
+    QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90d), tr("send2zentao"), "sendBtn");
 
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
     connect(m_redoBtn,SIGNAL(clicked()),this,SLOT(redo()));
@@ -122,6 +123,7 @@ void ToolBar::createFunctionButons()
     connect(downloadBtn,SIGNAL(clicked()),this,SLOT(downloadBtnClicked()));
     connect(closeBtn,SIGNAL(clicked()),this,SLOT(closeProgramBtnClicked()));
     connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveBtnClicked()));
+    connect(send2ZenTaoBtn, SIGNAL(clicked()), this, SLOT(Send2ZenTaoClicked()));
 }
 
 void ToolBar::createSingleCreateButton(QButtonGroup *group, QString shapeType, QString iconStr,QString tipStr)
@@ -192,9 +194,23 @@ void ToolBar::downloadBtnClicked()
 void ToolBar::closeProgramBtnClicked()
 {
     emit closeProgram();
+    emit submitRequirement();
 }
 
 void ToolBar::saveBtnClicked()
 {
     emit save();
+    emit submitBug();
+}
+
+void ToolBar::Send2ZenTaoClicked()
+{
+}
+
+void ToolBar::submitRequirementBtnClicked()
+{
+}
+
+void ToolBar::submitBugBtnClicked()
+{
 }
