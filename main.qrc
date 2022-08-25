@@ -16,10 +16,13 @@
         <file>images/menu-setting.png</file>
         <file>images/menu-shot.png</file>
         <file>images/menu-ztsetting.png</file>
-        <file>zentaosetting.css</file>
         <file>images/new-item.png</file>
         <file>images/remove-item.png</file>
         <file>images/check.png</file>
         <file>images/uncheck.png</file>
+        <file>zentaosettingdetail.css</file>
+        <file>zentaosettinglist.css</file>
+        <file>zentaosetting.css</file>
+        <file>zentaopreview.css</file>
     </qresource>
 </RCC>

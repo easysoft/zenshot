@@ -41,3 +41,8 @@ void Tool::setCursor()
     m_workspace->widget()->setCursor(cursor);
 }
 
+void Tool::cleanup()
+{
+    QCursor cursor(Qt::ArrowCursor);
+    m_workspace->widget()->setCursor(cursor);
+}

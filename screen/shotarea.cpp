@@ -66,7 +66,7 @@ void ShotArea::start(std::shared_ptr<ScreenList> list)
     L_FUNCTION();
 	m_indicatorPen.setColor(QColor(151, 151, 151));
 	m_indicatorPen.setWidth(1);
-    
+
     m_screenList = list;
     m_allScreenRect = m_screenList->allBoundary();
     L_TRACE("m_allScreenRect: left: {0}, top: {1}, right: {2}, bottom: {3}", m_allScreenRect.left(), m_allScreenRect.top(), m_allScreenRect.right(), m_allScreenRect.bottom());
@@ -105,6 +105,10 @@ void ShotArea::autoCaptureScreen()
 void ShotArea::autoCaptureWindow()
 {
     QWidget *host = m_workspace->widget();
+
+    QCursor cursor(Qt::ArrowCursor);
+    host->setCursor(cursor);
+
     //初始化选择区域
     QRect globalArea = WindowGetter::winGeometry(m_screenList->screenAt(m_nowScreenIndex),host);
 
@@ -332,8 +336,6 @@ void ShotArea::drawMagnifier(QPainter &painter)
 void ShotArea::draw(QPainter &painter)
 {
     L_FUNCTION();
-    L_TRACE("############ START {0}", painter.isActive() ? 1 : 0);
-    L_TRACE("m_selected = {0}", m_selected ? 1 : 0);
     if(m_selected == false)
         m_indicatorPen.setWidth(1);
     else

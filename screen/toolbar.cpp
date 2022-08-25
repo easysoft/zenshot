@@ -26,6 +26,9 @@
 #include "screen/workspace.h"
 #include "core/utils.h"
 #include "core/useroper.h"
+#include "starterui.h"
+
+extern StarterUI* g_start_ui_;
 
 ToolBar::ToolBar(Workspace *workspace)
     : QWidget(workspace->widget())
@@ -85,6 +88,16 @@ void ToolBar::highlightCreateBtn(QString shapeType)
     btn->setChecked(true);
 }
 
+void ToolBar::cleanup()
+{
+    btnGroup.setExclusive(false);
+    for (auto btn : btnGroup.buttons())
+    {
+        btn->setChecked(false);
+    }
+    btnGroup.setExclusive(true);
+}
+
 void ToolBar::createCreateButtons()
 {
     createSingleCreateButton(&btnGroup,Utils::forRectKey(),QChar(0xe906),tr("rectangle"));
@@ -115,7 +128,9 @@ void ToolBar::createFunctionButons()
     QPushButton *downloadBtn = createSingleFunctionButton(QChar(0xe907),tr("download"));
     QPushButton *closeBtn = createSingleFunctionButton(QChar(0xe904),tr("exit"),"cancelBtn");
     QPushButton *clipboardBtn = createSingleFunctionButton(QChar(0xe902),tr("finish"),"saveBtn");
+#if !NZENTAO_VER_
     QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90d), tr("send2zentao"), "sendBtn");
+#endif // NZENTAO_VER_
 
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
     connect(m_redoBtn,SIGNAL(clicked()),this,SLOT(redo()));
@@ -123,7 +138,9 @@ void ToolBar::createFunctionButons()
     connect(downloadBtn,SIGNAL(clicked()),this,SLOT(downloadBtnClicked()));
     connect(closeBtn,SIGNAL(clicked()),this,SLOT(closeProgramBtnClicked()));
     connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveBtnClicked()));
-    connect(send2ZenTaoBtn, SIGNAL(clicked()), this, SLOT(Send2ZenTaoClicked()));
+#if !NZENTAO_VER_
+    connect(send2ZenTaoBtn, SIGNAL(clicked()), g_start_ui_, SLOT(OnShowPreview()));
+#endif // NZENTAO_VER_
 }
 
 void ToolBar::createSingleCreateButton(QButtonGroup *group, QString shapeType, QString iconStr,QString tipStr)
@@ -188,29 +205,16 @@ void ToolBar::createBtnClicked(int index)
 
 void ToolBar::downloadBtnClicked()
 {
+    L_INFO("downloadBtnClicked");
     emit download();
 }
 
 void ToolBar::closeProgramBtnClicked()
 {
     emit closeProgram();
-    emit submitRequirement();
 }
 
 void ToolBar::saveBtnClicked()
 {
     emit save();
-    emit submitBug();
-}
-
-void ToolBar::Send2ZenTaoClicked()
-{
-}
-
-void ToolBar::submitRequirementBtnClicked()
-{
-}
-
-void ToolBar::submitBugBtnClicked()
-{
 }

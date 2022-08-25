@@ -72,6 +72,7 @@ public:
      */
     virtual void setCursor();
 
+    virtual void cleanup();
 protected:
     bool m_autoSelected;
     Workspace *m_workspace;

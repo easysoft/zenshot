@@ -27,8 +27,9 @@ TextAssist::TextAssist(Workspace *workspace)
 {
     m_editing = false;
     this->m_workspace = workspace;
-    m_textWidget = new TextWidget(workspace->widget());
-    m_textWidget->hide();
+
+	m_textWidget = new TextWidget(workspace->widget());
+	m_textWidget->hide();
 }
 
 bool TextAssist::editing() const
@@ -109,6 +110,11 @@ void TextAssist::refreshProps()
     m_textWidget->show();
 }
 
+void TextAssist::cleanup()
+{
+    m_editing = false;
+    m_textWidget->hide();
+}
 
 
 

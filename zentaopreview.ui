@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ZTPreviewDlg</class>
+ <widget class="QDialog" name="ZTPreviewDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>780</width>
+    <height>468</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>zentaopreview</string>
+  </property>
+  <widget class="QPushButton" name="btnOkay">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>420</y>
+     <width>100</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>nextstep</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCancel">
+   <property name="geometry">
+    <rect>
+     <x>395</x>
+     <y>420</y>
+     <width>100</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="imgview">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>297</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnDemand">
+   <property name="geometry">
+    <rect>
+     <x>387</x>
+     <y>320</y>
+     <width>174</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>demand</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnBug">
+   <property name="geometry">
+    <rect>
+     <x>579</x>
+     <y>320</y>
+     <width>174</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>bug</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>377</x>
+     <y>40</y>
+     <width>386</width>
+     <height>260</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelSeparation">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>0</y>
+     <width>1</width>
+     <height>380</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

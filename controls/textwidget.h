@@ -20,6 +20,9 @@
 #define TEXTWIDGET_H
 
 #include <QWidget>
+#include <QHideEvent>
+
+#include <memory>
 
 #include "controls/textwidgetimpl.h"
 
@@ -41,10 +44,11 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    TextWidgetImpl * m_textImpl;
+    TextWidgetImpl* m_textImpl;
 
 private slots:
     void onContentSizeChanged(QSize size);
+    void hideEvent(QHideEvent* event) override;
 
 };
 

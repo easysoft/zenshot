@@ -58,6 +58,12 @@ void TextWidget::onContentSizeChanged(QSize size)
                        size.height()+Utils::TextEdit_Padding_Vertical*2);
 }
 
+void TextWidget::hideEvent(QHideEvent* event)
+{
+    m_textImpl->setText(u8"");
+    QWidget::hideEvent(event);
+}
+
 void TextWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);

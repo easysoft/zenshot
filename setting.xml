@@ -1,7 +1,17 @@
 <config>
+	<zentao0 name="test01" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao1 name="test02" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao2 name="test03" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao3 name="test04" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao5 name="test06" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao6 name="test07" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao7 name="test08" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao8 name="test09" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao9 name="test10" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao10 name="test11" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao11 name="test12" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao13 name="test14" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
+	<zentao14 name="test15" url="http://biz74.lhf.oop.cc/" usr="lijuan" pass="333031363734"/>
 	<hotkey>1118801</hotkey>
-	<zentao0 name="" url="2" usr="" pass=""/>
-	<zentao1 name="" url="3" usr="" pass=""/>
-	<zentao2 name="" url="4" usr="" pass=""/>
 </config>
 

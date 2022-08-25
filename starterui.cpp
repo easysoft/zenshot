@@ -4,6 +4,8 @@
 #include "config/xmlconfig.h"
 #include "spdlogwrapper.hpp"
 
+#include "usrmetatype.h"
+
 #include <QMenu>
 #include <QDir>
 
@@ -13,6 +15,7 @@
 #include <shlobj.h>
 #endif // Q_OS_WIN
 
+StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
 
 StarterUI::StarterUI()
@@ -21,27 +24,23 @@ StarterUI::StarterUI()
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
 #if !NZENTAO_VER_
-	, m_ZTSettingDlg(this)
+	, m_ZTSettingDlg(nullptr)
+	, m_ZTPreviewDlg(nullptr)
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
-#if IS_TEST_VER
-	, m_startShot(this)
-#endif // IS_TEST_VER
 {
+	g_start_ui_ = this;
+
 	qRegisterMetaType<Starter*>("Starter*");
 	qRegisterMetaType<int32_t>("int32_t");
 	qRegisterMetaType<uint32_t>("uint32_t");
+	qRegisterMetaType<string_ptr>("string_ptr");
 
 	createActions();
 	createTrayIcon();
 
 	setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
-#if !IS_TEST_VER
 	setAttribute(Qt::WA_TranslucentBackground, true);
-#else
-	m_startShot.setText(u8"start");
-	connect(&m_startShot, SIGNAL(clicked()), this, SIGNAL(SatrtShot()));
-#endif // IS_TEST_VER
 
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
 	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
@@ -221,5 +220,17 @@ void StarterUI::OnShowZenTaoSetting()
 
 	m_ZTSettingDlg.raise();
 	m_ZTSettingDlg.activateWindow();
+}
+
+void StarterUI::OnShowPreview()
+{
+	L_TRACE("----------------------------");
+	if (!m_ZTPreviewDlg.isVisible())
+	{
+		m_ZTPreviewDlg.show();
+	}
+
+	m_ZTPreviewDlg.raise();
+	m_ZTPreviewDlg.activateWindow();
 }
 #endif // NZENTAO_VER_

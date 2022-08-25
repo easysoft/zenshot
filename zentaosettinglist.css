@@ -1,0 +1,119 @@
+
+QWidget#zentaosettinglist {
+    background-color: transparent;    
+}
+
+QLabel#label {
+    padding-left: 20px;
+    font-size: 16px;
+}
+
+#listWidget {
+    background-color: #F6F6F6;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 500;
+    border: none;
+
+    outline:0px;
+}
+
+QListWidget::item:hover
+{
+    show-decoration-selected: 5px;
+    background-color: #E5E5E5;
+    border-radius: 5px;
+}
+
+QListWidget::item:selected
+{
+    background-color: #E5E5E5;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-radius: 5px;
+}
+
+QLabel.listItemTxt {
+    max-height: 30px;
+    min-height: 30px;
+    height: 30px;
+    padding-left: 24px;
+    background-color: transparent;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 400;
+}
+
+QPushButton.listItemBtn {
+    margin: 0px;
+    padding: 0px;
+    max-width: 30px;
+    max-height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(:/images/remove-item.png);;
+}
+
+QScrollBar:vertical
+{
+    width:6px;
+    background:rgba(0,0,0,0%);
+    margin:0px,0px,0px,0px;
+    padding-top:9px;
+    padding-bottom:9px;
+
+    min-height:180px;
+}
+QScrollBar::handle:vertical
+{
+    width:6px;
+    background:rgba(0,0,0,25%);
+    min-height:180px;
+}
+QScrollBar::handle:vertical:hover
+{
+    width:6px;
+    background:rgba(0,0,0,50%);
+    min-height:180px;
+}
+
+QScrollBar::add-line:vertical
+{
+    height:6px;
+    width:6px;
+    border-image:url(:/images/down-arrow.png);
+    subcontrol-position:bottom;
+}
+
+QScrollBar::sub-line:vertical
+{
+    height:6px;
+    width:6px;
+    border-image:url(:/images/up-arrow.png);
+    subcontrol-position:top;
+}
+/*
+QScrollBar::add-line:vertical:hover
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/4.png);
+    subcontrol-position:bottom;
+}
+QScrollBar::sub-line:vertical:hover
+{
+    height:9px;width:8px;
+    border-image:url(:/images/a/2.png);
+    subcontrol-position:top;
+}
+QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical
+{
+    background:rgba(0,0,0,10%);
+    border-radius:4px;
+}
+*/

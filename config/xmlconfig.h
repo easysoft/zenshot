@@ -63,4 +63,10 @@ inline XMLConfig& GetXMLConfig()
 	return config;
 }
 
+// just for <zentaox name="1" url="" usr="" pass=""/>
+inline std::string BuildConfigKey(int index)
+{
+	return "zentao" + std::to_string(index);
+}
+
 #endif // XML_CONFIG_H

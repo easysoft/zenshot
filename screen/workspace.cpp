@@ -77,6 +77,7 @@ Workspace::Workspace(QWidget *host)
     , m_hoverTool(new HoverTool(this))
     , m_textAssist(new TextAssist(this))
     , m_firstRender(false)
+    , m_selectedShape(nullptr)
 {
 }
 
@@ -135,21 +136,33 @@ void Workspace::cleanup()
 {
     L_FUNCTION();
 
+    removeShape(m_selectedShape);
 	m_selectedShape = nullptr;
 	
     if (m_toolBar != nullptr) {
 		m_toolBar->move(0, -1000);
 		m_toolBar->show();
 		m_toolBar->setVisible(false);
+
+        m_toolBar->cleanup();
     }
 	m_propsBar = nullptr;
+    m_tool = nullptr;
 
 	qDeleteAll(m_activeHandles);
 	m_activeHandles.clear();
 
 	m_shapeList.clear();
-
+    
     m_shotArea.cleanup();
+
+    if (m_tool) m_tool->cleanup();
+    if (m_createTool) m_createTool->cleanup();
+    if (m_hoverTool) m_hoverTool->cleanup();
+
+    m_textAssist->cleanup();
+
+    widget()->update();
 }
 
 void Workspace::onMousePress(QMouseEvent *event)
@@ -560,7 +573,6 @@ void Workspace::createToolBar()
     connect(m_toolBar.get(),SIGNAL(download()),this,SLOT(download()));
     connect(m_toolBar.get(),SIGNAL(closeProgram()),this,SLOT(close()));
     connect(m_toolBar.get(),SIGNAL(save()),this,SLOT(save()));
-
     rePositionBar();
 }
 
@@ -661,6 +673,7 @@ void Workspace::createToolChanged(QString shapeType)
 
 void Workspace::download()
 {
+    L_INFO("############################### down load slot");
     QPixmap result = m_shotArea.result();
 
     LocalStore store;
@@ -671,11 +684,14 @@ void Workspace::download()
     QString savepath=store.read("Setting","QuickSaveDir",".").toString();
 
     QString fileName = QFileDialog::getSaveFileName(widget(),QObject::tr("save file"),savepath+"/"+savefile,"PNG File (*.png)");
-    result.toImage().save(fileName,"png");
+    if (!fileName.isEmpty())
+    {
+        result.toImage().save(fileName, "png");
 
-    QFileInfo fileInfo(fileName);
-    QString folder = fileInfo.path();
-    store.write("Setting","QuickSaveDir",folder);
+        QFileInfo fileInfo(fileName);
+        QString folder = fileInfo.path();
+        store.write("Setting", "QuickSaveDir", folder);
+    }
 
     close();
 }
@@ -817,6 +833,11 @@ void Workspace::closeImpl(int code)
 {
     L_FUNCTION();
     emit quitShot(code);
+
+	disconnect(m_toolBar.get(), SIGNAL(createChanged(QString)), this, SLOT(createToolChanged(QString)));
+    disconnect(m_toolBar.get(), SIGNAL(download()), this, SLOT(download()));
+    disconnect(m_toolBar.get(), SIGNAL(closeProgram()), this, SLOT(close()));
+    disconnect(m_toolBar.get(), SIGNAL(save()), this, SLOT(save()));
 }
 
 void Workspace::close()

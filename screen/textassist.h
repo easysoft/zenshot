@@ -58,6 +58,8 @@ public:
      */
     void refreshProps();
 
+    void cleanup();
+
 private:
     bool m_editing;           //是否正在编辑标识
     Text *m_shape;            //关联的文本对象

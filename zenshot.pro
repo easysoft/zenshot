@@ -51,10 +51,10 @@ SOURCES += \
     core/useroper.cpp \
     core/utils.cpp \
     handles/rectshapehandle.cpp \
-    httprequest/zhttprequest.cpp \
     locators/pointlocator.cpp \
     locators/rectlocator.cpp \
     main.cpp \
+    preview/zentaopreview.cpp \
     properties/arrowbar.cpp \
     properties/curvebar.cpp \
     properties/ellipsebar.cpp \
@@ -76,7 +76,9 @@ SOURCES += \
     screen/workspace.cpp \
     setting/settingdlg.cpp \
     setting/zentaosetting.cpp \
-    setting/ztsettingItem.cpp \
+    setting/ztsettingdetail.cpp \
+    setting/ztsettinglist.cpp \
+    setting/ztsettinglistitem.cpp \
     shapes/arrow.cpp \
     shapes/curve.cpp \
     shapes/ellipse.cpp \
@@ -97,8 +99,7 @@ SOURCES += \
     tools/rectcreatetool.cpp \
     tools/textcreatetool.cpp \
     httprequest/zhttprequest.cpp \
-    widget.cpp \
-    zentaopage/zentaopageui.cpp
+    widget.cpp
 
 HEADERS += \
     commands/addcommand.h \
@@ -134,10 +135,9 @@ HEADERS += \
     core/useroper.h \
     core/utils.h \
     handles/rectshapehandle.h \
-    http/zhttp.h \
-    httprequest/zhttprequest.h \
     locators/pointlocator.h \
     locators/rectlocator.h \
+    preview/zentaopreview.h \
     properties/arrowbar.h \
     properties/curvebar.h \
     properties/ellipsebar.h \
@@ -164,7 +164,9 @@ HEADERS += \
     screen/workspace.h \
     setting/settingdlg.h \
     setting/zentaosetting.h \
-    setting/ztsettingItem.h \
+    setting/ztsettingdetail.h \
+    setting/ztsettinglist.h \
+    setting/ztsettinglistitem.h \
     shapes/arrow.h \
     shapes/curve.h \
     shapes/ellipse.h \
@@ -185,8 +187,7 @@ HEADERS += \
     tools/rectcreatetool.h \
     tools/textcreatetool.h \
     httprequest/zhttprequest.h \
-    widget.h \
-    zentaopage/zentaopageui.h
+    widget.h
 
 TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
@@ -236,7 +237,9 @@ DEFINES += USE_SPDLOG_
 
 FORMS += \
     setting.ui \
-    zentaopage.ui \
+    zentaopreview.ui \
     zentaosetting.ui \
-    zentaosetting.ui
+    zentaosetting.ui \
+    zentaosettingdetail.ui \
+    zentaosettinglist.ui
 

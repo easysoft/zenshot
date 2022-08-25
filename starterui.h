@@ -1,17 +1,13 @@
 #pragma once
 
-#define IS_TEST_VER 0
-
 #include "starter.h"
 
 #include "setting/settingdlg.h"
 #include "setting/zentaosetting.h"
+#include "preview/zentaopreview.h"
 
 #include <QWidget>
 #include <QSystemTrayIcon>
-#if IS_TEST_VER
-#include <QPushButton>
-#endif // IS_TEST_VER
 
 #include <list>
 
@@ -34,6 +30,7 @@ private slots:
 	void OnIconActivated(QSystemTrayIcon::ActivationReason reason);
 #if !NZENTAO_VER_
 	void OnShowZenTaoSetting();
+	void OnShowPreview();
 #endif // NZENTAO_VER_
 
 protected:
@@ -49,9 +46,6 @@ private:
 	void createTrayIcon();
 
 private:
-#if IS_TEST_VER
-	QPushButton m_startShot;
-#endif // IS_TEST_VER
 	std::list<Starter*> m_Starer;
 
 	bool m_Shotting;
@@ -68,5 +62,8 @@ private:
 	SettingDlg m_SettingDlg;
 #if !NZENTAO_VER_
 	ZTSettingDlg m_ZTSettingDlg;
+	ZTPreviewDlg m_ZTPreviewDlg;
 #endif // NZENTAO_VER_
 }; // StarterUI
+
+extern StarterUI* g_start_ui_;

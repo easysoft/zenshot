@@ -14,3 +14,4 @@ ui_*.h
 *.vcxproj*
 logs
 setting.xml
+msvc_make.bat

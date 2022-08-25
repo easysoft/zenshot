@@ -3,15 +3,18 @@
 
 #include "ui_zentaosetting.h"
 
+#include "ztsettingdetail.h"
+#include "ztsettinglist.h"
+#include "ztsettinglistitem.h"
+
 #include "httprequest/zhttprequest.h"
 
-#include <QWidget>
-#include <QLabel>
-#include <QLayout>
-#include <QListWidget>
-#include <QPushButton>
+#include "usrmetatype.h"
 
-class ZTSettingDlg : public QWidget {
+#include <QDialog>
+#include <QLayout>
+
+class ZTSettingDlg : public QDialog {
 	Q_OBJECT
 
 public:
@@ -21,16 +24,20 @@ public:
 signals:
 	void AddNewItem();
 	void RemoveItem();
+	void ConfigCancel();
+	void ConfigSave();
+	void CheckConfig();
 
 private slots:
 	void OnAddNewItem();
 	void OnRemoveItem();
-	void OnButtonCancel();
-	void OnButtonSave();
+	void OnConfigCancel();
+	void OnConfigSave();
+	void OnCheckConfig();
 
 protected:
-	virtual void paintEvent(QPaintEvent* event) override;
-	virtual void showEvent(QShowEvent* event) override;
+// 	virtual void paintEvent(QPaintEvent* event) override;
+// 	virtual void showEvent(QShowEvent* event) override;
 	virtual void closeEvent(QCloseEvent* event) override;
 
 private:
@@ -49,11 +56,9 @@ private:
 private:
 	Ui::ZTSettingDlg ui;
 
-	QVBoxLayout m_Layout;
-	QHBoxLayout m_ButtonLayout;
-	QLabel m_Title;
-	QListWidget m_ZTSettingList;
-	QPushButton m_SaveButton, m_CancelButton;
+	QHBoxLayout m_Layout;
+	ZTSettingDetail m_Detail;
+	ZTSettingList m_List;
 }; // ZTSettingDlg
 
 #endif // !ZTSETTING_DLG_H_

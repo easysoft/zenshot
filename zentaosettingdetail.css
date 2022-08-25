@@ -1,0 +1,70 @@
+
+QWidget#zentaosettingdetail {
+    background-color: transparent;
+}
+
+QLabel {
+    background-color: #FFFFFF;
+    border-radius: 2px;
+
+    font-size: 14px;
+    color: #1B1F28;
+    font-weight: 400;
+}
+
+QLineEdit {
+    background-color: #FFFFFF;
+    width: 340px;
+    height: 36px;
+    border: 1px solid #D7DBDE;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #1B1F28;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+QCheckBox#checkSetDefault {
+    font-size: 12px;
+    color: rgba(0,0,0,0.85);
+    line-height: 22px;
+    font-weight: 400;
+}
+
+QCheckBox#checkSetDefault:indicator {
+    width: 17px;
+    height: 17px;
+}
+
+QCheckBox#checkSetDefault:indicator:unchecked {
+    border-image: url(:/images/uncheck.png);
+}
+
+QCheckBox#checkSetDefault:indicator:checked {
+    border-image: url(:/images/check.png);
+}
+
+QCheckBox#checkSetDefault:indicator:pressed {
+    border-image: url(:/images/check.png);
+}
+
+QPushButton#btnSave {
+    background-color: transparent;
+    width: 80px;
+    height: 28px;
+    border: 1px solid rgba(116,125,255,1);
+    border-radius: 4px;
+    font-size: 14px;
+    color: #747DFF;
+    font-weight: 400;
+}
+
+QPushButton#btnNew {
+    width: 140px;
+    height: 28px;
+    background: #747DFF;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: 400;
+}

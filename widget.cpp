@@ -55,6 +55,8 @@ void Widget::start(std::shared_ptr<ScreenList> list)
     raise();
     activateWindow();
 
+    setCursor(Qt::ArrowCursor);
+
 	m_screenlist = list;
 	m_workspace->start(m_screenlist);
 }
