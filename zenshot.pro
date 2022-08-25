@@ -54,6 +54,7 @@ SOURCES += \
     locators/pointlocator.cpp \
     locators/rectlocator.cpp \
     main.cpp \
+    preview/zentaodemand.cpp \
     preview/zentaopreview.cpp \
     preview/zentaosubmit.cpp \
     properties/arrowbar.cpp \
@@ -138,6 +139,7 @@ HEADERS += \
     handles/rectshapehandle.h \
     locators/pointlocator.h \
     locators/rectlocator.h \
+    preview/zentaodemand.h \
     preview/zentaopreview.h \
     preview/zentaosubmit.h \
     properties/arrowbar.h \
