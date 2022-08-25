@@ -115,6 +115,3 @@ void TextAssist::cleanup()
     m_editing = false;
     m_textWidget->hide();
 }
-
-
-

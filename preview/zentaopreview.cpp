@@ -11,18 +11,18 @@
 
 extern std::string SETTING_XML_NAME;
 
-ZTPreviewDlg::ZTPreviewDlg(QWidget* parent)
-	: QDialog(parent)
+ZTPreview::ZTPreview(QWidget* parent)
+	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::Tool);
+	setWindowFlags(windowFlags() | Qt::Tool);
 
 	SetupUI();
 	SetupSignal();
 }
 
-void ZTPreviewDlg::SetupUI()
+void ZTPreview::SetupUI()
 {
 	// load qss
 	QFile file(":/zentaopreview.css");
@@ -35,11 +35,11 @@ void ZTPreviewDlg::SetupUI()
 	setStyleSheet(qss);
 }
 
-void ZTPreviewDlg::SetupSignal()
+void ZTPreview::SetupSignal()
 {
 }
 
-void ZTPreviewDlg::closeEvent(QCloseEvent* event)
+void ZTPreview::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
 	hide();

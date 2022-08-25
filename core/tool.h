@@ -42,6 +42,8 @@ public:
      */
     explicit Tool(Workspace *m_workspace);
 
+    virtual ~Tool();
+
     /**
      * @brief 获取对应的图形类型(针对 create 类的 tool)
      * @return

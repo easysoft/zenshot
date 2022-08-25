@@ -25,7 +25,7 @@ StarterUI::StarterUI()
 	, m_SettingDlg(this)
 #if !NZENTAO_VER_
 	, m_ZTSettingDlg(nullptr)
-	, m_ZTPreviewDlg(nullptr)
+	, m_ZTSubmitDlg(nullptr)
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
 {
@@ -224,13 +224,12 @@ void StarterUI::OnShowZenTaoSetting()
 
 void StarterUI::OnShowPreview()
 {
-	L_TRACE("----------------------------");
-	if (!m_ZTPreviewDlg.isVisible())
+	if (!m_ZTSubmitDlg.isVisible())
 	{
-		m_ZTPreviewDlg.show();
+		m_ZTSubmitDlg.show();
 	}
 
-	m_ZTPreviewDlg.raise();
-	m_ZTPreviewDlg.activateWindow();
+	m_ZTSubmitDlg.raise();
+	m_ZTSubmitDlg.activateWindow();
 }
 #endif // NZENTAO_VER_

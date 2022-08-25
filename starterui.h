@@ -4,7 +4,7 @@
 
 #include "setting/settingdlg.h"
 #include "setting/zentaosetting.h"
-#include "preview/zentaopreview.h"
+#include "preview/zentaosubmit.h"
 
 #include <QWidget>
 #include <QSystemTrayIcon>
@@ -62,7 +62,7 @@ private:
 	SettingDlg m_SettingDlg;
 #if !NZENTAO_VER_
 	ZTSettingDlg m_ZTSettingDlg;
-	ZTPreviewDlg m_ZTPreviewDlg;
+	ZTSubmitDlg m_ZTSubmitDlg;
 #endif // NZENTAO_VER_
 }; // StarterUI
 

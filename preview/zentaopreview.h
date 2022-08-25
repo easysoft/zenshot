@@ -5,15 +5,15 @@
 
 #include "usrmetatype.h"
 
-#include <QDialog>
+#include <QWidget>
 #include <QLayout>
 
-class ZTPreviewDlg : public QDialog {
+class ZTPreview : public QWidget {
 	Q_OBJECT
 
 public:
-	ZTPreviewDlg(QWidget* parent);
-	~ZTPreviewDlg() {}
+	ZTPreview(QWidget* parent);
+	~ZTPreview() {}
 
 signals:
 
@@ -29,7 +29,7 @@ private:
 	void SetupSignal();
 
 private:
-	Ui::ZTPreviewDlg ui;
+	Ui::ZTPreview ui;
 }; // ZTPreviewDlg
 
 #endif // !ZTPREVIEW_DLG_H_

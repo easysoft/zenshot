@@ -93,7 +93,6 @@ void ShotArea::autoCapture()
     autoCaptureWindow();
 }
 
-
 void ShotArea::autoCaptureScreen()
 {
     //获取鼠标所在位置的屏幕
@@ -105,9 +104,6 @@ void ShotArea::autoCaptureScreen()
 void ShotArea::autoCaptureWindow()
 {
     QWidget *host = m_workspace->widget();
-
-    QCursor cursor(Qt::ArrowCursor);
-    host->setCursor(cursor);
 
     //初始化选择区域
     QRect globalArea = WindowGetter::winGeometry(m_screenList->screenAt(m_nowScreenIndex),host);

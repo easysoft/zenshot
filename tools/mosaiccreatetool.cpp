@@ -21,6 +21,8 @@
 #include "core/useroper.h"
 #include "commands/addcommand.h"
 
+#include "spdlogwrapper.hpp"
+
 MosaicCreateTool::MosaicCreateTool(Workspace *workspace) : Tool(workspace)
 {
 
@@ -39,6 +41,8 @@ void MosaicCreateTool::setCursor()
     QCursor cursor(scaledPixmap,-1,-1);
 
     m_workspace->widget()->setCursor(cursor);
+
+    L_DEBUG("Set Mosaic Cursor");
 }
 
 void MosaicCreateTool::onMousePress(QPoint mousePoint)
@@ -62,5 +66,7 @@ void MosaicCreateTool::onMouseRelease(QPoint mousePoint)
 
     AddCommand *addComm = new AddCommand(m_workspace,m_shape);
     UserOper::add(addComm);
+
+    L_DEBUG("Clear Mosaic Cursor");
 }
 

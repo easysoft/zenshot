@@ -55,6 +55,7 @@ SOURCES += \
     locators/rectlocator.cpp \
     main.cpp \
     preview/zentaopreview.cpp \
+    preview/zentaosubmit.cpp \
     properties/arrowbar.cpp \
     properties/curvebar.cpp \
     properties/ellipsebar.cpp \
@@ -138,6 +139,7 @@ HEADERS += \
     locators/pointlocator.h \
     locators/rectlocator.h \
     preview/zentaopreview.h \
+    preview/zentaosubmit.h \
     properties/arrowbar.h \
     properties/curvebar.h \
     properties/ellipsebar.h \
@@ -237,9 +239,11 @@ DEFINES += USE_SPDLOG_
 
 FORMS += \
     setting.ui \
+    zentaodemand.ui \
     zentaopreview.ui \
     zentaosetting.ui \
     zentaosetting.ui \
     zentaosettingdetail.ui \
-    zentaosettinglist.ui
+    zentaosettinglist.ui \
+    zentaosubmit.ui
 

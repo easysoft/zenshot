@@ -520,6 +520,7 @@ void Workspace::setSelected(Shape *newSelected)
         m_selectedShape->saveProps();
         m_toolBar->highlightCreateBtn(m_selectedShape->type());
         m_createTool.reset(createCreateToolFactory(m_selectedShape->type()));
+        m_createTool->cleanup();
     }
 
     refreshDraw();
@@ -665,6 +666,10 @@ void Workspace::rePositionBar()
 void Workspace::createToolChanged(QString shapeType)
 {
     L_FUNCTION();
+    if (m_createTool)
+    {
+        m_createTool->cleanup();
+    }
     m_createTool.reset(createCreateToolFactory(shapeType));
 
     setSelected(nullptr);

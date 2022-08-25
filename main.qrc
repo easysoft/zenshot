@@ -23,6 +23,7 @@
         <file>zentaosettingdetail.css</file>
         <file>zentaosettinglist.css</file>
         <file>zentaosetting.css</file>
+        <file>zentaosubmit.css</file>
         <file>zentaopreview.css</file>
     </qresource>
 </RCC>

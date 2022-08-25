@@ -25,6 +25,11 @@ Tool::Tool(Workspace *workspace)
     this->m_workspace = workspace;
 }
 
+Tool::~Tool()
+{
+    cleanup();
+}
+
 QString Tool::forType()
 {
     return "base";

@@ -70,6 +70,8 @@ void Widget::cleanup()
 
     m_status = "unknown";
     m_workspace->cleanup();
+
+    update();
 }
 
 Workspace* Widget::workspace() const
@@ -159,14 +161,14 @@ void Widget::paintEvent(QPaintEvent* event)
 
 void Widget::enterEvent(QEvent* event)
 {
-    Q_UNUSED(event);
     L_FUNCTION();
     L_DEBUG("*************************************************");
+
+    QWidget::enterEvent(event);
 }
 
 void Widget::leaveEvent(QEvent* event)
 {
-    Q_UNUSED(event);
     L_FUNCTION();
     if (m_workspace->areaConfirmed() == false)
     {
@@ -174,4 +176,6 @@ void Widget::leaveEvent(QEvent* event)
 //         m_workspace->setAreaBoundary(QRect(0,0,0,0));
 //         update();
     }
+
+    QWidget::leaveEvent(event);
 }
