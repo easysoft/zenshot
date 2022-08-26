@@ -30,13 +30,13 @@
 class DeleteCommand : public Command
 {
 public:
-    explicit DeleteCommand(Workspace *workspace,Shape *shape);
+    explicit DeleteCommand(Workspace *workspace, std::shared_ptr<Shape> shape);
 
     void undo();
     void redo();
 
 private:
-    Shape *m_shape;  
+    std::shared_ptr<Shape> m_shape;
 };
 
 #endif // DELETECOMMAND_H

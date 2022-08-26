@@ -35,7 +35,7 @@ public:
     void onMouseRelease(QPoint mousePoint);
 
 private:
-    Text *m_shape;
+    std::shared_ptr<Text> m_shape;
 };
 
 #endif // TEXTTOOL_H

@@ -33,7 +33,7 @@ QString LineCreateTool::forType()
 
 void LineCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Line(m_workspace);
+    m_shape.reset(new Line(m_workspace));
 
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));

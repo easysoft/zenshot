@@ -35,13 +35,13 @@ public:
      * @param workspace 工作空间
      * @param shape 目标图形
      */
-    explicit AddCommand(Workspace *workspace,Shape *shape);
+    explicit AddCommand(Workspace *workspace, std::shared_ptr<Shape> shape);
 
     void undo();
     void redo();
 
 private:
-    Shape *m_shape;    
+    std::shared_ptr<Shape> m_shape;
 };
 
 #endif // ADDCOMMAND_H

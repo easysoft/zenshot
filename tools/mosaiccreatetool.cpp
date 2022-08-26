@@ -42,15 +42,16 @@ void MosaicCreateTool::setCursor()
 
     m_workspace->widget()->setCursor(cursor);
 
-    L_DEBUG("Set Mosaic Cursor");
+    L_DEBUG("@@@@@@@@@@ 0x{0:x} Set Mosaic Cursor", (uint64_t)this);
 }
 
 void MosaicCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Mosaic(m_workspace);
+    m_shape.reset(new Mosaic(m_workspace));
 
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
 
+    L_WARN("add moscaic +++++++++++");
     m_workspace->addMosaic(m_shape);
 }
 
@@ -66,7 +67,4 @@ void MosaicCreateTool::onMouseRelease(QPoint mousePoint)
 
     AddCommand *addComm = new AddCommand(m_workspace,m_shape);
     UserOper::add(addComm);
-
-    L_DEBUG("Clear Mosaic Cursor");
 }
-

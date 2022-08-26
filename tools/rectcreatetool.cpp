@@ -38,7 +38,7 @@ void RectCreateTool::onMousePress(QPoint mousePoint)
 {
     m_startPoint = QPoint(mousePoint.x(),mousePoint.y());
 
-    m_shape = new Rectangle(m_workspace);
+    m_shape.reset(new Rectangle(m_workspace));
     m_shape->setBoundary(QRect(mousePoint.x(),mousePoint.y(),1,1));
 
     m_isInlist = false;

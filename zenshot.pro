@@ -237,7 +237,7 @@ RESOURCES += \
 
 DISTFILES +=
 
-DEFINES += USE_SPDLOG_
+DEFINES += NZENTAO_VER_
 
 FORMS += \
     setting.ui \

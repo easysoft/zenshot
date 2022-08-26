@@ -33,7 +33,7 @@ QString CurveCreateTool::forType()
 
 void CurveCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Curve(m_workspace);
+    m_shape.reset(new Curve(m_workspace));
 
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
 

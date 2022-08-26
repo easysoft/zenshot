@@ -30,7 +30,6 @@ void ZTDemand::InitUI()
 
 void ZTDemand::SetupUI()
 {
-	QHBoxLayout* revierLayer = m_reviewerFrame->findChild<QHBoxLayout*>("horizontalLayout");
 // 	// load qss
 // 	QFile file(":/zentaosubmit.css");
 // 

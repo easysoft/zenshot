@@ -30,13 +30,13 @@
 class TextContentCommand : public Command
 {
 public:
-    explicit TextContentCommand(Workspace *workspace,Text *shape,QString preContent);
+    explicit TextContentCommand(Workspace *workspace, std::shared_ptr<Text> shape,QString preContent);
 
     void undo();
     void redo();
 
 private:
-    Text *m_shape;
+    std::shared_ptr<Text> m_shape;
 
     QString m_oldContent;   //旧的文字内容
     QString m_nowContent;   //新的文字内容  

@@ -19,7 +19,7 @@
 #include "movecommand.h"
 #include "screen/workspace.h"
 
-MoveCommand::MoveCommand(Workspace *workspace,Shape *shape,QPoint offsetPoint):Command(workspace)
+MoveCommand::MoveCommand(Workspace *workspace, std::shared_ptr<Shape> shape,QPoint offsetPoint):Command(workspace)
 {
     this->m_shape = shape;
     this->m_offsetPoint = QPoint(offsetPoint.x(),offsetPoint.y());

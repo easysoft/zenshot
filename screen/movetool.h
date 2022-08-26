@@ -32,10 +32,10 @@
 class MoveTool : public Tool
 {
 public:
-    explicit MoveTool(Workspace *m_workspace,Shape *m_shape);
+    explicit MoveTool(Workspace *m_workspace, std::shared_ptr<Shape> shape);
 
 private:
-    Shape *m_shape;
+    std::shared_ptr<Shape> m_shape;
 
     QPoint m_start;  //鼠标移动的起始点
     QPoint m_end;    //鼠标移动的结束点

@@ -24,7 +24,7 @@
 
 #include <QtMath>
 
-MoveTool::MoveTool(Workspace *workspace,Shape *shape):Tool(workspace)
+MoveTool::MoveTool(Workspace *workspace, std::shared_ptr<Shape> shape):Tool(workspace)
 {
     this->m_shape = shape;
 }

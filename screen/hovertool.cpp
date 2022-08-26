@@ -38,7 +38,7 @@ Handle *HoverTool::shotAeaHandle() const
     return m_shotAreaHandle;
 }
 
-Shape *HoverTool::shape() const
+std::shared_ptr<Shape> HoverTool::shape() const
 {
     return m_shape;
 }

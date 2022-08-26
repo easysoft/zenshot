@@ -33,7 +33,7 @@ QString TextCreateTool::forType()
 
 void TextCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Text(m_workspace);
+    m_shape.reset(new Text(m_workspace));
     m_shape->setLocation(mousePoint);
 
     m_workspace->addShape(m_shape);

@@ -35,7 +35,7 @@ void EllipseCreateTool::onMousePress(QPoint mousePoint)
 {
     m_startPoint = QPoint(mousePoint.x(),mousePoint.y());
 
-    m_shape = new Ellipse(m_workspace);
+    m_shape.reset(new Ellipse(m_workspace));
     m_shape->setBoundary(QRect(mousePoint.x(),mousePoint.y(),1,1));
 
     m_isInlist = false;

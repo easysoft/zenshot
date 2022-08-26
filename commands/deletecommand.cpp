@@ -19,7 +19,7 @@
 #include "deletecommand.h"
 #include "screen/workspace.h"
 
-DeleteCommand::DeleteCommand(Workspace *workspace,Shape *shape):Command(workspace)
+DeleteCommand::DeleteCommand(Workspace *workspace, std::shared_ptr<Shape> shape):Command(workspace)
 {
     this->m_shape = shape;
 }

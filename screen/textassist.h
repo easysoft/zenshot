@@ -46,7 +46,7 @@ public:
      * @brief 关联文本图形对象并启动编辑
      * @param m_shape
      */
-    void attach(Text *m_shape);
+    void attach(std::shared_ptr<Text> m_shape);
 
     /**
      * @brief 接触关联，并结束文本编辑
@@ -62,7 +62,7 @@ public:
 
 private:
     bool m_editing;           //是否正在编辑标识
-    Text *m_shape;            //关联的文本对象
+    std::shared_ptr<Text> m_shape;            //关联的文本对象
     QString m_preContent;     //文本图形之前的内容
 
     TextWidget *m_textWidget; //文本编辑组件对象

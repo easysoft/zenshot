@@ -37,7 +37,7 @@ bool TextAssist::editing() const
     return m_editing;
 }
 
-void TextAssist::attach(Text *shape)
+void TextAssist::attach(std::shared_ptr<Text> shape)
 {
     m_editing = true;
     this->m_shape = shape;
