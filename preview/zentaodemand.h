@@ -32,6 +32,11 @@ private:
 
 private:
 	Ui::ZTDemand ui;
+
+	QComboBox* m_boxProduct;
+	QComboBox* m_boxModule;
+	QComboBox* m_boxType;
+	QComboBox* m_boxPri;
 }; // ZTSubmitDlg
 
 #endif // !ZTDEMAND_DLG_H_

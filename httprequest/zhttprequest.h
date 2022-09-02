@@ -18,6 +18,7 @@ public:
     ~ZHttpRequest() {}
 
 public:
+    void SetTimeout(int interval);
     void SetUrl(const char* fmt, ...);
     void AddHeader(const char* key, const char* value);
     void SetPost(const char* fmt, ...);

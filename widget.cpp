@@ -162,7 +162,6 @@ void Widget::paintEvent(QPaintEvent* event)
 void Widget::enterEvent(QEvent* event)
 {
     L_FUNCTION();
-    L_DEBUG("*************************************************");
     QWidget::enterEvent(event);
 }
 
@@ -171,7 +170,6 @@ void Widget::leaveEvent(QEvent* event)
     L_FUNCTION();
     if (m_workspace->areaConfirmed() == false)
     {
-        L_DEBUG("..............................................");
 //         m_workspace->setAreaBoundary(QRect(0,0,0,0));
 //         update();
     }

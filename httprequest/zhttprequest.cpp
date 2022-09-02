@@ -13,6 +13,16 @@ ZHttpRequest::ZHttpRequest(int interval)
 	m_Timer.setSingleShot(true);
 }
 
+void ZHttpRequest::SetTimeout(int interval)
+{
+	if (m_Timer.isActive())
+	{
+		m_Timer.stop();
+	}
+
+	m_Timer.setInterval(interval);
+}
+
 void ZHttpRequest::SetUrl(const char* fmt, ...)
 {
 	char url[1000] = { 0 };

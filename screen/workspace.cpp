@@ -371,7 +371,7 @@ void Workspace::draw(QPainter &painter)
 
         loadResource();
         m_toolBar.reset(new ToolBar(this));
-        m_toolBar->move(0,-1000);
+        m_toolBar->move(0,-43200);
         m_toolBar->show();
         m_toolBar->setVisible(false);
     }

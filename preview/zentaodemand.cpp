@@ -25,6 +25,10 @@ ZTDemand::ZTDemand(QWidget* parent)
 
 void ZTDemand::InitUI()
 {
+	m_boxProduct = findChild<QComboBox*>("boxProduct");
+	m_boxModule = findChild<QComboBox*>("boxModule");
+	m_boxType = findChild<QComboBox*>("boxType");
+	m_boxPri = findChild<QComboBox*>("boxPri");
 }
 
 void ZTDemand::SetupUI()

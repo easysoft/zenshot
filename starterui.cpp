@@ -26,6 +26,7 @@ StarterUI::StarterUI()
 #if !NZENTAO_VER_
 	, m_ZTSettingDlg(nullptr)
 	, m_ZTSubmitDlg(nullptr)
+	, m_HttpReq()
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
 {
@@ -233,4 +234,11 @@ void StarterUI::OnShowPreview(Workspace* w)
 	m_ZTSubmitDlg.raise();
 	m_ZTSubmitDlg.activateWindow();
 }
+
+void StarterUI::OnLogin(string_ptr url, string_ptr usr, string_ptr pass)
+{
+	std::string uri = build_uri(url->c_str(), "/tokens");
+	m_HttpReq.SetUrl(uri.c_str());
+}
+
 #endif // NZENTAO_VER_

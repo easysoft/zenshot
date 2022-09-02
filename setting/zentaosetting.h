@@ -7,8 +7,6 @@
 #include "ztsettinglist.h"
 #include "ztsettinglistitem.h"
 
-#include "httprequest/zhttprequest.h"
-
 #include "usrmetatype.h"
 
 #include <QDialog>
