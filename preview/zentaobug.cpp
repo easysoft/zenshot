@@ -1,4 +1,4 @@
-#include "zentaodemand.h"
+#include "zentaobug.h"
 
 #include "spdlogwrapper.hpp"
 
@@ -11,7 +11,7 @@
 
 extern std::string SETTING_XML_NAME;
 
-ZTDemand::ZTDemand(QWidget* parent)
+ZTBug::ZTBug(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -23,14 +23,14 @@ ZTDemand::ZTDemand(QWidget* parent)
 	SetupSignal();
 }
 
-void ZTDemand::InitUI()
+void ZTBug::InitUI()
 {
 }
 
-void ZTDemand::SetupUI()
+void ZTBug::SetupUI()
 {
 	// load qss
-	QFile file(":/zentaodemand.css");
+	QFile file(":/zentaobug.css");
 
 	file.open(QFile::ReadOnly);
 	QString qss = QString::fromLatin1(file.readAll());
@@ -40,11 +40,11 @@ void ZTDemand::SetupUI()
 	setStyleSheet(qss);
 }
 
-void ZTDemand::SetupSignal()
+void ZTBug::SetupSignal()
 {
 }
 
-void ZTDemand::closeEvent(QCloseEvent* event)
+void ZTBug::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
 	hide();

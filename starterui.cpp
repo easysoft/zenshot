@@ -35,6 +35,8 @@ StarterUI::StarterUI()
 	qRegisterMetaType<int32_t>("int32_t");
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<string_ptr>("string_ptr");
+	qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
+	qRegisterMetaType<Workspace*>("Workspace*");
 
 	createActions();
 	createTrayIcon();
@@ -45,6 +47,7 @@ StarterUI::StarterUI()
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
 	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
  	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
 
 	trayIcon->show();
 
@@ -156,20 +159,14 @@ void StarterUI::OnShotDone(Starter* starter)
 
 void StarterUI::OnExitShot()
 {
-#ifdef Q_OS_WIN
-	ExitProcess(0);
-#else
+	trayIcon->hide();
 	QApplication::exit(0);
-#endif // Q_OS_WIN
 }
 
 void StarterUI::closeEvent(QCloseEvent*)
 {
-#ifdef Q_OS_WIN
-	ExitProcess(0);
-#else
+	trayIcon->hide();
 	QApplication::exit(0);
-#endif // Q_OS_WIN
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -222,11 +219,13 @@ void StarterUI::OnShowZenTaoSetting()
 	m_ZTSettingDlg.activateWindow();
 }
 
-void StarterUI::OnShowPreview()
+void StarterUI::OnShowPreview(Workspace* w)
 {
 	if (!m_ZTSubmitDlg.isVisible())
 	{
+		auto pixmap = w->result();
 		m_ZTSubmitDlg.show();
+		emit Thumbnail(pixmap);
 	}
 
 	m_ZTSubmitDlg.raise();

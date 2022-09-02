@@ -20,25 +20,38 @@
 }
 
 #btnDemand {
-    background-color: #FFFFFF;
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
+    background-color: transparent;
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 400;
+
+    padding-left: 35px;
+
+    background-image: url(:/images/demand-uncheck.png);
+    background-repeat: no-repeat;
+}
+
+#btnDemand:checked {
+    background-image: url(:/images/demand-check.png);
 }
 
 #btnBug {
-    background-color: #F5F5F5;
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
+    background-color: transparent;
+
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 400;
+
+    padding-left: 35px;
+
+    background-image: url(:/images/bug-uncheck.png);
+    background-repeat: no-repeat;
 }
 
-#btnOkay {
-    border: 1px solid rgba(116,125,255,1);
-    border-radius: 4px;
-}
-
-#btnCancel {
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
+#btnBug:checked {
+    background-image: url(:/images/bug-check.png);
 }
 
 #listView {

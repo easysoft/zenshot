@@ -33,6 +33,7 @@ public:
 
     void init(QWidget* parent = nullptr);
     void cleanup();
+    std::shared_ptr<QPixmap> result();
 
 private:
     QList<Widget*>* m_widgets;
@@ -40,6 +41,7 @@ private:
 
 signals:
     void ShotDone(Starter*);
+    void ShotResult(std::shared_ptr<QPixmap> pixmap);
 
 private slots:
     void finishShot(int code);

@@ -139,7 +139,8 @@ void ToolBar::createFunctionButons()
     connect(closeBtn,SIGNAL(clicked()),this,SLOT(closeProgramBtnClicked()));
     connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveBtnClicked()));
 #if !NZENTAO_VER_
-    connect(send2ZenTaoBtn, SIGNAL(clicked()), g_start_ui_, SLOT(OnShowPreview()));
+    connect(send2ZenTaoBtn, SIGNAL(clicked()), this, SLOT(OnShowPreviewClicked()));
+    connect(this, SIGNAL(ShowPreview(Workspace*)), g_start_ui_, SLOT(OnShowPreview(Workspace*)));
 #endif // NZENTAO_VER_
 }
 
@@ -218,3 +219,10 @@ void ToolBar::saveBtnClicked()
 {
     emit save();
 }
+
+#if !NZENTAO_VER_
+void ToolBar::OnShowPreviewClicked()
+{
+    emit ShowPreview(m_workspace);
+}
+#endif // NZENTAO_VER_

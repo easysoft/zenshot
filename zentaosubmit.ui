@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>780</width>
-    <height>468</height>
+    <height>475</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
     <width>780</width>
-    <height>468</height>
+    <height>475</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -59,25 +59,9 @@
        <property name="rightMargin">
         <number>280</number>
        </property>
-       <item>
-        <widget class="QPushButton" name="btnNext">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>28</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>28</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>netstep</string>
-         </property>
-        </widget>
-       </item>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
        <item>
         <widget class="QPushButton" name="btnCancel">
          <property name="minimumSize">
@@ -94,6 +78,25 @@
          </property>
          <property name="text">
           <string>cancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnNext">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>nextstep</string>
          </property>
         </widget>
        </item>

@@ -5,6 +5,7 @@
 
 #include "zentaopreview.h"
 #include "zentaodemand.h"
+#include "zentaobug.h"
 
 #include "usrmetatype.h"
 
@@ -19,12 +20,23 @@ public:
 	~ZTSubmitDlg() {}
 
 signals:
+	void RealSubmitDemand();
+	void RealSubmitBug();
+	void ShowThumbnail(std::shared_ptr<QPixmap> pixmap);
 
 private slots:
+	void OnSubmitDemand();
+	void OnSubmitBug();
+	void OnNextStep();
+	void OnCancel();
+
+	void OnRealSubmitDemand();
+	void OnRealSubmitBug();
 
 protected:
-	// 	virtual void paintEvent(QPaintEvent* event) override;
-	// 	virtual void showEvent(QShowEvent* event) override;
+// 	virtual void paintEvent(QPaintEvent* event) override;
+	virtual void showEvent(QShowEvent* event) override;
+	virtual void hideEvent(QHideEvent* event) override;
 	virtual void closeEvent(QCloseEvent* event) override;
 
 private:
@@ -37,8 +49,14 @@ private:
 
 	QStackedWidget* m_framesWidget;
 
-	ZTPreview m_Preview;
-	ZTDemand m_Demand;
+	ZTPreview* m_Preview;		// IDX_PREVIEW
+	ZTDemand* m_Demand;			// IDX_DEMAND
+	ZTBug* m_Bug;				// IDX_BUG
+
+	QPushButton* m_btnNext;
+	QPushButton* m_btnCancel;
+
+	int m_Index;
 }; // ZTSubmitDlg
 
 #endif // !ZTSUBMIT_DLG_H_

@@ -15,7 +15,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../screen/workspace.cpp" line="677"/>
+        <location filename="../screen/workspace.cpp" line="694"/>
         <source>save file</source>
         <translation>save file</translation>
     </message>
@@ -94,27 +94,27 @@
         <translation type="obsolete">Start shot</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="75"/>
+        <location filename="../starterui.cpp" line="82"/>
         <source>S&amp;eeting</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="81"/>
+        <location filename="../starterui.cpp" line="88"/>
         <source>Z&amp;enTaoSeeting</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="86"/>
+        <location filename="../starterui.cpp" line="93"/>
         <source>S&amp;hot</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="91"/>
+        <location filename="../starterui.cpp" line="98"/>
         <source>&amp;Quit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="111"/>
+        <location filename="../starterui.cpp" line="118"/>
         <source>zenshot</source>
         <translation></translation>
     </message>
@@ -140,127 +140,240 @@
 <context>
     <name>ToolBar</name>
     <message>
-        <location filename="../screen/toolbar.cpp" line="90"/>
+        <location filename="../screen/toolbar.cpp" line="103"/>
         <source>rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="91"/>
+        <location filename="../screen/toolbar.cpp" line="104"/>
         <source>ellipse</source>
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="92"/>
+        <location filename="../screen/toolbar.cpp" line="105"/>
         <source>line</source>
         <translation>Line</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="93"/>
+        <location filename="../screen/toolbar.cpp" line="106"/>
         <source>arrow</source>
         <translation>Arrow</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="94"/>
+        <location filename="../screen/toolbar.cpp" line="107"/>
         <source>pie</source>
         <translation>Pie</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="95"/>
+        <location filename="../screen/toolbar.cpp" line="108"/>
         <source>text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="96"/>
+        <location filename="../screen/toolbar.cpp" line="109"/>
         <source>mosaic</source>
         <translation>Mosaic</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="107"/>
+        <location filename="../screen/toolbar.cpp" line="120"/>
         <source>undo</source>
         <translation>Undo</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="108"/>
+        <location filename="../screen/toolbar.cpp" line="121"/>
         <source>redo</source>
         <translation>Redo</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="115"/>
+        <location filename="../screen/toolbar.cpp" line="128"/>
         <source>download</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="116"/>
+        <location filename="../screen/toolbar.cpp" line="129"/>
         <source>exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="117"/>
+        <location filename="../screen/toolbar.cpp" line="130"/>
         <source>finish</source>
         <translation>Finish</translation>
     </message>
     <message>
-        <location filename="../screen/toolbar.cpp" line="119"/>
+        <location filename="../screen/toolbar.cpp" line="132"/>
         <source>send2zentao</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZTBug</name>
+    <message>
+        <location filename="../zentaobug.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="41"/>
+        <source>labelProduct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="83"/>
+        <source>labelModule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="125"/>
+        <source>labelTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="141"/>
+        <source>labelSeverity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="179"/>
+        <source>labelPri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="195"/>
+        <source>input_bug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="234"/>
+        <source>labelDesc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="250"/>
+        <source>input_desc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="279"/>
+        <source>labelVersion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="321"/>
+        <source>labelDeadLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="366"/>
+        <source>labelType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="382"/>
+        <source>labelOS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaobug.ui" line="420"/>
+        <source>labelBrower</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZTDemand</name>
+    <message>
+        <location filename="../zentaodemand.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="41"/>
+        <source>labelProduct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="83"/>
+        <source>labelModule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="125"/>
+        <source>labelType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="163"/>
+        <source>labelPri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="201"/>
+        <source>labelStory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="217"/>
+        <source>input_story</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="246"/>
+        <source>labelDesc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="262"/>
+        <source>input_desc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="291"/>
+        <source>labelVerify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="307"/>
+        <source>input_verify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="336"/>
+        <source>labelTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaodemand.ui" line="352"/>
+        <source>input_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZTPreview</name>
+    <message>
+        <location filename="../zentaopreview.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaopreview.ui" line="26"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaopreview.ui" line="62"/>
+        <source>demand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaopreview.ui" line="78"/>
+        <source>bug</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ZTSettingDetail</name>
     <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="197"/>
-        <source>setdefault</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="199"/>
-        <source>name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="200"/>
-        <source>url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="201"/>
-        <source>usr</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="202"/>
-        <source>pass</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="205"/>
         <source>save</source>
-        <translation type="unfinished">save</translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="206"/>
-        <source>new</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="208"/>
-        <source>input_name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="209"/>
-        <source>input_url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="210"/>
-        <source>input_usr</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../setting/ztsettingdetail.cpp" line="211"/>
-        <source>input_pass</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">save</translation>
     </message>
 </context>
 <context>
@@ -284,10 +397,27 @@
     </message>
 </context>
 <context>
-    <name>ZTSettingList</name>
+    <name>ZTSubmitDlg</name>
     <message>
-        <location filename="../setting/ztsettinglist.cpp" line="41"/>
-        <source>listtitle</source>
+        <location filename="../zentaosubmit.ui" line="20"/>
+        <source>submit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosubmit.ui" line="99"/>
+        <location filename="../preview/zentaosubmit.cpp" line="115"/>
+        <location filename="../preview/zentaosubmit.cpp" line="133"/>
+        <source>nextstep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosubmit.ui" line="80"/>
+        <source>cancel</source>
+        <translation type="unfinished">cancel</translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="95"/>
+        <source>submit2zentao</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -300,15 +430,27 @@
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="32"/>
-        <source>CheckBox</source>
+        <source>checkSetDefault</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="45"/>
+        <source>labelPass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../zentaosettingdetail.ui" line="58"/>
+        <source>labelUriTitle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../zentaosettingdetail.ui" line="71"/>
+        <source>labelUsr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../zentaosettingdetail.ui" line="84"/>
-        <source>TextLabel</source>
+        <source>labelNameTitle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -321,22 +463,24 @@
         <source>new</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>zentaosettingitem</name>
     <message>
-        <location filename="../zentaosettingitem.ui" line="14"/>
-        <source>item</source>
+        <location filename="../zentaosettingdetail.ui" line="123"/>
+        <source>input_name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaosettingitem.ui" line="29"/>
-        <source>TextLabel</source>
+        <location filename="../zentaosettingdetail.ui" line="136"/>
+        <source>input_url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaosettingitem.ui" line="36"/>
-        <source>PushButton</source>
+        <location filename="../zentaosettingdetail.ui" line="149"/>
+        <source>input_usr</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosettingdetail.ui" line="165"/>
+        <source>input_pass</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -345,11 +489,6 @@
     <message>
         <location filename="../zentaosettinglist.ui" line="14"/>
         <source>list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../zentaosettinglist.ui" line="36"/>
-        <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

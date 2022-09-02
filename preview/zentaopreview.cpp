@@ -13,6 +13,7 @@ extern std::string SETTING_XML_NAME;
 
 ZTPreview::ZTPreview(QWidget* parent)
 	: QWidget(parent)
+	, m_BtnGroup(this)
 {
 	ui.setupUi(this);
 
@@ -33,14 +34,40 @@ void ZTPreview::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
+
+	m_btnDemand = findChild<QPushButton*>("btnDemand");
+	m_btnBug = findChild<QPushButton*>("btnBug");
+
+	m_BtnGroup.addButton(m_btnDemand, 0);
+	m_BtnGroup.addButton(m_btnBug, 1);
+
+	m_BtnGroup.setExclusive(true);
+
+	m_imgview = findChild<QLabel*>("imgview");
 }
 
 void ZTPreview::SetupSignal()
 {
+	connect(m_btnDemand, SIGNAL(clicked()), this, SIGNAL(SubmitDemand()));
+	connect(m_btnBug, SIGNAL(clicked()), this, SIGNAL(SubmitBug()));
+}
+
+void ZTPreview::showEvent(QShowEvent* event)
+{
+	QWidget::showEvent(event);
+
+	m_btnDemand->setChecked(true);
+	emit SubmitDemand();
 }
 
 void ZTPreview::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
 	hide();
+}
+
+void ZTPreview::OnShowThumbnail(std::shared_ptr<QPixmap> pixmap)
+{
+	pixmap->scaled(m_imgview->size(), Qt::KeepAspectRatio);
+	m_imgview->setPixmap(*pixmap);
 }

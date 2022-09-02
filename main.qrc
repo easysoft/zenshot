@@ -25,5 +25,11 @@
         <file>zentaosetting.css</file>
         <file>zentaosubmit.css</file>
         <file>zentaopreview.css</file>
+        <file>zentaodemand.css</file>
+        <file>zentaobug.css</file>
+        <file>images/bug-check.png</file>
+        <file>images/bug-uncheck.png</file>
+        <file>images/demand-check.png</file>
+        <file>images/demand-uncheck.png</file>
     </qresource>
 </RCC>

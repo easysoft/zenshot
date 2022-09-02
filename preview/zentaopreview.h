@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include <QLayout>
+#include <QButtonGroup>
 
 class ZTPreview : public QWidget {
 	Q_OBJECT
@@ -16,12 +17,15 @@ public:
 	~ZTPreview() {}
 
 signals:
+	void SubmitDemand();
+	void SubmitBug();
 
 private slots:
+	void OnShowThumbnail(std::shared_ptr<QPixmap> pixmap);
 
 protected:
 // 	virtual void paintEvent(QPaintEvent* event) override;
-// 	virtual void showEvent(QShowEvent* event) override;
+	virtual void showEvent(QShowEvent* event) override;
 	virtual void closeEvent(QCloseEvent* event) override;
 
 private:
@@ -30,6 +34,12 @@ private:
 
 private:
 	Ui::ZTPreview ui;
+
+	QButtonGroup m_BtnGroup;
+	QPushButton* m_btnDemand;
+	QPushButton* m_btnBug;
+
+	QLabel* m_imgview;
 }; // ZTPreviewDlg
 
 #endif // !ZTPREVIEW_DLG_H_

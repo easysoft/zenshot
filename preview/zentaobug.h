@@ -1,7 +1,7 @@
-#ifndef ZTDEMAND_DLG_H_
-#define ZTDEMAND_DLG_H_
+#ifndef ZTDBUG_DLG_H_
+#define ZTDBUG_DLG_H_
 
-#include "ui_zentaodemand.h"
+#include "ui_zentaobug.h"
 
 #include "zentaopreview.h"
 
@@ -10,15 +10,15 @@
 #include <QWidget>
 #include <QLayout>
 
-class ZTDemand : public QWidget {
+class ZTBug : public QWidget {
 	Q_OBJECT
 
 public:
-	ZTDemand(QWidget* parent);
-	~ZTDemand() {}
+	ZTBug(QWidget* parent);
+	~ZTBug() {}
 
 signals:
-	void RealSubmitDemand();
+	void RealSubmitBug();
 
 protected:
 	// 	virtual void paintEvent(QPaintEvent* event) override;
@@ -31,7 +31,7 @@ private:
 	void SetupSignal();
 
 private:
-	Ui::ZTDemand ui;
+	Ui::ZTBug ui;
 }; // ZTSubmitDlg
 
-#endif // !ZTDEMAND_DLG_H_
+#endif // !ZTDBUG_DLG_H_

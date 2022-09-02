@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>780</width>
-    <height>468</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +24,9 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="labelSeparation">
@@ -52,14 +55,20 @@
   <widget class="QPushButton" name="btnDemand">
    <property name="geometry">
     <rect>
-     <x>387</x>
+     <x>377</x>
      <y>320</y>
-     <width>174</width>
-     <height>60</height>
+     <width>204</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="text">
     <string>demand</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btnBug">
@@ -67,12 +76,15 @@
     <rect>
      <x>579</x>
      <y>320</y>
-     <width>174</width>
-     <height>60</height>
+     <width>204</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="text">
     <string>bug</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

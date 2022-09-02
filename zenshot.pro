@@ -54,6 +54,7 @@ SOURCES += \
     locators/pointlocator.cpp \
     locators/rectlocator.cpp \
     main.cpp \
+    preview/zentaobug.cpp \
     preview/zentaodemand.cpp \
     preview/zentaopreview.cpp \
     preview/zentaosubmit.cpp \
@@ -139,6 +140,7 @@ HEADERS += \
     handles/rectshapehandle.h \
     locators/pointlocator.h \
     locators/rectlocator.h \
+    preview/zentaobug.h \
     preview/zentaodemand.h \
     preview/zentaopreview.h \
     preview/zentaosubmit.h \
@@ -241,6 +243,7 @@ DEFINES += NZENTAO_VER_
 
 FORMS += \
     setting.ui \
+    zentaobug.ui \
     zentaodemand.ui \
     zentaopreview.ui \
     zentaosetting.ui \

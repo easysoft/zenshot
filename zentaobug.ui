@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ZTDemand</class>
- <widget class="QWidget" name="ZTDemand">
+ <class>ZTBug</class>
+ <widget class="QWidget" name="ZTBug">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -97,7 +97,248 @@
     </property>
    </widget>
   </widget>
-  <widget class="QFrame" name="demandFrame">
+  <widget class="QFrame" name="bugFrame">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>152</y>
+     <width>720</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="labelTitle">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelTitle</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSeverity">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelSeverity</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbxPri">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPri">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelPri</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editTitle">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>0</y>
+      <width>420</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>input_bug</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbxSeverity">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="descFrame">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>196</y>
+     <width>720</width>
+     <height>160</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="labelDesc">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>60</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelDesc</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textDesc">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>0</y>
+      <width>660</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>input_desc</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="versionFrame">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>64</y>
+     <width>350</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="labelVersion">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelVersion</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="boxVersion">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>0</y>
+      <width>290</width>
+      <height>32</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="deadlineFrame">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>64</y>
+     <width>350</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="labelDeadLine">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>60</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>labelDeadLine</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="TimeEditDeadLine">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>0</y>
+      <width>290</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="bugTypeFrame">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -128,29 +369,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="boxType">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>0</y>
-      <width>180</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>32</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelPri">
+   <widget class="QLabel" name="labelOS">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -160,16 +379,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>labelPri</string>
+     <string>labelOS</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="boxPri">
+   <widget class="QComboBox" name="cbxBrower">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>540</x>
       <y>0</y>
       <width>180</width>
       <height>32</height>
@@ -188,7 +407,7 @@
      </size>
     </property>
    </widget>
-   <widget class="QLabel" name="labelStory">
+   <widget class="QLabel" name="labelBrower">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -198,158 +417,30 @@
      </rect>
     </property>
     <property name="text">
-     <string>labelStory</string>
+     <string>labelBrower</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="editStory">
+   <widget class="QComboBox" name="cbxOS">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>300</x>
       <y>0</y>
       <width>180</width>
       <height>32</height>
      </rect>
     </property>
-    <property name="placeholderText">
-     <string>input_story</string>
-    </property>
    </widget>
-  </widget>
-  <widget class="QFrame" name="descFrame">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>152</y>
-     <width>720</width>
-     <height>96</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QLabel" name="labelDesc">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>60</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>labelDesc</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textDesc">
+   <widget class="QComboBox" name="cbxType">
     <property name="geometry">
      <rect>
       <x>60</x>
       <y>0</y>
-      <width>660</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>input_desc</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QFrame" name="verifyFrame">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>260</y>
-     <width>720</width>
-     <height>96</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QLabel" name="labelVerify">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>60</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>labelVerify</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="texVerify">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>0</y>
-      <width>660</width>
-      <height>96</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>input_verify</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QFrame" name="titleFrame">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>64</y>
-     <width>720</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QLabel" name="labelTitle">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>60</width>
+      <width>180</width>
       <height>32</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>labelTitle</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="editTitle">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>0</y>
-      <width>660</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>input_title</string>
     </property>
    </widget>
   </widget>

@@ -241,7 +241,11 @@ public:
 
     void normalbeforeUndo();
 
-
+    std::shared_ptr<QPixmap> result()
+    {
+        std::shared_ptr<QPixmap> ptr(new QPixmap(m_shotArea.result()));
+        return ptr;
+    }
 private:
     QFont m_iconfont;
 

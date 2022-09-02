@@ -21,6 +21,8 @@
 #include "core/screeninfo.h"
 #include "core/screenlist.h"
 
+#include "starterui.h"
+
 #include "spdlogwrapper.hpp"
 
 #include <QList>
@@ -31,6 +33,8 @@
 #include <QPropertyAnimation>
 
 #include <algorithm>
+
+extern StarterUI* g_start_ui_;
 
 Starter::Starter(bool exit_process)
     : QObject()
@@ -91,6 +95,22 @@ void Starter::cleanup()
     }
 }
 
+std::shared_ptr<QPixmap> Starter::result()
+{
+    for (auto w : *m_widgets)
+    {
+        if (!w->is_mouse_in()) 
+        {
+            continue;
+        }
+
+        auto wp = w->workspace();
+        return wp->result();
+    }
+
+    return nullptr;
+}
+
 void Starter::finishShot(int code)
 {
     L_FUNCTION();
@@ -103,7 +123,7 @@ void Starter::finishShot(int code)
 
     if (m_bExit)
     {
-        QApplication::exit(code);
+        g_start_ui_->close();
     }
 }
 

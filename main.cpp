@@ -41,8 +41,14 @@
 #include <sys/types.h>
 #endif // Q_OS_WIN
 
+static bool IsRunning();
+
 int main(int argc, char *argv[])
 {
+    if (IsRunning()) 
+    {
+        return 0;
+    }
 #ifdef USE_SPDLOG_
 #ifdef Q_OS_WIN
     mkdir("logs");
@@ -104,4 +110,29 @@ int main(int argc, char *argv[])
     int ret = a.exec();
 
     return ret;
+}
+
+static bool IsRunning()
+{
+    static const char mutex_name[] = "ZenShot@ZenTao";
+#ifdef Q_OS_WIN
+    HANDLE hMutex = CreateMutexA(0, FALSE, mutex_name);
+    if (GetLastError() == ERROR_ALREADY_EXISTS) 
+    {
+        if (hMutex) 
+            CloseHandle(hMutex);
+
+        return true;
+    }
+#else
+    sem_t* sem = sem_open(mutex_name, O_CREAT | O_EXCL, 0666, 0);
+    if (errno == EEXIST) 
+    {
+        if (sem)
+            sem_close(sem);
+        return true;
+    }
+#endif // Q_OS_WIN
+
+    return false;
 }

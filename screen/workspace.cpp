@@ -894,5 +894,3 @@ void Workspace::loadResource()
 
     m_widget->setStyleSheet(qss);
 }
-
-

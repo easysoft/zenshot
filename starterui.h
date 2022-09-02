@@ -16,10 +16,12 @@ class StarterUI : public QWidget {
 public:
 	StarterUI();
 	virtual ~StarterUI();
+
 signals:
 	void SatrtShot();
 	void ShotDone(Starter* starer);
 	void CheckHotKey(uint32_t value);
+	void Thumbnail(std::shared_ptr<QPixmap> pixmap);
 
 private slots:
 	void OnStartShot();
@@ -30,7 +32,7 @@ private slots:
 	void OnIconActivated(QSystemTrayIcon::ActivationReason reason);
 #if !NZENTAO_VER_
 	void OnShowZenTaoSetting();
-	void OnShowPreview();
+	void OnShowPreview(Workspace* w);
 #endif // NZENTAO_VER_
 
 protected:

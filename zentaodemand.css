@@ -1,0 +1,23 @@
+
+#ZTDemand {
+    background-color: #ffffff;
+    color: #1B1F28;
+    font-size: 13px;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+QLabel {
+    font-family: Microsoft YaHei;
+    font-size: 12px;
+    color: #3C4353;
+    font-weight: 400;
+}
+
+QTextEdit {
+    font-family: Microsoft YaHei;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+}

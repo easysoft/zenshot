@@ -202,22 +202,6 @@ void ZTSettingDetail::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
-
-	m_checkSetDefault->setText(tr("setdefault"));
-	
-	m_labelNameTitle->setText(tr("name"));
-	m_labelUriTitle->setText(tr("url"));
-	m_labelUsr->setText(tr("usr"));
-	m_labelPass->setText(tr("pass"));
-	m_textPass->setEchoMode(QLineEdit::Password);
-
-	m_btnSave->setText(tr("save"));
-	m_btnNew->setText(tr("new"));
-
-	m_textName->setPlaceholderText(tr("input_name"));
-	m_textUri->setPlaceholderText(tr("input_url"));
-	m_textUsr->setPlaceholderText(tr("input_usr"));
-	m_textPass->setPlaceholderText(tr("input_pass"));
 }
 
 void ZTSettingDetail::SetupSignal()

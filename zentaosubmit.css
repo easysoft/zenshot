@@ -1,9 +1,25 @@
 
 #ZTSubmitDlg {
-    background-color: #ffffff;
-    color: #1B1F28;
-    font-size: 13px;
+    background-color: #FFFFFF;
     border: 0px;
     margin: 0px;
     padding: 0px;
+}
+
+#btnNext {
+    border: 1px solid rgba(116,125,255,1);
+    border-radius: 4px;
+    font-family: Microsoft YaHei;
+    font-size: 13px;
+    color: #747DFF;
+    font-weight: 400;
+}
+
+#btnCancel {
+    border: 1px solid rgba(116,125,255,1);
+    border-radius: 4px;
+    font-family: Microsoft YaHei;
+    font-size: 13px;
+    color: #9EA3B0;
+    font-weight: 400;
 }
