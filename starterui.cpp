@@ -47,7 +47,9 @@ StarterUI::StarterUI()
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
 	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
  	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+#if !NZENTAO_VER_
 	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
+#endif // NZENTAO_VER_
 
 	trayIcon->show();
 

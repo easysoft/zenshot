@@ -31,7 +31,6 @@ Widget::Widget(QWidget* parent)
     , m_workspace(new Workspace(this))
     , m_screenlist(nullptr)
     , m_status("unknown")
-    , m_MouseIn(false)
 {
 #ifndef USE_SPDLOG_
     setWindowFlags(Qt::Tool);
@@ -67,7 +66,6 @@ void Widget::cleanup()
     L_FUNCTION();
     hide();
 
-    m_MouseIn = false;
     L_TRACE("is visable = {0} && w: {1}, h: {2} @ {3}", this->isVisible(), size().width(), size().height(), __FUNCTION__);
 
     m_status = "unknown";
@@ -165,14 +163,12 @@ void Widget::enterEvent(QEvent* event)
 {
     L_FUNCTION();
     L_DEBUG("*************************************************");
-    m_MouseIn = true;
     QWidget::enterEvent(event);
 }
 
 void Widget::leaveEvent(QEvent* event)
 {
     L_FUNCTION();
-    m_MouseIn = false;
     if (m_workspace->areaConfirmed() == false)
     {
         L_DEBUG("..............................................");

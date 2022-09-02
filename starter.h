@@ -33,7 +33,6 @@ public:
 
     void init(QWidget* parent = nullptr);
     void cleanup();
-    std::shared_ptr<QPixmap> result();
 
 private:
     QList<Widget*>* m_widgets;

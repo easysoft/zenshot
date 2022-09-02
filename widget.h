@@ -39,8 +39,6 @@ public:
     void start(std::shared_ptr<ScreenList> list);
     void cleanup();
 
-    bool is_mouse_in() { return m_MouseIn; }
-
     Workspace* workspace() const;
     void finishConfirmArea();
 
@@ -61,8 +59,6 @@ private:
 	QString m_status;  //unknown, active, giveup
 	Workspace* m_workspace;
 	std::shared_ptr<ScreenList> m_screenlist;
-
-    bool m_MouseIn;
 };
 
 #endif // WIDGET_H
