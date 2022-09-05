@@ -2,6 +2,7 @@
 
 #include "ztsettingdetail.h"
 #include "config/xmlconfig.h"
+#include "config/configvalue.h"
 #include "spdlogwrapper.hpp"
 
 #include <QPainter>
@@ -15,9 +16,9 @@ extern std::string SETTING_XML_NAME;
 
 ZTSettingDlg::ZTSettingDlg(QWidget* parent)
 	: QDialog(parent)
-	, m_Layout(parent)
-	, m_Detail(parent)
-	, m_List(parent)
+	, m_Layout()
+	, m_Detail(nullptr)
+	, m_List(nullptr)
 {
 	ui.setupUi(this);
 
@@ -79,38 +80,12 @@ void ZTSettingDlg::OnConfigCancel()
 
 void ZTSettingDlg::OnConfigSave()
 {
-	// remove all config
-	int index = 0;
-	for (;; index++)
-	{
-		std::string k = BuildConfigKey(index);
-		std::string url = GetXMLConfig().GetConfigString3("config", k.c_str(), "url");
-		if (url.empty())
-		{
-			break;
-		}
+	emit SaveZentaoSiteConfig();
+	emit SaveZentaoDefaultSite();
+}
 
-		GetXMLConfig().RemoveConfig2("config", k.c_str());
-	}
-	
-// 	index = 0;
-// 	for (int i = 0; i < m_ZTSettingList.count(); i++)
-// 	{
-// 		QListWidgetItem* item = m_ZTSettingList.item(i);
-// 		if (item->isHidden())
-// 		{
-// 			continue;
-// 		}
-// 
-// 		if (!SaveConfig(i, index))
-// 		{
-// 			continue;
-// 		}
-// 
-// 		index++;
-// 	}
-
-	GetXMLConfig().SaveConfig(SETTING_XML_NAME);
+void ZTSettingDlg::OnConfigNew()
+{
 }
 
 void ZTSettingDlg::OnCheckConfig()
@@ -143,21 +118,28 @@ void ZTSettingDlg::SetupSignal()
 	connect(this, SIGNAL(RemoveItem()), this, SLOT(OnRemoveItem()));
 
 	connect(this, SIGNAL(ConfigCancel()), this, SLOT(OnConfigCancel()));
-	connect(this, SIGNAL(ConfigSave()), this, SLOT(OnConfigSave()));
+	connect(&m_Detail, SIGNAL(ConfigSave()), this, SLOT(OnConfigSave()));
 
 	connect(&m_List, SIGNAL(CurrentRowSelected(string_ptr, string_ptr, string_ptr, string_ptr)), &m_Detail, SIGNAL(ChangeCurrentSelectDetail(string_ptr, string_ptr, string_ptr, string_ptr)));
+
+	connect(this, SIGNAL(SaveZentaoSiteConfig()), &m_List, SIGNAL(SaveSiteListConfig()));
+	connect(this, SIGNAL(SaveZentaoDefaultSite()), &m_Detail, SIGNAL(SaveDefaultSite()));
+
+	connect(&m_Detail, SIGNAL(ConfigNew()), &m_List, SLOT(OnNewSiteConfig()));
 }
 
-bool ZTSettingDlg::SaveConfig(int index, int config_index)
-{
-	return true;
-}
-
-void ZTSettingDlg::SaveDefaultConfig(int index)
-{
-	std::string zentao = BuildConfigKey(index);
-	GetXMLConfig().SetConfigString3("config", "zentao", "default", zentao.c_str());
-}
+// {
+// 	bool done = false;
+// 	auto default_cb = [&](rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+// 	{
+// 		(void*)root;
+// 
+// 		SetConfigStr(node, "default", m_DefaultUrl.c_str());
+// 		done = true;
+// 		return true;
+// 	};
+// 	GetXMLConfig().FindAllNode("config", "default", default_cb);
+// }
 
 int ZTSettingDlg::CalcRowWidth()
 {

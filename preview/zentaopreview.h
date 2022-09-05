@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QLayout>
 #include <QButtonGroup>
+#include <QStringListModel>
 
 class ZTPreview : public QWidget {
 	Q_OBJECT
@@ -34,6 +35,9 @@ private:
 
 private:
 	Ui::ZTPreview ui;
+
+	QListView* m_listView;
+	QStringListModel* m_listModel;
 
 	QButtonGroup m_BtnGroup;
 	QPushButton* m_btnDemand;

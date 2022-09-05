@@ -19,6 +19,7 @@ public:
 
 signals:
 	void RealSubmitDemand();
+	void DemainLogin(string_ptr url, string_ptr usr, string_ptr pass);
 
 protected:
 	// 	virtual void paintEvent(QPaintEvent* event) override;
@@ -28,7 +29,6 @@ protected:
 private:
 	void InitUI();
 	void SetupUI();
-	void SetupSignal();
 
 private:
 	Ui::ZTDemand ui;

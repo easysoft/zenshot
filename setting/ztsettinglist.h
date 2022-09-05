@@ -20,7 +20,6 @@ signals:
 	void AddConfigItem(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 	void SaveSiteListConfig();
 	void CurrentRowSelected(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
-	void SaveSiteConfig();
 
 private slots:
 	void OnRealRemoveItem(ZTSettingListItem* w);
@@ -28,6 +27,7 @@ private slots:
 	void OnSaveSiteListConfig();
 	void OncurrentRowChanged(int index);
 	void OnSaveSiteConfig();
+	void OnNewSiteConfig();
 
 protected:
 	virtual void paintEvent(QPaintEvent* event) override;

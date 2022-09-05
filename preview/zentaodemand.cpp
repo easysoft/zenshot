@@ -1,6 +1,7 @@
 #include "zentaodemand.h"
 
 #include "spdlogwrapper.hpp"
+#include "starterui.h"
 
 #include <QPainter>
 #include <QFile>
@@ -20,7 +21,6 @@ ZTDemand::ZTDemand(QWidget* parent)
 
 	InitUI();
 	SetupUI();
-	SetupSignal();
 }
 
 void ZTDemand::InitUI()
@@ -42,10 +42,6 @@ void ZTDemand::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
-}
-
-void ZTDemand::SetupSignal()
-{
 }
 
 void ZTDemand::closeEvent(QCloseEvent* event)

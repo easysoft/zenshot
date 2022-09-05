@@ -1,6 +1,8 @@
 #include "zentaopreview.h"
 
 #include "spdlogwrapper.hpp"
+#include "config/xmlconfig.h"
+#include "config/configvalue.h"
 
 #include <QPainter>
 #include <QFile>
@@ -8,12 +10,14 @@
 #include <QAbstractItemView>
 #include <QListWidgetItem>
 #include <QStandardItemModel>
+#include <QStringListModel>
 
 extern std::string SETTING_XML_NAME;
 
 ZTPreview::ZTPreview(QWidget* parent)
 	: QWidget(parent)
 	, m_BtnGroup(this)
+	, m_listModel(new QStringListModel(this))
 {
 	ui.setupUi(this);
 
@@ -34,6 +38,9 @@ void ZTPreview::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
+
+	m_listView = findChild<QListView*>("listView");
+	m_listView->setModel(m_listModel);
 
 	m_btnDemand = findChild<QPushButton*>("btnDemand");
 	m_btnBug = findChild<QPushButton*>("btnBug");
@@ -56,6 +63,19 @@ void ZTPreview::showEvent(QShowEvent* event)
 {
 	QWidget::showEvent(event);
 
+	QStringList names;
+	auto cb = [&](rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+	{
+		(void*)root;
+		auto name_attr = node->first_attribute("name");
+		auto name = name_attr->value();
+		names.append(name);
+		return false;
+	};
+	GetXMLConfig().FindAllNode("config", "zentao", cb);
+
+	m_listModel->setStringList(names);
+	
 	m_btnDemand->setChecked(true);
 	emit SubmitDemand();
 }

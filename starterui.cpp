@@ -24,8 +24,8 @@ StarterUI::StarterUI()
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
 #if !NZENTAO_VER_
-	, m_ZTSettingDlg(nullptr)
-	, m_ZTSubmitDlg(nullptr)
+	, m_ZTSettingDlg(this)
+	, m_ZTSubmitDlg(this)
 	, m_HttpReq()
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
@@ -44,13 +44,8 @@ StarterUI::StarterUI()
 
 	setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 	setAttribute(Qt::WA_TranslucentBackground, true);
-
-	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
-	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
- 	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
-#if !NZENTAO_VER_
-	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
-#endif // NZENTAO_VER_
+	
+	SetupSignal();
 
 	trayIcon->show();
 
@@ -122,6 +117,18 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
+}
+
+void StarterUI::SetupSignal()
+{
+	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
+	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
+	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+#if !NZENTAO_VER_
+	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
+	connect(this, SIGNAL(Login(string_ptr, string_ptr, string_ptr)), this, SLOT(OnLogin(string_ptr, string_ptr, string_ptr)));
+	connect(this, SIGNAL(ReqProduct(string_ptr)), this, SLOT(OnProduct(string_ptr)));
+#endif // NZENTAO_VER_
 }
 
 void StarterUI::OnStartShot()
@@ -209,36 +216,3 @@ void StarterUI::OnShowSetting()
 	m_SettingDlg.raise();
 	m_SettingDlg.activateWindow();
 }
-
-#if !NZENTAO_VER_
-void StarterUI::OnShowZenTaoSetting()
-{
-	if (!m_ZTSettingDlg.isVisible())
-	{
-		m_ZTSettingDlg.show();
-	}
-
-	m_ZTSettingDlg.raise();
-	m_ZTSettingDlg.activateWindow();
-}
-
-void StarterUI::OnShowPreview(Workspace* w)
-{
-	if (!m_ZTSubmitDlg.isVisible())
-	{
-		auto pixmap = w->result();
-		m_ZTSubmitDlg.show();
-		emit Thumbnail(pixmap);
-	}
-
-	m_ZTSubmitDlg.raise();
-	m_ZTSubmitDlg.activateWindow();
-}
-
-void StarterUI::OnLogin(string_ptr url, string_ptr usr, string_ptr pass)
-{
-	std::string uri = build_uri(url->c_str(), "/tokens");
-	m_HttpReq.SetUrl(uri.c_str());
-}
-
-#endif // NZENTAO_VER_

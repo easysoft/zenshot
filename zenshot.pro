@@ -111,6 +111,7 @@ HEADERS += \
     commands/movecommand.h \
     commands/propscommand.h \
     commands/textcontentcommand.h \
+    config/configvalue.h \
     config/xmlconfig.h \
     controls/colorbutton.h \
     controls/colorwidget.h \

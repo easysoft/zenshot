@@ -47,10 +47,15 @@ public:
 signals:
 	void CheckInputDone();
 	void ChangeCurrentSelectDetail(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void SaveDefaultSite();
+	void ConfigSave();
+	void ConfigNew();
 
 private slots:
 	void OnCheckInputDone();
 	void OnChangeCurrentSelectDetail(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void OnStateChanged(int state);
+	void OnSaveDefaultSite();
 
 private:
 	void InitUI();
@@ -75,6 +80,7 @@ private:
 	QLineEdit* m_textUsr;
 	QLineEdit* m_textPass;
 	
+	std::string m_DefaultSite;
 }; // ZTSettingDetail
 
 #endif // ZTSETTING_ITEM_H_

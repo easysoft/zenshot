@@ -4,9 +4,6 @@
 #include <QFile>
 #include <QEvent>
 #include <QKeyEvent>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QMessageBox>
 
 ZTSettingDetail::ZTSettingDetail(QWidget* parent)
@@ -22,9 +19,6 @@ ZTSettingDetail::ZTSettingDetail(QWidget* parent)
 // 
 // 	installEventFilter(this);
 // 	m_Pass.installEventFilter(this);
-// 
-	connect(this, SIGNAL(CheckInputDone()), this, SLOT(OnCheckInputDone()));
-	connect(this, SIGNAL(ChangeCurrentSelectDetail(string_ptr, string_ptr, string_ptr, string_ptr)), this, SLOT(OnChangeCurrentSelectDetail(string_ptr, string_ptr, string_ptr, string_ptr)));
 }
 
 // bool ZTSettingDetail::eventFilter(QObject* watched, QEvent* event)
@@ -76,7 +70,7 @@ void ZTSettingDetail::OnCheckInputDone()
 // 		QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
 // 		return;
 // 	}
-
+// 
 // 	auto token = doc["token"].toString();
 // 	if (token.isEmpty())
 // 	{
@@ -173,6 +167,22 @@ void ZTSettingDetail::OnChangeCurrentSelectDetail(string_ptr name, string_ptr ur
 	m_textPass->setText(pass->c_str());
 }
 
+void ZTSettingDetail::OnStateChanged(int state)
+{
+	if (state == Qt::Checked)
+	{
+		m_DefaultSite = GetUrl();
+	}
+	else
+	{
+		m_DefaultSite = "";
+	}
+}
+
+void ZTSettingDetail::OnSaveDefaultSite()
+{
+}
+
 void ZTSettingDetail::InitUI()
 {
 	m_checkSetDefault = findChild<QCheckBox*>("checkSetDefault");
@@ -206,6 +216,15 @@ void ZTSettingDetail::SetupUI()
 
 void ZTSettingDetail::SetupSignal()
 {
+	connect(m_checkSetDefault, SIGNAL(stateChanged(int)), this, SLOT(OnStateChanged(int)));
+	connect(this, SIGNAL(SaveDefaultSite()), this, SLOT(OnSaveDefaultSite()));
+
+	connect(m_btnSave, SIGNAL(clicked()), this, SIGNAL(ConfigSave()));
+	connect(m_btnNew, SIGNAL(clicked()), this, SIGNAL(ConfigNew()));
+
+	connect(this, SIGNAL(CheckInputDone()), this, SLOT(OnCheckInputDone()));
+	connect(this, SIGNAL(ChangeCurrentSelectDetail(string_ptr, string_ptr, string_ptr, string_ptr)), this, SLOT(OnChangeCurrentSelectDetail(string_ptr, string_ptr, string_ptr, string_ptr)));
+
 // 	connect(&m_NewItemButton, SIGNAL(clicked()), parent(), SLOT(OnAddNewItem()));
 // 	connect(&m_RemoveItemButton, SIGNAL(clicked()), parent(), SLOT(OnRemoveItem()));
 }

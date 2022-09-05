@@ -23,14 +23,17 @@ signals:
 	void AddNewItem();
 	void RemoveItem();
 	void ConfigCancel();
-	void ConfigSave();
 	void CheckConfig();
+	void SaveZentaoSiteConfig();
+	void SaveZentaoDefaultSite();
+	void SaveZentaoCurrentSite(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 
 private slots:
 	void OnAddNewItem();
 	void OnRemoveItem();
 	void OnConfigCancel();
 	void OnConfigSave();
+	void OnConfigNew();
 	void OnCheckConfig();
 
 protected:
@@ -41,9 +44,6 @@ protected:
 private:
 	void SetupUI();
 	void SetupSignal();
-
-	bool SaveConfig(int index, int config_index);
-	void SaveDefaultConfig(int index);
 
 	int CalcRowWidth();
 	int CalcRowHeight();
