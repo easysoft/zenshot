@@ -7,6 +7,7 @@
 #include "preview/zentaosubmit.h"
 
 #include "httprequest/zhttprequest.h"
+#include "usrmetatype.h"
 
 #include <QWidget>
 #include <QSystemTrayIcon>
@@ -27,11 +28,18 @@ signals:
 #if !NZENTAO_VER_
 	void Thumbnail(std::shared_ptr<QPixmap> pixmap);
 	void Login(string_ptr url, string_ptr usr, string_ptr pass);
-	void ReqProduct(string_ptr url);
-	void ReqModule(string_ptr url);
-	void ReqPri(string_ptr url);
-	void ReqSeverity(string_ptr url);
-	void ReqVersion(string_ptr url);
+    void SubmitLoginResult(bool result);
+
+	void ReqProduct();
+    void ProductItems(zproduct_item_vec_ptr products);
+	void ReqModule(uint32_t product_id, string_ptr view_type);
+    void ModuleItems(zmodule_item_vec_ptr modules);
+	void ReqPri();
+	void ReqSeverity();
+	void ReqVersion(uint32_t product_id, string_ptr type);
+    void VersionItems(zversion_item_vec_ptr modules);
+    void ReqModules(string_ptr type);
+    void ModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types);
 #endif
 
 private slots:
@@ -45,11 +53,13 @@ private slots:
 	void OnShowZenTaoSetting();
 	void OnShowPreview(Workspace* w);
 	void OnLogin(string_ptr url, string_ptr usr, string_ptr pass);
-	void OnProduct(string_ptr url);
-	void OnModule(string_ptr url);
-	void OnPri(string_ptr url);
-	void OnSeverity(string_ptr url);
-	void OnVersion(string_ptr url);
+    void OnSubmitLogin(string_ptr name);
+	void OnHttpProduct();
+	void OnHttpModule(uint32_t product_id, string_ptr view_type);
+	void OnHttpVersion(uint32_t product_id, string_ptr type);
+    void OnHttpModules(string_ptr type);
+
+    void OnSubmitDemandJson(string_ptr json);
 #endif // NZENTAO_VER_
 
 protected:
@@ -73,6 +83,8 @@ private:
 
 	void SetupSignal();
 
+    int UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token);
+
 private:
 	std::list<Starter*> m_Starer;
 
@@ -89,8 +101,6 @@ private:
 
 	std::string m_CurrentUsr;
 	std::string m_CurrentUrl;
-
-	std::string m_Token;
 #endif // NZENTAO_VER_
 	QAction* shotAction;
 	QAction* quitAction;

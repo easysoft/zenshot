@@ -12,13 +12,14 @@
 #include <QListWidgetItem>
 #include <QStandardItemModel>
 
+#if !NZENTAO_VER_
 extern std::string SETTING_XML_NAME;
 
 ZTSettingDlg::ZTSettingDlg(QWidget* parent)
 	: QDialog(parent)
-	, m_Layout()
+    , m_Layout()
 	, m_Detail(nullptr)
-	, m_List(nullptr)
+    , m_List(nullptr)
 {
 	ui.setupUi(this);
 
@@ -245,3 +246,5 @@ void ZTSettingDlg::closeEvent(QCloseEvent* event)
 	event->ignore();
 	hide();
 }
+
+#endif // NZENTAO_VER_

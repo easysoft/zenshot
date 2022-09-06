@@ -12,10 +12,12 @@
 
 class ZTPreview : public QWidget {
 	Q_OBJECT
-
+#if !NZENTAO_VER_
 public:
 	ZTPreview(QWidget* parent);
 	~ZTPreview() {}
+
+    std::string GetCurrentSite();
 
 signals:
 	void SubmitDemand();
@@ -44,6 +46,7 @@ private:
 	QPushButton* m_btnBug;
 
 	QLabel* m_imgview;
+#endif // NZENTAO_VER_
 }; // ZTPreviewDlg
 
 #endif // !ZTPREVIEW_DLG_H_

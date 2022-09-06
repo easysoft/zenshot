@@ -13,7 +13,7 @@
 
 class ZTSettingDetail : public QWidget {
 	Q_OBJECT
-
+#if !NZENTAO_VER_
 public:
 	ZTSettingDetail(QWidget* parent);
 	~ZTSettingDetail() {}
@@ -81,6 +81,7 @@ private:
 	QLineEdit* m_textPass;
 	
 	std::string m_DefaultSite;
+#endif // NZENTAO_VER_
 }; // ZTSettingDetail
 
 #endif // ZTSETTING_ITEM_H_

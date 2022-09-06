@@ -14,7 +14,7 @@
 
 class ZTSettingDlg : public QDialog {
 	Q_OBJECT
-
+#if !NZENTAO_VER_
 public:
 	ZTSettingDlg(QWidget* parent);
 	~ZTSettingDlg() {}
@@ -57,6 +57,7 @@ private:
 	QHBoxLayout m_Layout;
 	ZTSettingDetail m_Detail;
 	ZTSettingList m_List;
+#endif // NZENTAO_VER_
 }; // ZTSettingDlg
 
 #endif // !ZTSETTING_DLG_H_

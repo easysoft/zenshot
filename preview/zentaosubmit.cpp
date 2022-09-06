@@ -1,6 +1,8 @@
 #include "zentaosubmit.h"
 
 #include "spdlogwrapper.hpp"
+#include "config/xmlconfig.h"
+#include "config/configvalue.h"
 
 #include <QPainter>
 #include <QFile>
@@ -9,6 +11,7 @@
 #include <QListWidgetItem>
 #include <QStandardItemModel>
 
+#if !NZENTAO_VER_
 extern std::string SETTING_XML_NAME;
 
 static int IDX_PREVIEW = 0;
@@ -72,6 +75,27 @@ void ZTSubmitDlg::SetupSignal()
 	connect(this, SIGNAL(RealSubmitBug()), this, SLOT(OnRealSubmitBug()));
 
 	connect(this, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)), m_Preview, SLOT(OnShowThumbnail(std::shared_ptr<QPixmap>)));
+    connect(m_Demand, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqModule(uint32_t, string_ptr)));
+    connect(m_Bug, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqModule(uint32_t, string_ptr)));
+    connect(m_Bug, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqVersion(uint32_t, string_ptr)));
+
+#define connect_act_ack(act__, type__) \
+    connect(this, SIGNAL(Demand##act__##Items(type__)), m_Demand, SLOT(OnDemand##act__##Items(type__))); \
+    connect(this, SIGNAL(Bug##act__##Items(type__)), m_Bug, SLOT(OnBug##act__##Items(type__)));
+
+    connect_act_ack(Product, zproduct_item_vec_ptr);
+    connect_act_ack(Module, zmodule_item_vec_ptr);
+    connect_act_ack(Version, zversion_item_vec_ptr);
+    connect_act_ack(Pri, zpri_item_vec_ptr);
+    connect_act_ack(Severity, zseverity_item_vec_ptr);
+    connect_act_ack(OS, zos_item_vec_ptr);
+    connect_act_ack(Browser, zbrowser_item_vec_ptr);
+    connect_act_ack(Type, ztype_item_vec_ptr);
+
+//     connect(this, SIGNAL(DemandProductItems(zproduct_item_vec_ptr)), m_Demand, SLOT(OnDemandProductItems(zproduct_item_vec_ptr)));
+//     connect(this, SIGNAL(BugProductItems(zproduct_item_vec_ptr)), m_Bug, SLOT(OnBugProductItems(zproduct_item_vec_ptr)));
+
+#undef connect_act_ack
 }
 
 void ZTSubmitDlg::OnSubmitDemand()
@@ -94,9 +118,12 @@ void ZTSubmitDlg::OnNextStep()
 	int index = m_framesWidget->currentIndex();
 	if (index == IDX_PREVIEW)
 	{
-		m_btnNext->setText(tr("submit2zentao"));
-		m_framesWidget->setCurrentIndex(m_Index);
-		m_btnCancel->show();
+        auto name = m_Preview->GetCurrentSite();
+        if (name.empty())
+            return;
+
+        m_framesWidget->setEnabled(false);
+        emit SubmitLogin(string_ptr(new std::string(name)));
 		return;
 	}
 
@@ -119,8 +146,92 @@ void ZTSubmitDlg::OnCancel()
 	m_btnCancel->hide();
 }
 
+void ZTSubmitDlg::OnSubmitLoginResult(bool result)
+{
+    m_framesWidget->setEnabled(true);
+
+    if (!result)
+        return;
+
+    m_btnNext->setText(tr("submit2zentao"));
+    m_framesWidget->setCurrentIndex(m_Index);
+    m_btnCancel->show();
+
+    emit SubmitReqProduct();
+    if (m_Index == IDX_DEMAND)
+    {
+        emit SubmitReqModules(string_ptr(new std::string("story")));
+    }
+    else
+    {
+        emit SubmitReqModules(string_ptr(new std::string("bug")));
+    }
+    
+}
+
+void ZTSubmitDlg::OnSubmitProductItems(zproduct_item_vec_ptr products)
+{
+    if (m_Index == IDX_DEMAND)
+    {
+        emit DemandProductItems(products);
+    }
+    else
+    {
+        emit BugProductItems(products);
+    }
+}
+
+void ZTSubmitDlg::OnSubmitModuleItems(zmodule_item_vec_ptr modules)
+{
+    if (m_Index == IDX_DEMAND)
+    {
+        emit DemandModuleItems(modules);
+    }
+    else
+    {
+        emit BugModuleItems(modules);
+    }
+}
+
+void ZTSubmitDlg::OnSubmitVersionItems(zversion_item_vec_ptr versions)
+{
+    if (m_Index == IDX_DEMAND)
+    {
+        emit DemandVersionItems(versions);
+    }
+    else
+    {
+        emit BugVersionItems(versions);
+    }
+}
+
+void ZTSubmitDlg::OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types)
+{
+    if (m_Index == IDX_DEMAND)
+    {
+        emit DemandPriItems(pris);
+        emit DemandTypeItems(types); 
+    }
+    else
+    {
+        emit BugPriItems(pris);
+        emit BugSeverityItems(serveritys);
+        emit BugOSItems(oss);
+        emit BugBrowserItems(browers);
+        emit BugTypeItems(types);
+    }
+}
+
 void ZTSubmitDlg::OnRealSubmitDemand()
 {
+    string_ptr json(new std::string);
+    m_Demand->BuildDemandJson(json);
+    if (json->empty())
+    {
+        return;
+    }
+
+    emit SubmitDemandJson(json);
 }
 
 void ZTSubmitDlg::OnRealSubmitBug()
@@ -134,6 +245,7 @@ void ZTSubmitDlg::showEvent(QShowEvent* event)
 	m_Index = IDX_DEMAND;
 	m_btnNext->setText(tr("nextstep"));
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);
+    m_framesWidget->setEnabled(true);
 	m_btnCancel->hide();
 }
 
@@ -150,3 +262,5 @@ void ZTSubmitDlg::closeEvent(QCloseEvent* event)
 	event->ignore();
 	hide();
 }
+
+#endif // NZENTAO_VER_

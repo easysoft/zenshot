@@ -36,8 +36,18 @@ StarterUI::StarterUI()
 	qRegisterMetaType<int32_t>("int32_t");
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<string_ptr>("string_ptr");
-	qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
 	qRegisterMetaType<Workspace*>("Workspace*");
+#if !NZENTAO_VER_
+    qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
+    qRegisterMetaType<zproduct_item_vec_ptr>("zproduct_item_vec_ptr");
+    qRegisterMetaType<zmodule_item_vec_ptr>("zmodule_item_vec_ptr");
+    qRegisterMetaType<zversion_item_vec_ptr>("zversion_item_vec_ptr");
+    qRegisterMetaType<ztype_item_vec_ptr>("ztype_item_vec_ptr");
+    qRegisterMetaType<zos_item_vec_ptr>("zos_item_vec_ptr");
+    qRegisterMetaType<zbrowser_item_vec_ptr>("zbrowser_item_vec_ptr");
+    qRegisterMetaType<zseverity_item_vec_ptr>("zseverity_item_vec_ptr");
+    qRegisterMetaType<zpri_item_vec_ptr>("zpri_item_vec_ptr");
+#endif // NZENTAO_VER_
 
 	createActions();
 	createTrayIcon();
@@ -127,7 +137,26 @@ void StarterUI::SetupSignal()
 #if !NZENTAO_VER_
 	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
 	connect(this, SIGNAL(Login(string_ptr, string_ptr, string_ptr)), this, SLOT(OnLogin(string_ptr, string_ptr, string_ptr)));
-	connect(this, SIGNAL(ReqProduct(string_ptr)), this, SLOT(OnProduct(string_ptr)));
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitLogin(string_ptr)), this, SLOT(OnSubmitLogin(string_ptr)));
+    connect(this, SIGNAL(SubmitLoginResult(bool)), &m_ZTSubmitDlg, SLOT(OnSubmitLoginResult(bool)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqProduct()), this, SIGNAL(ReqProduct()));
+    connect(this, SIGNAL(ReqProduct()), this, SLOT(OnHttpProduct()));
+    connect(this, SIGNAL(ProductItems(zproduct_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitProductItems(zproduct_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqModule(uint32_t, string_ptr)), this, SIGNAL(ReqModule(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ReqModule(uint32_t, string_ptr)), this, SLOT(OnHttpModule(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ModuleItems(zmodule_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitModuleItems(zmodule_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqVersion(uint32_t, string_ptr)), this, SIGNAL(ReqVersion(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ReqVersion(uint32_t, string_ptr)), this, SLOT(OnHttpVersion(uint32_t, string_ptr)));
+    connect(this, SIGNAL(VersionItems(zversion_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitVersionItems(zversion_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqModules(string_ptr)), this, SIGNAL(ReqModules(string_ptr)));
+    connect(this, SIGNAL(ReqModules(string_ptr)), this, SLOT(OnHttpModules(string_ptr)));
+    connect(this, SIGNAL(ModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitDemandJson(string_ptr)), this, SLOT(OnSubmitDemandJson(string_ptr)));
 #endif // NZENTAO_VER_
 }
 

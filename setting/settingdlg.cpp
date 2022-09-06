@@ -243,6 +243,11 @@ void SettingDlg::OnSaveHotKeyConfig()
         return true;
     };
     GetXMLConfig().FindAllNode("config", "hotkey", hot_key_cb);
+    if (!done)
+    {
+        GetXMLConfig().AddConfigNum2("config", "hotkey", m_KeyValue);
+    }
+
     GetXMLConfig().SaveConfig(SETTING_XML_NAME);
 
     if (m_OrigKeyValue == m_KeyValue)

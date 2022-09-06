@@ -12,6 +12,7 @@
 #include <QStandardItemModel>
 #include <QStringListModel>
 
+#if !NZENTAO_VER_
 extern std::string SETTING_XML_NAME;
 
 ZTPreview::ZTPreview(QWidget* parent)
@@ -25,6 +26,15 @@ ZTPreview::ZTPreview(QWidget* parent)
 
 	SetupUI();
 	SetupSignal();
+}
+
+std::string ZTPreview::GetCurrentSite()
+{
+    auto index = m_listView->currentIndex();
+    if (index.row() == -1)
+        return "";
+
+    return index.data().toString().toUtf8().toStdString();
 }
 
 void ZTPreview::SetupUI()
@@ -91,3 +101,5 @@ void ZTPreview::OnShowThumbnail(std::shared_ptr<QPixmap> pixmap)
 	pixmap->scaled(m_imgview->size(), Qt::KeepAspectRatio);
 	m_imgview->setPixmap(*pixmap);
 }
+
+#endif // NZENTAO_VER_

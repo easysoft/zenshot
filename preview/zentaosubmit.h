@@ -14,7 +14,7 @@
 
 class ZTSubmitDlg : public QDialog {
 	Q_OBJECT
-
+#if !NZENTAO_VER_
 public:
 	ZTSubmitDlg(QWidget* parent);
 	~ZTSubmitDlg() {}
@@ -23,6 +23,30 @@ signals:
 	void RealSubmitDemand();
 	void RealSubmitBug();
 	void ShowThumbnail(std::shared_ptr<QPixmap> pixmap);
+    void SubmitLogin(string_ptr name);
+    void SubmitReqProduct();
+    void SubmitReqModules(string_ptr type);
+    void DemandProductItems(zproduct_item_vec_ptr items);
+    void BugProductItems(zproduct_item_vec_ptr items);
+    void SubmitReqModule(uint32_t product_id, string_ptr);
+    void DemandModuleItems(zmodule_item_vec_ptr items);
+    void BugModuleItems(zmodule_item_vec_ptr items);
+    void DemandVersionItems(zversion_item_vec_ptr items);
+    void BugVersionItems(zversion_item_vec_ptr items);
+    void DemandPriItems(zpri_item_vec_ptr items);
+    void BugPriItems(zpri_item_vec_ptr items);
+    void DemandSeverityItems(zseverity_item_vec_ptr items);
+    void BugSeverityItems(zseverity_item_vec_ptr items);
+    void DemandOSItems(zos_item_vec_ptr items);
+    void BugOSItems(zos_item_vec_ptr items);
+    void DemandBrowserItems(zbrowser_item_vec_ptr items);
+    void BugBrowserItems(zbrowser_item_vec_ptr items);
+    void DemandTypeItems(ztype_item_vec_ptr items);
+    void BugTypeItems(ztype_item_vec_ptr items);
+    void SubmitReqPri();
+    void SubmitReqSeverity();
+    void SubmitReqVersion(uint32_t product_id, string_ptr);
+    void SubmitDemandJson(string_ptr json);
 
 private slots:
 	void OnSubmitDemand();
@@ -30,6 +54,11 @@ private slots:
 	void OnNextStep();
 	void OnCancel();
 
+    void OnSubmitLoginResult(bool result);
+    void OnSubmitProductItems(zproduct_item_vec_ptr products);
+    void OnSubmitModuleItems(zmodule_item_vec_ptr modules);
+    void OnSubmitVersionItems(zversion_item_vec_ptr versions);
+    void OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types);
 	void OnRealSubmitDemand();
 	void OnRealSubmitBug();
 
@@ -57,6 +86,7 @@ private:
 	QPushButton* m_btnCancel;
 
 	int m_Index;
+#endif // NZENTAO_VER_
 }; // ZTSubmitDlg
 
 #endif // !ZTSUBMIT_DLG_H_

@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 
+#if !NZENTAO_VER_
 ZTSettingDetail::ZTSettingDetail(QWidget* parent)
 	: QWidget(parent)
 {
@@ -228,3 +229,5 @@ void ZTSettingDetail::SetupSignal()
 // 	connect(&m_NewItemButton, SIGNAL(clicked()), parent(), SLOT(OnAddNewItem()));
 // 	connect(&m_RemoveItemButton, SIGNAL(clicked()), parent(), SLOT(OnRemoveItem()));
 }
+
+#endif // NZENTAO_VER_

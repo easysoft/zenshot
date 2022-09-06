@@ -201,17 +201,17 @@ void ZTSettingList::OnSaveSiteListConfig()
 		AddConfigAttrStr(node, "url", w->GetUrl());
 		AddConfigAttrStr(node, "usr", w->GetUsr());
 
-		std::string orig_pass = w->GetPass();
-		std::string pass;
-		for (char c : orig_pass)
-		{
-			uint8_t u = (uint8_t)c;
-			u ^= 2;
-
-			char buf[3] = { 0 };
-			sprintf(buf, "%02X", u);
-			pass.append(buf);
-		}
+// 		std::string orig_pass = w->GetPass();
+		std::string pass = w->GetPass();
+// 		for (char c : orig_pass)
+// 		{
+// 			uint8_t u = (uint8_t)c;
+// 			u ^= 2;
+// 
+// 			char buf[3] = { 0 };
+// 			sprintf(buf, "%02X", u);
+// 			pass.append(buf);
+// 		}
 		AddConfigAttrStr(node, "pass", pass.c_str());
 	}
 

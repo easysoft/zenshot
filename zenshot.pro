@@ -102,7 +102,8 @@ SOURCES += \
     tools/rectcreatetool.cpp \
     tools/textcreatetool.cpp \
     httprequest/zhttprequest.cpp \
-    widget.cpp
+    widget.cpp \
+    zentaologic.cpp
 
 HEADERS += \
     commands/addcommand.h \
@@ -194,7 +195,9 @@ HEADERS += \
     tools/rectcreatetool.h \
     tools/textcreatetool.h \
     httprequest/zhttprequest.h \
-    widget.h
+    usrmetatype.h \
+    widget.h \
+    zdata/zdataitem.h
 
 TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
