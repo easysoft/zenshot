@@ -242,7 +242,6 @@ RESOURCES += \
     main.qrc
 
 DISTFILES +=
-
 DEFINES += NZENTAO_VER_
 
 FORMS += \
