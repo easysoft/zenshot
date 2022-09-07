@@ -27,7 +27,7 @@ ZTDemand::ZTDemand(QWidget* parent)
     SetupSignal();
 }
 
-void ZTDemand::BuildDemandJson(string_ptr json)
+uint32_t ZTDemand::BuildDemandJson(const std::string& img, string_ptr json)
 {
     /*
     {
@@ -45,8 +45,23 @@ void ZTDemand::BuildDemandJson(string_ptr json)
 
     auto story = m_editStory->text().toDouble();
     QString title = m_editTitle->text().toUtf8();
-    QString desc = m_textDesc->toPlainText().toUtf8();
+
+    QString desc;
+    if (!img.empty())
+    {
+        desc.append("<img src=")
+            .append("\"").append(img.c_str()).append("\"")
+            .append(" alt ")
+            .append("/>")
+            .append("\n");
+    }
+    desc.append(m_textDesc->toPlainText().toUtf8());
     QString verify = m_texVerify->toPlainText().toUtf8();
+
+    desc.replace("\r\n", "<br>");
+    desc.replace("\n", "<br>");
+    verify.replace("\r\n", "<br>");
+    verify.replace("\n", "<br>");
 
     QJsonObject obj;
     obj.insert("title", title);
@@ -59,6 +74,8 @@ void ZTDemand::BuildDemandJson(string_ptr json)
     QJsonDocument doc;
     doc.setObject(obj);
     *json = doc.toJson(QJsonDocument::Compact).toStdString();
+
+    return product_id;
 }
 
 void ZTDemand::InitUI()

@@ -40,6 +40,7 @@ signals:
     void VersionItems(zversion_item_vec_ptr modules);
     void ReqModules(string_ptr type);
     void ModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types);
+    void UploadImageDone(bool success, string_ptr url);
 #endif
 
 private slots:
@@ -59,7 +60,10 @@ private slots:
 	void OnHttpVersion(uint32_t product_id, string_ptr type);
     void OnHttpModules(string_ptr type);
 
-    void OnSubmitDemandJson(string_ptr json);
+    void OnSubmitDemandJson(uint32_t product_id, string_ptr json);
+    void OnSubmitBugJson(uint32_t product_id, string_ptr json);
+
+    void OnUploadImage();
 #endif // NZENTAO_VER_
 
 protected:
@@ -101,6 +105,8 @@ private:
 
 	std::string m_CurrentUsr;
 	std::string m_CurrentUrl;
+
+    std::shared_ptr<QPixmap> m_CurrentShot;
 #endif // NZENTAO_VER_
 	QAction* shotAction;
 	QAction* quitAction;

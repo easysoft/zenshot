@@ -69,6 +69,13 @@ void ZTPreview::SetupSignal()
 	connect(m_btnBug, SIGNAL(clicked()), this, SIGNAL(SubmitBug()));
 }
 
+void ZTPreview::hideEvent(QHideEvent* event)
+{
+    QWidget::hideEvent(event);
+
+    m_imgview->clear();
+}
+
 void ZTPreview::showEvent(QShowEvent* event)
 {
 	QWidget::showEvent(event);

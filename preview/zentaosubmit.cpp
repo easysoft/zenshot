@@ -224,18 +224,39 @@ void ZTSubmitDlg::OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_ve
 
 void ZTSubmitDlg::OnRealSubmitDemand()
 {
-    string_ptr json(new std::string);
-    m_Demand->BuildDemandJson(json);
-    if (json->empty())
-    {
-        return;
-    }
-
-    emit SubmitDemandJson(json);
+    emit UploadImage();
+    
 }
 
 void ZTSubmitDlg::OnRealSubmitBug()
 {
+    emit UploadImage();
+}
+
+void ZTSubmitDlg::OnUploadImageDone(bool success, string_ptr url)
+{
+    if (m_Index == IDX_DEMAND)
+    {
+        string_ptr json(new std::string);
+        uint32_t product_id = m_Demand->BuildDemandJson(success ? *url : "", json);
+        if (json->empty())
+        {
+            return;
+        }
+
+        emit SubmitDemandJson(product_id, json);
+    }
+    else
+    {
+        string_ptr json(new std::string);
+        uint32_t product_id = m_Bug->BuildBugJson(success ? *url : "", json);
+        if (json->empty())
+        {
+            return;
+        }
+
+        emit SubmitBugJson(product_id, json);
+    }
 }
 
 void ZTSubmitDlg::showEvent(QShowEvent* event)

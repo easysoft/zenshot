@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QBuffer>
 
 #if !NZENTAO_VER_
 void StarterUI::OnShowZenTaoSetting()
@@ -31,9 +32,9 @@ void StarterUI::OnShowPreview(Workspace* w)
 {
 	if (!m_ZTSubmitDlg.isVisible())
 	{
-		auto pixmap = w->result();
+        m_CurrentShot = w->result();
 		m_ZTSubmitDlg.show();
-		emit Thumbnail(pixmap);
+		emit Thumbnail(m_CurrentShot);
 	}
 
 	m_ZTSubmitDlg.raise();
@@ -226,14 +227,14 @@ void StarterUI::OnHttpVersion(uint32_t product_id, string_ptr type)
         return;
     }
 
-    auto modules = doc["modules"].toArray();
+    auto modules = doc["builds"].toArray();
     for (const auto& item : modules)
     {
         auto obj = item.toObject();
 
         zversion_item product;
 
-        product.id_ = static_cast<uint32_t>(obj["id"].toInt());
+        product.id_ = obj["branchName"].toString().toStdString();
         product.name_ = obj["name"].toString().toStdString();
         items->push_back(product);
     }
@@ -276,6 +277,7 @@ void StarterUI::OnHttpModules(string_ptr type)
     auto severityList = modules["severityList"].toObject();
     auto osList = modules["osList"].toObject();
     auto browserList = modules["browserList"].toObject();
+    auto versionList = modules["versionList"].toArray();
     auto typeList = modules["typeList"].toObject();
     auto categoryList = modules["categoryList"].toObject();
 
@@ -335,9 +337,12 @@ void StarterUI::OnHttpModules(string_ptr type)
     emit ModulesItems(pris, serveritys, oss, browers, types);
 }
 
-void StarterUI::OnSubmitDemandJson(string_ptr json)
+void StarterUI::OnSubmitDemandJson(uint32_t product_id, string_ptr json)
 {
-    std::string uri = build_uri(m_CurrentUrl.c_str(), "/stories");
+    std::string demand_uri;
+    demand_uri.append("/products/").append(std::to_string(product_id))
+        .append("/stories");
+    std::string uri = build_uri(m_CurrentUrl.c_str(), demand_uri.c_str());
 
     m_HttpReq.SetUrl(uri.c_str());
     m_HttpReq.SetTokenHeader();
@@ -356,7 +361,84 @@ void StarterUI::OnSubmitDemandJson(string_ptr json)
         return;
     }
 
-    QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
+    if (doc["error"].isString())
+    {
+        QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
+    }
+}
+
+void StarterUI::OnSubmitBugJson(uint32_t product_id, string_ptr json)
+{
+    std::string bug_uri;
+    bug_uri.append("/products/").append(std::to_string(product_id))
+        .append("/bugs");
+    std::string uri = build_uri(m_CurrentUrl.c_str(), bug_uri.c_str());
+
+    m_HttpReq.SetUrl(uri.c_str());
+    m_HttpReq.SetTokenHeader();
+    m_HttpReq.SetPost(json->c_str());
+
+    std::string data;
+    if (!m_HttpReq.Exec(data)) // http error
+    {
+        return;
+    }
+
+    QJsonParseError e;
+    QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
+    if (doc.isNull() || e.error != QJsonParseError::NoError)
+    {
+        return;
+    }
+
+    if (doc["error"].isString())
+    {
+        QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
+    }
+}
+
+void StarterUI::OnUploadImage()
+{
+    if (m_CurrentShot == nullptr)
+    {
+        emit UploadImageDone(false, nullptr);
+        return;
+    }
+    QByteArray pix_bytes;
+    QBuffer buf(&pix_bytes);
+    if (!m_CurrentShot->save(&buf, "png") || pix_bytes.isEmpty())
+    {
+        emit UploadImageDone(false, nullptr);
+        return;
+    }
+    std::string uri = build_uri(m_CurrentUrl.c_str(), "/files");
+    m_HttpReq.SetUrl(uri.c_str());
+    m_HttpReq.SetTokenHeader();
+
+    std::string data;
+    if (!m_HttpReq.UploadFormFile(data, pix_bytes)) // http error
+    {
+        emit UploadImageDone(false, nullptr);
+        return;
+    }
+
+    QJsonParseError e;
+    QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
+    if (doc.isNull() || e.error != QJsonParseError::NoError)
+    {
+        emit UploadImageDone(false, nullptr);
+        return;
+    }
+
+    if (doc["error"].isString())
+    {
+        QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
+        emit UploadImageDone(false, nullptr);
+        return;
+    }
+
+    string_ptr img_url(new std::string(doc["url"].toString().toStdString()));
+    emit UploadImageDone(true, img_url);
 }
 
 int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token)

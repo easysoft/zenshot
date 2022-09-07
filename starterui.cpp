@@ -27,6 +27,7 @@ StarterUI::StarterUI()
 	, m_ZTSettingDlg(this)
 	, m_ZTSubmitDlg(this)
 	, m_HttpReq()
+    , m_CurrentShot(nullptr)
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
 {
@@ -156,7 +157,11 @@ void StarterUI::SetupSignal()
     connect(this, SIGNAL(ReqModules(string_ptr)), this, SLOT(OnHttpModules(string_ptr)));
     connect(this, SIGNAL(ModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)));
 
-    connect(&m_ZTSubmitDlg, SIGNAL(SubmitDemandJson(string_ptr)), this, SLOT(OnSubmitDemandJson(string_ptr)));
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitDemandJson(uint32_t, string_ptr)), this, SLOT(OnSubmitDemandJson(uint32_t, string_ptr)));
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitBugJson(uint32_t, string_ptr)), this, SLOT(OnSubmitBugJson(uint32_t, string_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(UploadImage()), this, SLOT(OnUploadImage()));
+    connect(this, SIGNAL(UploadImageDone(bool, string_ptr)), &m_ZTSubmitDlg, SLOT(OnUploadImageDone(bool, string_ptr)));
 #endif // NZENTAO_VER_
 }
 
@@ -188,6 +193,9 @@ void StarterUI::OnStartShot()
 
 void StarterUI::OnShotDone(Starter* starter)
 {
+#if !NZENTAO_VER_
+    m_CurrentShot = nullptr;
+#endif // NZENTAO_VER_
 	m_Shotting = false;
 	starter->cleanup();
 	m_Starer.push_back(starter);

@@ -46,7 +46,10 @@ signals:
     void SubmitReqPri();
     void SubmitReqSeverity();
     void SubmitReqVersion(uint32_t product_id, string_ptr);
-    void SubmitDemandJson(string_ptr json);
+    void SubmitDemandJson(uint32_t product_id, string_ptr json);
+    void SubmitBugJson(uint32_t product_id, string_ptr json);
+
+    void UploadImage();
 
 private slots:
 	void OnSubmitDemand();
@@ -61,6 +64,8 @@ private slots:
     void OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types);
 	void OnRealSubmitDemand();
 	void OnRealSubmitBug();
+
+    void OnUploadImageDone(bool success, string_ptr url);
 
 protected:
 // 	virtual void paintEvent(QPaintEvent* event) override;

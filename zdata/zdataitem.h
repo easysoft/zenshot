@@ -17,7 +17,7 @@ struct zdata_header_str
 };
 using zproduct_item = zdata_header;
 using zmodule_item = zdata_header;
-using zversion_item = zdata_header;
+using zversion_item = zdata_header_str;
 using ztype_item = zdata_header_str;
 using zos_item = zdata_header_str;
 using zbrowser_item = zdata_header_str;

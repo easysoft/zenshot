@@ -16,6 +16,7 @@ public:
 	ZTBug(QWidget* parent);
 	~ZTBug() {}
 
+    uint32_t BuildBugJson(const std::string& img, string_ptr json);
 
 signals:
 	void RealSubmitBug();

@@ -17,7 +17,7 @@ public:
 	ZTDemand(QWidget* parent);
 	~ZTDemand() {}
 
-    void BuildDemandJson(string_ptr json);
+    uint32_t BuildDemandJson(const std::string& img, string_ptr json);
 
 signals:
 	void RealSubmitDemand();

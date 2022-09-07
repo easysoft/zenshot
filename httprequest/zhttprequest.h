@@ -30,6 +30,7 @@ public:
 	}
 
     bool Exec(std::string& reply_str);
+    bool UploadFormFile(std::string& reply_str, const QByteArray& pix_bytes);
 
 private:
     QNetworkAccessManager* m_Manager;

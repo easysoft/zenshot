@@ -9,6 +9,10 @@
 #include <QListWidgetItem>
 #include <QStandardItemModel>
 
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
+
 #if !NZENTAO_VER_
 extern std::string SETTING_XML_NAME;
 
@@ -22,6 +26,70 @@ ZTBug::ZTBug(QWidget* parent)
 	InitUI();
 	SetupUI();
 	SetupSignal();
+}
+
+uint32_t ZTBug::BuildBugJson(const std::string& img, string_ptr json)
+{
+    /*
+    {
+        "title": "Bug2",
+        "severity": 1,
+        "pri": 1,
+        "steps": "",
+        "type": "codeerror",
+        "openedBuild": [
+            "trunk"
+        ]
+    }
+    */
+
+    int product_id = m_boxProduct->currentData().toInt();
+    int module_id = m_boxModule->currentData().toInt();
+    QString version_id = m_boxVersion->currentData().toString();
+    int pri_id = m_cbxPri->currentData().toInt();
+    int severity_id = m_cbxSeverity->currentData().toInt();
+    QString os_id = m_cbxOS->currentData().toString();
+    QString browser_id = m_cbxBrower->currentData().toString();
+    QString type_id = m_cbxType->currentData().toString();
+
+    QString title = m_editTitle->text().toUtf8();
+    QString desc;
+    if (!img.empty())
+    {
+        desc.append("<img src=")
+            .append("\"").append(img.c_str()).append("\"")
+            .append(" alt ")
+            .append("/>")
+            .append("\n");
+    }
+    desc.append(m_textDesc->toPlainText().toUtf8());
+
+    desc.replace("\r\n", "<br>");
+    desc.replace("\n", "<br>");
+
+    QJsonObject obj;
+    obj.insert("module", module_id);
+    obj.insert("title", title);
+    obj.insert("severity", severity_id);
+    obj.insert("pri", pri_id);
+    obj.insert("type", type_id);
+    obj.insert("os", os_id);
+    obj.insert("browser", browser_id);
+    obj.insert("steps", desc);
+
+    if (version_id.isEmpty())
+    {
+        version_id = "trunk";
+    }
+    QJsonArray openedBuild;
+    openedBuild.insert(0, version_id);
+    obj.insert("openedBuild", openedBuild);
+
+    QJsonDocument doc;
+    doc.setObject(obj);
+    *json = doc.toJson(QJsonDocument::Compact).toStdString();
+
+    return product_id;
 }
 
 void ZTBug::InitUI()
@@ -78,7 +146,7 @@ void ZTBug::OnBugVersionItems(zversion_item_vec_ptr versions)
 {
     for (const auto& item : *versions)
     {
-        m_boxVersion->addItem(item.name_.c_str(), QVariant(item.id_));
+        m_boxVersion->addItem(item.name_.c_str(), QVariant(item.id_.c_str()));
     }
 }
 
