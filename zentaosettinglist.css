@@ -9,7 +9,7 @@ QLabel#label {
 }
 
 #listWidget {
-    background-color: #F6F6F6;
+    background-color: transparent;
     font-size: 14px;
     color: #3C4353;
     font-weight: 500;
@@ -20,17 +20,17 @@ QLabel#label {
 
 QListWidget::item:hover
 {
-    show-decoration-selected: 5px;
-    background-color: #E5E5E5;
-    border-radius: 5px;
+    show-decoration-selected: 2px;
+    background-color: transparent;
+    border-radius: 2px;
 }
 
 QListWidget::item:selected
 {
-    background-color: #E5E5E5;
+    background-color: rgba(116,125,255,0.06);
     padding: 0px;
     margin: 0px;
-    border: 0px;
+    border: 1px solid rgba(116,125,255,1);
     border-radius: 5px;
 }
 

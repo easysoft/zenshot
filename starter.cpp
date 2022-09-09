@@ -95,8 +95,18 @@ void Starter::cleanup()
     }
 }
 
+void Starter::rasie()
+{
+	for (auto w : *m_widgets)
+	{
+		w->raise();
+        w->activateWindow();
+	}
+}
+
 void Starter::finishShot(int code)
 {
+    (void*)code;
     L_FUNCTION();
     for (auto w : *m_widgets)
     {

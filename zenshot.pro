@@ -58,6 +58,7 @@ SOURCES += \
     preview/zentaodemand.cpp \
     preview/zentaopreview.cpp \
     preview/zentaosubmit.cpp \
+    preview/zentaotips.cpp \
     properties/arrowbar.cpp \
     properties/curvebar.cpp \
     properties/ellipsebar.cpp \
@@ -146,6 +147,7 @@ HEADERS += \
     preview/zentaodemand.h \
     preview/zentaopreview.h \
     preview/zentaosubmit.h \
+    preview/zentaotips.h \
     properties/arrowbar.h \
     properties/curvebar.h \
     properties/ellipsebar.h \
@@ -242,7 +244,6 @@ RESOURCES += \
     main.qrc
 
 DISTFILES +=
-DEFINES += NZENTAO_VER_
 
 FORMS += \
     setting.ui \
@@ -253,5 +254,7 @@ FORMS += \
     zentaosetting.ui \
     zentaosettingdetail.ui \
     zentaosettinglist.ui \
-    zentaosubmit.ui
+    zentaosettinglistitem.ui \
+    zentaosubmit.ui \
+    zentaotips.ui
 

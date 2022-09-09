@@ -31,5 +31,10 @@
         <file>images/bug-uncheck.png</file>
         <file>images/demand-check.png</file>
         <file>images/demand-uncheck.png</file>
+        <file>images/failed-tip.png</file>
+        <file>images/success-tip.png</file>
+        <file>zentaotips.css</file>
+        <file>zentaosettinglistitem.css</file>
+        <file>images/item-default.png</file>
     </qresource>
 </RCC>

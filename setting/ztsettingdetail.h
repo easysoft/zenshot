@@ -35,6 +35,8 @@ public:
 		SetUsr("");
 		SetPass("");
 	}
+
+	virtual bool eventFilter(QObject* watched, QEvent* event) override;
 // 
 // 	void SetUserData(int value) 
 // 	{ 
@@ -46,16 +48,24 @@ public:
 
 signals:
 	void CheckInputDone();
-	void ChangeCurrentSelectDetail(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void ChangeCurrentSelectDetail(int index, string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 	void SaveDefaultSite();
 	void ConfigSave();
 	void ConfigNew();
+	void SetDefaultSite(bool default);
+
+	void UpdateName(const QString& name);
+	void UpdateUrl(const QString& url);
+	void UpdateUsr(const QString& usr);
+	void UpdatePass(const QString& pass);
 
 private slots:
-	void OnCheckInputDone();
-	void OnChangeCurrentSelectDetail(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void OnChangeCurrentSelectDetail(int index, string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 	void OnStateChanged(int state);
 	void OnSaveDefaultSite();
+
+protected:
+	virtual void showEvent(QShowEvent* event) override;
 
 private:
 	void InitUI();

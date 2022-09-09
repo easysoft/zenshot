@@ -1,12 +1,14 @@
 #ifndef ZTSETTING_LISTITEM_H_
 #define ZTSETTING_LISTITEM_H_
 
+#include "ui_zentaosettinglistitem.h"
+
 #include <QWidget>
 #include <QLayout>
 #include <QLabel>
 #include <QPushButton>
 
-#define LISTIEM_MIN_HEIGHT 36
+#define LISTIEM_MIN_HEIGHT 84
 
 class ZTSettingListItem : public QWidget {
 	Q_OBJECT
@@ -25,24 +27,28 @@ public:
 	const char* GetUsr() { return usr_.c_str(); }
 	const char* GetPass() { return pass_.c_str(); }
 
+	void SetDefaultItem(bool default);
+
 signals:
 	void RemoveItem(ZTSettingListItem* w);
-
+	
 private slots:
 	void OnRemoveItem();
 
-protected:
-	virtual void enterEvent(QEvent* event) override;
-	virtual void leaveEvent(QEvent* event) override;
+// protected:
+// 	virtual void enterEvent(QEvent* event) override;
+// 	virtual void leaveEvent(QEvent* event) override;
 
 private:
 	void SetupUI();
 	void SetupSignal();
 
 private:
-	QVBoxLayout m_Layer;
-	QLabel m_labelName;
-	QPushButton m_btnDel;
+	Ui::ZTSettingListItem ui;
+	QLabel* m_labelDefault;
+	QLabel* m_labelName;
+	QLabel* m_labelUrl;
+	QPushButton* m_btnDel;
 
 	struct // zentao config info
 	{

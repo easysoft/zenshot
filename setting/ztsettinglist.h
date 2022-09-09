@@ -19,15 +19,24 @@ public:
 signals:
 	void AddConfigItem(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 	void SaveSiteListConfig();
-	void CurrentRowSelected(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void CurrentRowSelected(int index, string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void RemoveListItem(ZTSettingListItem* item);
+	void SelectDefault();
 
 private slots:
 	void OnRealRemoveItem(ZTSettingListItem* w);
 	void OnAddConfigItem(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
 	void OnSaveSiteListConfig();
 	void OncurrentRowChanged(int index);
-	void OnSaveSiteConfig();
 	void OnNewSiteConfig();
+
+	void OnUpdateName(const QString& name);
+	void OnUpdateUrl(const QString& url);
+	void OnUpdateUsr(const QString& usr);
+	void OnUpdatePass(const QString& pass);
+
+	void OnSelectDefault();
+	void OnSetDefaultItem(bool default);
 
 protected:
 	virtual void paintEvent(QPaintEvent* event) override;

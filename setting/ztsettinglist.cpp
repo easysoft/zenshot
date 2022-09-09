@@ -44,6 +44,8 @@ void ZTSettingList::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
+
+	m_listWidget->setSpacing(6);
 }
 
 void ZTSettingList::SetupSignal()
@@ -51,6 +53,8 @@ void ZTSettingList::SetupSignal()
 	connect(this, SIGNAL(AddConfigItem(string_ptr, string_ptr, string_ptr, string_ptr)), this, SLOT(OnAddConfigItem(string_ptr, string_ptr, string_ptr, string_ptr)));
 	connect(this, SIGNAL(SaveSiteListConfig()), this, SLOT(OnSaveSiteListConfig()));
 	connect(m_listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(OncurrentRowChanged(int)));
+	connect(this, SIGNAL(SelectDefault()), this, SLOT(OnSelectDefault()));
+	connect(this, SIGNAL(RemoveListItem(ZTSettingListItem*)), this, SLOT(OnRealRemoveItem(ZTSettingListItem*)));
 }
 
 QListWidgetItem* ZTSettingList::FindHiddenItem()
@@ -79,7 +83,9 @@ void ZTSettingList::paintEvent(QPaintEvent* event)
 
 void ZTSettingList::showEvent(QShowEvent* event)
 {
-	auto each_node = [this](rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+	QWidget::showEvent(event);
+
+	auto each_node = [this](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
 		(void*)root;
 
@@ -92,15 +98,15 @@ void ZTSettingList::showEvent(QShowEvent* event)
 			return false;
 		}
 
-		std::string real_pass;
-		for (auto it = pass.begin(); it != pass.end(); it += 2)
-		{
-			int c;
-			sscanf(&*it, "%02X", &c);
-			c ^= 2;
-			real_pass.push_back((char)c);
-		}
-		real_pass.push_back('\0');
+// 		std::string real_pass;
+// 		for (auto it = pass.begin(); it != pass.end(); it += 2)
+// 		{
+// 			int c;
+// 			sscanf(&*it, "%02X", &c);
+// 			c ^= 2;
+// 			real_pass.push_back((char)c);
+// 		}
+// 		real_pass.push_back('\0');
 
 		emit AddConfigItem(string_ptr(new std::string(name)), string_ptr(new std::string(url)), string_ptr(new std::string(usr)), string_ptr(new std::string(pass)));
 		return false;
@@ -109,7 +115,7 @@ void ZTSettingList::showEvent(QShowEvent* event)
 	// read config
 	GetXMLConfig().FindAllNode("config", "zentao", each_node);
 
-	QWidget::showEvent(event);
+	emit SelectDefault();
 }
 
 void ZTSettingList::hideEvent(QHideEvent* event)
@@ -133,7 +139,7 @@ void ZTSettingList::closeEvent(QCloseEvent* event)
 void ZTSettingList::OnRealRemoveItem(ZTSettingListItem* w)
 {
 	std::string name;
-	auto remove_name_node = [&](rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+	auto remove_name_node = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
 		std::string n = GetConfigAttrString(node, "name");
 		if (name == n)
@@ -151,10 +157,18 @@ void ZTSettingList::OnRealRemoveItem(ZTSettingListItem* w)
 		if (w1 == w)
 		{
 			item->setHidden(true);
-
+			name = w->GetName();
 			GetXMLConfig().FindAllNode("config", "zentao", remove_name_node);
 			break;
 		}
+	}
+
+	GetXMLConfig().SaveConfig(SETTING_XML_NAME);
+
+	auto index = m_listWidget->currentIndex().row();
+	if (index == -1 || m_listWidget->item(index)->isHidden())
+	{
+		emit CurrentRowSelected(-1, nullptr, nullptr, nullptr, nullptr);
 	}
 }
 
@@ -222,6 +236,7 @@ void ZTSettingList::OncurrentRowChanged(int index)
 {
 	if (index == -1)
 	{
+		emit CurrentRowSelected(index, nullptr, nullptr, nullptr, nullptr);
 		return;
 	}
 
@@ -232,12 +247,7 @@ void ZTSettingList::OncurrentRowChanged(int index)
 	string_ptr url(new std::string(w->GetUrl()));
 	string_ptr usr(new std::string(w->GetUsr()));
 	string_ptr pass(new std::string(w->GetPass()));
-	emit CurrentRowSelected(name, url, usr, pass);
-}
-
-void ZTSettingList::OnSaveSiteConfig()
-{
-	GetXMLConfig().SaveConfig(SETTING_XML_NAME);
+	emit CurrentRowSelected(index, name, url, usr, pass);
 }
 
 void ZTSettingList::OnNewSiteConfig()
@@ -267,4 +277,115 @@ void ZTSettingList::OnNewSiteConfig()
 	item->setHidden(false);
 
 	m_listWidget->setCurrentItem(item);
+}
+
+void ZTSettingList::OnUpdateName(const QString& name)
+{
+	auto item = m_listWidget->currentItem();
+	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+	if (w == nullptr)
+	{
+		return;
+	}
+
+	w->SetName(name.toUtf8().toStdString().c_str());
+}
+
+void ZTSettingList::OnUpdateUrl(const QString& url)
+{
+	auto item = m_listWidget->currentItem();
+	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+	if (w == nullptr)
+	{
+		return;
+	}
+
+	w->SetUrl(url.toStdString().c_str());
+}
+
+void ZTSettingList::OnUpdateUsr(const QString& usr)
+{
+	auto item = m_listWidget->currentItem();
+	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+	if (w == nullptr)
+	{
+		return;
+	}
+
+	w->SetUsr(usr.toStdString().c_str());
+}
+
+void ZTSettingList::OnUpdatePass(const QString& pass)
+{
+	auto item = m_listWidget->currentItem();
+	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+	if (w == nullptr)
+	{
+		return;
+	}
+
+	w->SetPass(pass.toStdString().c_str());
+}
+
+void ZTSettingList::OnSelectDefault()
+{
+	if (!m_listWidget->count())
+	{
+		return;
+	}
+
+	std::string default_site;
+	auto get_default = [&default_site](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
+	{
+		(void*)root;
+		default_site = GetConfigString(node);
+		return true;
+	};
+	GetXMLConfig().FindAllNode("config", "default", get_default);
+
+	QListWidgetItem* default_item = m_listWidget->item(0);
+	for (int i = 0; i < m_listWidget->count(); i++)
+	{
+		auto item = m_listWidget->item(i);
+		auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+		if (w != nullptr && default_site == w->GetName())
+		{
+			default_item = item;
+			break;
+		}
+	}
+
+	m_listWidget->setCurrentItem(default_item);
+}
+
+void ZTSettingList::OnSetDefaultItem(bool default)
+{
+	if (!m_listWidget->count())
+	{
+		return;
+	}
+
+	for (int i = 0; i < m_listWidget->count(); i++)
+	{
+		auto item = m_listWidget->item(i);
+		auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+		if (w != nullptr)
+		{
+			w->SetDefaultItem(false);
+		}
+	}
+
+	if (!default)
+	{
+		return;
+	}
+
+	auto item = m_listWidget->currentItem();
+	if (item == nullptr)
+	{
+		return;
+	}
+
+	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
+	w->SetDefaultItem(default);
 }

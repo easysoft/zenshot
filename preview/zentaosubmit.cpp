@@ -48,6 +48,9 @@ void ZTSubmitDlg::InitUI()
 
 	m_btnNext = findChild<QPushButton*>("btnNext");
 	m_btnCancel = findChild<QPushButton*>("btnCancel");
+
+    m_btnDemand = findChild<QPushButton*>("btnDemand");
+    m_btnBug = findChild<QPushButton*>("btnBug");
 }
 
 void ZTSubmitDlg::SetupUI()
@@ -67,12 +70,13 @@ void ZTSubmitDlg::SetupSignal()
 {
 	connect(m_btnNext, SIGNAL(clicked()), this, SLOT(OnNextStep()));
 	connect(m_btnCancel, SIGNAL(clicked()), this, SLOT(OnCancel()));
+	connect(m_btnDemand, SIGNAL(clicked()), this, SIGNAL(SubmitDemand()));
+	connect(m_btnBug, SIGNAL(clicked()), this, SIGNAL(SubmitBug()));
+    connect(this, SIGNAL(SubmitDemand()), this, SLOT(OnBtnSumitDemand()));
+    connect(this, SIGNAL(SubmitBug()), this, SLOT(OnBtnSubmitBug()));
 
-	connect(m_Preview, SIGNAL(SubmitDemand()), this, SLOT(OnSubmitDemand()));
-	connect(m_Preview, SIGNAL(SubmitBug()), this, SLOT(OnSubmitBug()));
-
-	connect(this, SIGNAL(RealSubmitDemand()), this, SLOT(OnRealSubmitDemand()));
-	connect(this, SIGNAL(RealSubmitBug()), this, SLOT(OnRealSubmitBug()));
+	connect(this, SIGNAL(RealSubmitDemand()), this, SIGNAL(UploadImage()));
+	connect(this, SIGNAL(RealSubmitBug()), this, SIGNAL(UploadImage()));
 
 	connect(this, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)), m_Preview, SLOT(OnShowThumbnail(std::shared_ptr<QPixmap>)));
     connect(m_Demand, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqModule(uint32_t, string_ptr)));
@@ -108,25 +112,31 @@ void ZTSubmitDlg::OnSubmitBug()
 	m_Index = IDX_BUG;
 }
 
+void ZTSubmitDlg::OnBtnSumitDemand()
+{
+    m_Index = IDX_DEMAND;
+	auto name = m_Preview->GetCurrentSite();
+	if (name.empty())
+		return;
+
+	m_framesWidget->setEnabled(false);
+	emit SubmitLogin(string_ptr(new std::string(name)));
+}
+
+void ZTSubmitDlg::OnBtnSubmitBug()
+{
+    m_Index = IDX_BUG;
+	auto name = m_Preview->GetCurrentSite();
+	if (name.empty())
+		return;
+
+	m_framesWidget->setEnabled(false);
+	emit SubmitLogin(string_ptr(new std::string(name)));
+}
+
 void ZTSubmitDlg::OnNextStep()
 {
-	if (m_Index == IDX_PREVIEW)
-	{
-		return;
-	}
-
 	int index = m_framesWidget->currentIndex();
-	if (index == IDX_PREVIEW)
-	{
-        auto name = m_Preview->GetCurrentSite();
-        if (name.empty())
-            return;
-
-        m_framesWidget->setEnabled(false);
-        emit SubmitLogin(string_ptr(new std::string(name)));
-		return;
-	}
-
 	if (index == IDX_DEMAND)
 	{
 		emit RealSubmitDemand();
@@ -143,7 +153,12 @@ void ZTSubmitDlg::OnCancel()
 {
 	m_btnNext->setText(tr("nextstep"));
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);
+
 	m_btnCancel->hide();
+	m_btnNext->hide();
+
+	m_btnDemand->show();
+	m_btnBug->show();
 }
 
 void ZTSubmitDlg::OnSubmitLoginResult(bool result)
@@ -155,7 +170,12 @@ void ZTSubmitDlg::OnSubmitLoginResult(bool result)
 
     m_btnNext->setText(tr("submit2zentao"));
     m_framesWidget->setCurrentIndex(m_Index);
+
     m_btnCancel->show();
+    m_btnNext->show();
+
+    m_btnDemand->hide();
+    m_btnBug->hide();
 
     emit SubmitReqProduct();
     if (m_Index == IDX_DEMAND)
@@ -222,17 +242,6 @@ void ZTSubmitDlg::OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_ve
     }
 }
 
-void ZTSubmitDlg::OnRealSubmitDemand()
-{
-    emit UploadImage();
-    
-}
-
-void ZTSubmitDlg::OnRealSubmitBug()
-{
-    emit UploadImage();
-}
-
 void ZTSubmitDlg::OnUploadImageDone(bool success, string_ptr url)
 {
     if (m_Index == IDX_DEMAND)
@@ -264,10 +273,14 @@ void ZTSubmitDlg::showEvent(QShowEvent* event)
 	QDialog::showEvent(event);
 
 	m_Index = IDX_DEMAND;
-	m_btnNext->setText(tr("nextstep"));
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);
     m_framesWidget->setEnabled(true);
-	m_btnCancel->hide();
+	
+    m_btnCancel->hide();
+    m_btnNext->hide();
+
+    m_btnDemand->show();
+    m_btnBug->show();
 }
 
 void ZTSubmitDlg::hideEvent(QHideEvent* event)
@@ -276,6 +289,12 @@ void ZTSubmitDlg::hideEvent(QHideEvent* event)
 
 	m_Index = IDX_PREVIEW;
 	m_btnCancel->hide();
+	m_btnNext->hide();
+
+	m_btnDemand->hide();
+	m_btnBug->hide();
+
+    emit SubmitZentaoHide();
 }
 
 void ZTSubmitDlg::closeEvent(QCloseEvent* event)

@@ -59,29 +59,29 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="72"/>
+        <location filename="../setting/settingdlg.cpp" line="73"/>
         <source>setting_title</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="77"/>
-        <location filename="../setting/settingdlg.cpp" line="119"/>
+        <location filename="../setting/settingdlg.cpp" line="78"/>
+        <location filename="../setting/settingdlg.cpp" line="120"/>
         <source>hotkey_default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="80"/>
-        <location filename="../setting/settingdlg.cpp" line="228"/>
+        <location filename="../setting/settingdlg.cpp" line="81"/>
+        <location filename="../setting/settingdlg.cpp" line="229"/>
         <source>hotkey_stat_normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="228"/>
+        <location filename="../setting/settingdlg.cpp" line="229"/>
         <source>hotkey_stat_conflict</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../setting/settingdlg.cpp" line="86"/>
+        <location filename="../setting/settingdlg.cpp" line="87"/>
         <source>hotkey_save</source>
         <translation></translation>
     </message>
@@ -94,29 +94,73 @@
         <translation type="obsolete">Start shot</translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="82"/>
+        <location filename="../starterui.cpp" line="99"/>
         <source>S&amp;eeting</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="88"/>
+        <location filename="../starterui.cpp" line="105"/>
         <source>Z&amp;enTaoSeeting</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="93"/>
+        <location filename="../starterui.cpp" line="110"/>
         <source>S&amp;hot</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="98"/>
+        <location filename="../starterui.cpp" line="115"/>
         <source>&amp;Quit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../starterui.cpp" line="118"/>
+        <location filename="../starterui.cpp" line="135"/>
         <source>zenshot</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="56"/>
+        <location filename="../zentaologic.cpp" line="101"/>
+        <location filename="../zentaologic.cpp" line="501"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="364"/>
+        <location filename="../zentaologic.cpp" line="376"/>
+        <source>demandunknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="384"/>
+        <source>demandsuccess</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="427"/>
+        <location filename="../zentaologic.cpp" line="439"/>
+        <source>bugunknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="447"/>
+        <source>bugsuccess</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="545"/>
+        <source>httptimeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="553"/>
+        <source>invalidjson</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaologic.cpp" line="566"/>
+        <source>invalidtoken</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -263,18 +307,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaobug.ui" line="366"/>
+        <location filename="../zentaobug.ui" line="369"/>
         <source>labelType</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaobug.ui" line="382"/>
+        <location filename="../zentaobug.ui" line="385"/>
         <source>labelOS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaobug.ui" line="420"/>
+        <location filename="../zentaobug.ui" line="423"/>
         <source>labelBrower</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaobug.cpp" line="172"/>
+        <source>trunk</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -358,16 +407,6 @@
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../zentaopreview.ui" line="62"/>
-        <source>demand</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../zentaopreview.ui" line="78"/>
-        <source>bug</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ZTSettingDetail</name>
@@ -395,6 +434,25 @@
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../setting/zentaosetting.cpp" line="65"/>
+        <location filename="../setting/zentaosetting.cpp" line="69"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../setting/zentaosetting.cpp" line="65"/>
+        <source>unknownerr</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZTSettingListItem</name>
+    <message>
+        <location filename="../zentaosettinglistitem.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ZTSubmitDlg</name>
@@ -404,20 +462,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaosubmit.ui" line="99"/>
-        <location filename="../preview/zentaosubmit.cpp" line="115"/>
-        <location filename="../preview/zentaosubmit.cpp" line="133"/>
+        <location filename="../zentaosubmit.ui" line="83"/>
+        <source>demand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosubmit.ui" line="102"/>
+        <source>bug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaosubmit.ui" line="156"/>
+        <location filename="../preview/zentaosubmit.cpp" line="154"/>
         <source>nextstep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaosubmit.ui" line="80"/>
+        <location filename="../zentaosubmit.ui" line="137"/>
         <source>cancel</source>
         <translation type="unfinished">cancel</translation>
     </message>
     <message>
-        <location filename="../preview/zentaosubmit.cpp" line="95"/>
+        <location filename="../preview/zentaosubmit.cpp" line="171"/>
         <source>submit2zentao</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ZTTipsDlg</name>
+    <message>
+        <location filename="../zentaotips.ui" line="23"/>
+        <source>tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="41"/>
+        <source>success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="54"/>
+        <source>fail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="67"/>
+        <source>msg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="114"/>
+        <source>okay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="101"/>
+        <source>modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../zentaotips.ui" line="127"/>
+        <source>3sec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaotips.cpp" line="121"/>
+        <source>close3sec</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

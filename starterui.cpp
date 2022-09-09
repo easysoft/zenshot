@@ -26,8 +26,13 @@ StarterUI::StarterUI()
 #if !NZENTAO_VER_
 	, m_ZTSettingDlg(this)
 	, m_ZTSubmitDlg(this)
+	, m_ZTTipsDlg(this)
 	, m_HttpReq()
     , m_CurrentShot(nullptr)
+	, m_CurrentStarter(nullptr)
+	, m_CurrentUsr()
+	, m_CurrentUrl()
+	, m_LastSubmitUrl()
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
 {
@@ -162,6 +167,11 @@ void StarterUI::SetupSignal()
 
     connect(&m_ZTSubmitDlg, SIGNAL(UploadImage()), this, SLOT(OnUploadImage()));
     connect(this, SIGNAL(UploadImageDone(bool, string_ptr)), &m_ZTSubmitDlg, SLOT(OnUploadImageDone(bool, string_ptr)));
+	connect(&m_ZTTipsDlg, SIGNAL(OpenZentaoUrl()), this, SLOT(OnOpenZentaoUrl()));
+
+	connect(&m_ZTSettingDlg, SIGNAL(SettingZentaoHide()), this, SLOT(OnSubmitZentaoHide()));
+	connect(&m_ZTTipsDlg, SIGNAL(TipsZentaoHide()), this, SLOT(OnTipZentaoHide()));
+	connect(&m_ZTSubmitDlg, SIGNAL(SubmitZentaoHide()), this, SLOT(OnSubmitZentaoHide()));
 #endif // NZENTAO_VER_
 }
 
@@ -178,6 +188,7 @@ void StarterUI::OnStartShot()
 	if (m_Starer.empty())
 	{
 		starter = new Starter(false);
+		connect(this, SIGNAL(StopShot(Starter*)), starter, SIGNAL(ShotDone(Starter*)));
 		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
 	}
 	else
@@ -186,6 +197,9 @@ void StarterUI::OnStartShot()
 		m_Starer.pop_back();
 	}
 
+#if !NZENTAO_VER_
+	m_CurrentStarter = starter;
+#endif // NZENTAO_VER_
 	starter->init();
 
 	L_TRACE("============= m_Starer size = {0}", m_Starer.size());
@@ -195,6 +209,7 @@ void StarterUI::OnShotDone(Starter* starter)
 {
 #if !NZENTAO_VER_
     m_CurrentShot = nullptr;
+	m_CurrentStarter = nullptr;
 #endif // NZENTAO_VER_
 	m_Shotting = false;
 	starter->cleanup();

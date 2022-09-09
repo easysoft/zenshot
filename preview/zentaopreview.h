@@ -20,15 +20,15 @@ public:
     std::string GetCurrentSite();
 
 signals:
-	void SubmitDemand();
-	void SubmitBug();
+	void SubmitSelectDefault();
 
 private slots:
 	void OnShowThumbnail(std::shared_ptr<QPixmap> pixmap);
+	void OnSubmitSelectDefault();
 
 protected:
 // 	virtual void paintEvent(QPaintEvent* event) override;
-    virtual void hideEvent(QHideEvent* event) override;
+//     virtual void hideEvent(QHideEvent* event) override;
 	virtual void showEvent(QShowEvent* event) override;
 	virtual void closeEvent(QCloseEvent* event) override;
 
@@ -42,9 +42,9 @@ private:
 	QListView* m_listView;
 	QStringListModel* m_listModel;
 
-	QButtonGroup m_BtnGroup;
-	QPushButton* m_btnDemand;
-	QPushButton* m_btnBug;
+// 	QButtonGroup m_BtnGroup;
+// 	QPushButton* m_btnDemand;
+// 	QPushButton* m_btnBug;
 
 	QLabel* m_imgview;
 #endif // NZENTAO_VER_

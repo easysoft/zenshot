@@ -36,7 +36,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="9,1">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="9,0,1">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -44,6 +44,63 @@
          <widget class="QWidget" name="previewPage"/>
          <widget class="QWidget" name="demandPage"/>
          <widget class="QWidget" name="bugPage"/>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="leftMargin">
+        <number>150</number>
+       </property>
+       <property name="rightMargin">
+        <number>150</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnDemand">
+         <property name="minimumSize">
+          <size>
+           <width>204</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>204</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>demand</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnBug">
+         <property name="minimumSize">
+          <size>
+           <width>204</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>204</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>bug</string>
+         </property>
         </widget>
        </item>
       </layout>

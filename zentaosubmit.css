@@ -23,3 +23,44 @@
     color: #9EA3B0;
     font-weight: 400;
 }
+
+#btnDemand {
+    background-color: transparent;
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 400;
+
+    padding-left: 35px;
+
+    background-image: url(:/images/demand-uncheck.png);
+    background-repeat: no-repeat;
+}
+
+#btnDemand:hover {
+    color: #FFA34D;
+    background-image: url(:/images/demand-check.png);
+}
+
+#btnDemand:pressed {
+    color: #3C4353;
+}
+
+#btnBug {
+    background-color: transparent;
+
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #3C4353;
+    font-weight: 400;
+
+    padding-left: 35px;
+
+    background-image: url(:/images/bug-uncheck.png);
+    background-repeat: no-repeat;
+}
+
+#btnBug:hover {
+    color: #FF5858;
+    background-image: url(:/images/bug-check.png);
+}

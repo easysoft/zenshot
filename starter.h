@@ -34,6 +34,8 @@ public:
     void init(QWidget* parent = nullptr);
     void cleanup();
 
+    void rasie();
+
 private:
     QList<Widget*>* m_widgets;
     QList<Widget*>* m_unused_widgets;

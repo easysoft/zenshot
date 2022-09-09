@@ -51,9 +51,16 @@ signals:
 
     void UploadImage();
 
+	void SubmitDemand();
+	void SubmitBug();
+
+    void SubmitZentaoHide();
+
 private slots:
 	void OnSubmitDemand();
 	void OnSubmitBug();
+    void OnBtnSumitDemand();
+    void OnBtnSubmitBug();
 	void OnNextStep();
 	void OnCancel();
 
@@ -62,8 +69,6 @@ private slots:
     void OnSubmitModuleItems(zmodule_item_vec_ptr modules);
     void OnSubmitVersionItems(zversion_item_vec_ptr versions);
     void OnSubmitModulesItems(zpri_item_vec_ptr pris, zseverity_item_vec_ptr serveritys, zos_item_vec_ptr oss, zbrowser_item_vec_ptr browers, ztype_item_vec_ptr types);
-	void OnRealSubmitDemand();
-	void OnRealSubmitBug();
 
     void OnUploadImageDone(bool success, string_ptr url);
 
@@ -89,6 +94,9 @@ private:
 
 	QPushButton* m_btnNext;
 	QPushButton* m_btnCancel;
+
+	QPushButton* m_btnDemand;
+	QPushButton* m_btnBug;
 
 	int m_Index;
 #endif // NZENTAO_VER_

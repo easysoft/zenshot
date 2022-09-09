@@ -27,29 +27,23 @@ signals:
 	void SaveZentaoSiteConfig();
 	void SaveZentaoDefaultSite();
 	void SaveZentaoCurrentSite(string_ptr name, string_ptr url, string_ptr usr, string_ptr pass);
+	void RealRemoveItem(ZTSettingListItem* item);
+	void SettingZentaoHide();
 
 private slots:
-	void OnAddNewItem();
-	void OnRemoveItem();
 	void OnConfigCancel();
 	void OnConfigSave();
-	void OnConfigNew();
-	void OnCheckConfig();
+	void OnCheckInputDone();
 
 protected:
 // 	virtual void paintEvent(QPaintEvent* event) override;
 // 	virtual void showEvent(QShowEvent* event) override;
+	virtual void hideEvent(QHideEvent* event) override;
 	virtual void closeEvent(QCloseEvent* event) override;
 
 private:
 	void SetupUI();
 	void SetupSignal();
-
-	int CalcRowWidth();
-	int CalcRowHeight();
-
-	void ResetItem(int index, const char* name, const char* url, const char* usr, const char* pass);
-	void ResetItemData(int index, int value);
 
 private:
 	Ui::ZTSettingDlg ui;

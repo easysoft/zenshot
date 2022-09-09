@@ -33,7 +33,7 @@ public:
 	uint64_t GetConfigNum2(const char* name, const char* sub_name);
 	uint64_t GetConfigNum3(const char* name, const char* sub_name, const char* attr_name);
 
-	void FindAllNode(const char* name, const char* sub_name, const std::function<bool(rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)>& cb);
+	void FindAllNode(const char* name, const char* sub_name, const std::function<bool(rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)>& cb);
 	void RemoveAllNode(const char* name, const char* sub_name);
 
 	// set: <config>1</config>

@@ -48,43 +48,11 @@
      <x>377</x>
      <y>40</y>
      <width>386</width>
-     <height>260</height>
+     <height>371</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QPushButton" name="btnDemand">
-   <property name="geometry">
-    <rect>
-     <x>377</x>
-     <y>320</y>
-     <width>204</width>
-     <height>90</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>demand</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnBug">
-   <property name="geometry">
-    <rect>
-     <x>579</x>
-     <y>320</y>
-     <width>204</width>
-     <height>90</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>bug</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
+   <property name="viewMode">
+    <enum>QListView::ListMode</enum>
    </property>
   </widget>
  </widget>

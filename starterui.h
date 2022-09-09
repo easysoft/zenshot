@@ -5,6 +5,7 @@
 #include "setting/settingdlg.h"
 #include "setting/zentaosetting.h"
 #include "preview/zentaosubmit.h"
+#include "preview/zentaotips.h"
 
 #include "httprequest/zhttprequest.h"
 #include "usrmetatype.h"
@@ -21,11 +22,14 @@ public:
 	StarterUI();
 	virtual ~StarterUI();
 
+	int UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token);
+
 signals:
 	void SatrtShot();
 	void ShotDone(Starter* starer);
 	void CheckHotKey(uint32_t value);
 #if !NZENTAO_VER_
+	void StopShot(Starter* starter);
 	void Thumbnail(std::shared_ptr<QPixmap> pixmap);
 	void Login(string_ptr url, string_ptr usr, string_ptr pass);
     void SubmitLoginResult(bool result);
@@ -64,6 +68,11 @@ private slots:
     void OnSubmitBugJson(uint32_t product_id, string_ptr json);
 
     void OnUploadImage();
+
+	void OnOpenZentaoUrl();
+
+	void OnTipZentaoHide();
+	void OnSubmitZentaoHide();
 #endif // NZENTAO_VER_
 
 protected:
@@ -87,8 +96,6 @@ private:
 
 	void SetupSignal();
 
-    int UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token);
-
 private:
 	std::list<Starter*> m_Starer;
 
@@ -100,13 +107,16 @@ private:
 
 	ZTSettingDlg m_ZTSettingDlg;
 	ZTSubmitDlg m_ZTSubmitDlg;
+	ZTTipsDlg m_ZTTipsDlg;
 
 	ZHttpRequest m_HttpReq;
 
 	std::string m_CurrentUsr;
 	std::string m_CurrentUrl;
+	std::string m_LastSubmitUrl;
 
     std::shared_ptr<QPixmap> m_CurrentShot;
+	Starter* m_CurrentStarter;
 #endif // NZENTAO_VER_
 	QAction* shotAction;
 	QAction* quitAction;

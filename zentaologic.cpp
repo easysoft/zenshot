@@ -16,6 +16,8 @@
 #include <QJsonObject>
 #include <QBuffer>
 
+#include <QDesktopServices>
+
 #if !NZENTAO_VER_
 void StarterUI::OnShowZenTaoSetting()
 {
@@ -61,7 +63,7 @@ void StarterUI::OnLogin(string_ptr url, string_ptr usr, string_ptr pass)
 void StarterUI::OnSubmitLogin(string_ptr name)
 {
     string_ptr url, usr, pass;
-    auto cb = [&](rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+    auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
         (void*)root;
         if (GetConfigAttrString(node, "name") == *name)
@@ -87,11 +89,11 @@ void StarterUI::OnSubmitLogin(string_ptr name)
         return;
     }
 
-    if (IsSameUsr(*usr, *url))
-    {
-        SubmitLoginResult(true);
-        return;
-    }
+//     if (IsSameUsr(*usr, *url))
+//     {
+//         SubmitLoginResult(true);
+//         return;
+//     }
 
     QString err_token;
     if (UsrLogin(url, usr, pass, err_token))
@@ -354,17 +356,48 @@ void StarterUI::OnSubmitDemandJson(uint32_t product_id, string_ptr json)
         return;
     }
 
+    bool success = false;
     QJsonParseError e;
     QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
     if (doc.isNull() || e.error != QJsonParseError::NoError)
     {
-        return;
-    }
-
-    if (doc["error"].isString())
+		m_ZTTipsDlg.SetContent(false, tr("demandunknown"));
+	}
+	else if (doc["id"].isUndefined() || doc["id"].isNull())
     {
-        QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
+        auto title = doc["error"].toObject();
+        auto arr = title["title"].toArray();
+        if (!arr.isEmpty())
+        {
+            m_ZTTipsDlg.SetContent(false, arr[0].toString());
+        }
+        else
+        {
+            m_ZTTipsDlg.SetContent(false, tr("demandunknown"));
+        }
     }
+    else
+    {
+        m_LastSubmitUrl = "story-view-";
+        m_LastSubmitUrl.append(std::to_string(doc["id"].toInt())).append(".html");
+
+        m_ZTTipsDlg.SetContent(true, tr("demandsuccess"));
+        success = true;
+    }
+    int ret = m_ZTTipsDlg.exec();
+
+	if (success)
+	{
+		m_ZTSubmitDlg.hide();
+        emit StopShot(m_CurrentStarter);
+		return;
+	}
+
+	if (ret != 1)
+	{
+		m_ZTSubmitDlg.hide();
+        return;
+	}
 }
 
 void StarterUI::OnSubmitBugJson(uint32_t product_id, string_ptr json)
@@ -378,23 +411,56 @@ void StarterUI::OnSubmitBugJson(uint32_t product_id, string_ptr json)
     m_HttpReq.SetTokenHeader();
     m_HttpReq.SetPost(json->c_str());
 
+    L_TRACE(json->c_str());
+
     std::string data;
     if (!m_HttpReq.Exec(data)) // http error
     {
         return;
     }
 
+    bool success = false;
     QJsonParseError e;
     QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
     if (doc.isNull() || e.error != QJsonParseError::NoError)
     {
+        m_ZTTipsDlg.SetContent(false, tr("bugunknown"));
+    }
+    else if (doc["id"].isUndefined() || doc["id"].isNull())
+	{
+		auto title = doc["error"].toObject();
+		auto arr = title["title"].toArray();
+		if (!arr.isEmpty())
+		{
+			m_ZTTipsDlg.SetContent(false, arr[0].toString());
+		}
+        else
+        {
+            m_ZTTipsDlg.SetContent(false, tr("bugunknown"));
+        }
+	}
+	else
+	{
+        m_LastSubmitUrl = "bug-view-";
+        m_LastSubmitUrl.append(std::to_string(doc["id"].toInt())).append(".html");
+
+		m_ZTTipsDlg.SetContent(true, tr("bugsuccess"));
+        success = true;
+	}
+	int ret = m_ZTTipsDlg.exec();
+
+    if (success)
+    {
+        m_ZTSubmitDlg.hide();
+        emit StopShot(m_CurrentStarter);
         return;
     }
 
-    if (doc["error"].isString())
-    {
-        QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
-    }
+	if (ret != 1)
+	{
+		m_ZTSubmitDlg.hide();
+		return;
+	}
 }
 
 void StarterUI::OnUploadImage()
@@ -441,6 +507,31 @@ void StarterUI::OnUploadImage()
     emit UploadImageDone(true, img_url);
 }
 
+void StarterUI::OnOpenZentaoUrl()
+{
+    QString url = m_CurrentUrl.c_str();
+    if (*m_CurrentUrl.rbegin() != '/')
+    {
+        url += "/";
+    }
+    url += m_LastSubmitUrl.c_str();
+    QDesktopServices::openUrl(QUrl(url));
+}
+
+void StarterUI::OnSubmitZentaoHide()
+{
+    if (m_CurrentStarter == nullptr)
+        return;
+    
+    m_CurrentStarter->rasie();
+}
+
+void StarterUI::OnTipZentaoHide()
+{
+    m_ZTSubmitDlg.raise();
+    m_ZTSubmitDlg.activateWindow();
+}
+
 int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token)
 {
     std::string uri = build_uri(url->c_str(), "/tokens");
@@ -460,14 +551,12 @@ int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString
     if (doc.isNull() || e.error != QJsonParseError::NoError)
     {
         err_token = tr("invalidjson");
-// 		QMessageBox::information(NULL, tr("Title"), tr("invalid_usr"));
         return -2;
     }
 
     if (doc["error"].isString())
     {
         err_token = doc["error"].toString().toUtf8();
-// 		QMessageBox::information(NULL, tr("Title"), doc["error"].toString().toUtf8());
         return -3;
     }
 
@@ -475,7 +564,6 @@ int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString
     if (token.isEmpty())
     {
         err_token = tr("invalidtoken");
-// 		QMessageBox::information(NULL, tr("Title"), tr("invalid_usr"));
         return -4;
     }
 

@@ -93,7 +93,7 @@ uint64_t XMLConfig::GetConfigNum3(const char* name, const char* sub_name, const 
 	return static_cast<uint64_t>(atoll(value.c_str()));
 }
 
-void XMLConfig::FindAllNode(const char* name, const char* sub_name, const std::function<bool(rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)>& cb)
+void XMLConfig::FindAllNode(const char* name, const char* sub_name, const std::function<bool(rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)>& cb)
 {
 	rapidxml::xml_node<>* root = m_Doc.first_node();
 	rapidxml::xml_node<>* node = m_Doc.first_node(name);

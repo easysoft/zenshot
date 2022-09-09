@@ -51,6 +51,12 @@ uint32_t ZTBug::BuildBugJson(const std::string& img, string_ptr json)
     QString os_id = m_cbxOS->currentData().toString();
     QString browser_id = m_cbxBrower->currentData().toString();
     QString type_id = m_cbxType->currentData().toString();
+    auto date = m_TimeEditDeadLine->date();
+    int year = date.year(),
+        mm = date.month(),
+        dd = date.day();
+
+    QString deadline = QString::number(year) + "-" + QString::number(mm) + "-" + QString::number(dd);
 
     QString title = m_editTitle->text().toUtf8();
     QString desc;
@@ -76,6 +82,7 @@ uint32_t ZTBug::BuildBugJson(const std::string& img, string_ptr json)
     obj.insert("os", os_id);
     obj.insert("browser", browser_id);
     obj.insert("steps", desc);
+    obj.insert("deadline", deadline);
 
     if (version_id.isEmpty())
     {
@@ -88,6 +95,8 @@ uint32_t ZTBug::BuildBugJson(const std::string& img, string_ptr json)
     QJsonDocument doc;
     doc.setObject(obj);
     *json = doc.toJson(QJsonDocument::Compact).toStdString();
+
+    L_TRACE(json->c_str());
 
     return product_id;
 }
@@ -119,6 +128,15 @@ void ZTBug::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
+
+    m_TimeEditDeadLine->setDisplayFormat("yyyy-MM-dd");
+    m_TimeEditDeadLine->setDate(QDate::currentDate());
+
+    QLineEdit* lEdit = m_TimeEditDeadLine->findChild<QLineEdit*>();
+    if (lEdit)
+    {
+        lEdit->setReadOnly(true);
+    }
 }
 
 void ZTBug::SetupSignal()
@@ -148,22 +166,48 @@ void ZTBug::OnBugVersionItems(zversion_item_vec_ptr versions)
     {
         m_boxVersion->addItem(item.name_.c_str(), QVariant(item.id_.c_str()));
     }
+
+    if (versions->empty())
+    {
+        m_boxVersion->addItem(tr("trunk"), "trunk");
+    }
 }
 
 void ZTBug::OnBugPriItems(zpri_item_vec_ptr pris)
 {
+    QString index3_txt = "";
     for (const auto& item : *pris)
     {
+		if (item.id_ == 3)
+		{
+			index3_txt = item.name_.c_str();
+		}
+
         m_cbxPri->addItem(item.name_.c_str(), QVariant(item.id_));
     }
+
+	if (!index3_txt.isEmpty())
+	{
+        m_cbxPri->setCurrentText(index3_txt);
+	}
 }
 
 void ZTBug::OnBugSeverityItems(zseverity_item_vec_ptr serveritys)
 {
+    QString index3_txt = "";
     for (const auto& item : *serveritys)
     {
+		if (item.id_ == 3)
+		{
+			index3_txt = item.name_.c_str();
+		}
+
         m_cbxSeverity->addItem(item.name_.c_str(), QVariant(item.id_));
     }
+	if (!index3_txt.isEmpty())
+	{
+        m_cbxSeverity->setCurrentText(index3_txt);
+	}
 }
 
 void ZTBug::OnBugOSItems(zos_item_vec_ptr oss)

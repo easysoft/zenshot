@@ -70,6 +70,8 @@ uint32_t ZTDemand::BuildDemandJson(const std::string& img, string_ptr json)
     obj.insert("verify", verify);
     obj.insert("product", product_id);
     obj.insert("pri", pri_id);
+    obj.insert("estimate", story);
+    obj.insert("module", module_id);
 
     QJsonDocument doc;
     doc.setObject(obj);
@@ -140,9 +142,20 @@ void ZTDemand::OnDemandVersionItems(zversion_item_vec_ptr versions)
 
 void ZTDemand::OnDemandPriItems(zpri_item_vec_ptr pris)
 {
+    QString index3_txt = "";
     for (const auto& item : *pris)
     {
+		if (item.id_ == 3)
+		{
+            index3_txt = item.name_.c_str();
+		}
+		
         m_boxPri->addItem(item.name_.c_str(), QVariant(item.id_));
+    }
+
+    if (!index3_txt.isEmpty())
+    {
+        m_boxPri->setCurrentText(index3_txt);
     }
 }
 

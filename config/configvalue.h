@@ -35,7 +35,7 @@ inline uint64_t GetConfigAttrNum(rapidxml::xml_node<>* node, const char* name)
 	return value ? (uint64_t)atoll(value) : 0;
 }
 
-inline void SetConfigStr(rapidxml::xml_node<>* node, const char* name, const char* value)
+inline void SetConfigStr(rapidxml::xml_node<>*& node, const char* name, const char* value)
 {
 	auto& doc = GetXMLConfig().GetDoc();
 	if (name != nullptr)
@@ -52,7 +52,7 @@ inline void SetConfigStr(rapidxml::xml_node<>* node, const char* name, const cha
 	node->value(doc.allocate_string(value));
 }
 
-inline void SetConfigNum(rapidxml::xml_node<>* node, const char* name, uint64_t value)
+inline void SetConfigNum(rapidxml::xml_node<>*& node, const char* name, uint64_t value)
 {
 	auto& doc = GetXMLConfig().GetDoc();
 	if (name != nullptr)
@@ -69,19 +69,19 @@ inline void SetConfigNum(rapidxml::xml_node<>* node, const char* name, uint64_t 
 	node->value(doc.allocate_string(std::to_string(value).c_str()));
 }
 
-inline void AddConfigAttrStr(rapidxml::xml_node<>* node, const char* name, const char* value)
+inline void AddConfigAttrStr(rapidxml::xml_node<>*& node, const char* name, const char* value)
 {
 	auto& doc = GetXMLConfig().GetDoc();
 	auto attr = doc.allocate_attribute(doc.allocate_string(name), doc.allocate_string(value));
 	node->append_attribute(attr);
 }
 
-inline void AddConfigAttrStr(rapidxml::xml_node<>* node, const char* name, uint64_t value)
+inline void AddConfigAttrStr(rapidxml::xml_node<>*& node, const char* name, uint64_t value)
 {
 	AddConfigAttrStr(node, name, std::to_string(value).c_str());
 }
 
-inline void RemoveNode(rapidxml::xml_node<>* root, rapidxml::xml_node<>* node)
+inline void RemoveNode(rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 {
 	root->remove_node(node);
 }
