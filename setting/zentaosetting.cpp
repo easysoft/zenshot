@@ -39,6 +39,27 @@ void ZTSettingDlg::OnConfigCancel()
 
 void ZTSettingDlg::OnConfigSave()
 {
+	int count = 0;
+	auto count_cb = [&count](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
+	{
+		(void*)root;
+		(void*)node;
+
+		count++;
+		return false;
+	};
+	GetXMLConfig().FindAllNode("config", "zentao", count_cb);
+	if (!count)
+	{
+		auto name = m_Detail.GetName();
+		auto url = m_Detail.GetUrl();
+		auto usr = m_Detail.GetUsr();
+		auto pass = m_Detail.GetPass();
+
+		m_List.AddNewRow(name, url, usr, pass);
+		m_Detail.SetDefaultSiteName(name);
+	}
+
 	emit SaveZentaoSiteConfig();
 	emit SaveZentaoDefaultSite();
 
@@ -98,7 +119,7 @@ void ZTSettingDlg::SetupSignal()
 	connect(&m_Detail, SIGNAL(ConfigSave()), this, SLOT(OnConfigSave()));
 
 	connect(&m_List, SIGNAL(CurrentRowSelected(int, string_ptr, string_ptr, string_ptr, string_ptr)), &m_Detail, SIGNAL(ChangeCurrentSelectDetail(int, string_ptr, string_ptr, string_ptr, string_ptr)));
-	
+	connect(&m_List, SIGNAL(SetDefaultSiteName(string_ptr)), &m_Detail, SLOT(OnSetDefaultSiteName(string_ptr)));
 	connect(this, SIGNAL(SaveZentaoSiteConfig()), &m_List, SIGNAL(SaveSiteListConfig()));
 	connect(this, SIGNAL(SaveZentaoDefaultSite()), &m_Detail, SIGNAL(SaveDefaultSite()));
 

@@ -36,5 +36,6 @@
         <file>zentaotips.css</file>
         <file>zentaosettinglistitem.css</file>
         <file>images/item-default.png</file>
+        <file>images/cbx-down.png</file>
     </qresource>
 </RCC>

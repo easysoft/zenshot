@@ -150,46 +150,46 @@
         <translation>ZenShot</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="56"/>
-        <location filename="../zentaologic.cpp" line="101"/>
-        <location filename="../zentaologic.cpp" line="501"/>
+        <location filename="../zentaologic.cpp" line="74"/>
+        <location filename="../zentaologic.cpp" line="119"/>
+        <location filename="../zentaologic.cpp" line="519"/>
         <source>Title</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="364"/>
-        <location filename="../zentaologic.cpp" line="376"/>
+        <location filename="../zentaologic.cpp" line="382"/>
+        <location filename="../zentaologic.cpp" line="394"/>
         <source>demandunknown</source>
         <translation>提交需求失败</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="384"/>
+        <location filename="../zentaologic.cpp" line="402"/>
         <source>demandsuccess</source>
         <translation>提交需求成功</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="427"/>
-        <location filename="../zentaologic.cpp" line="439"/>
+        <location filename="../zentaologic.cpp" line="445"/>
+        <location filename="../zentaologic.cpp" line="457"/>
         <source>bugunknown</source>
         <translation>提交bug失败</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="447"/>
+        <location filename="../zentaologic.cpp" line="465"/>
         <source>bugsuccess</source>
         <translation>提交bug成功</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="545"/>
+        <location filename="../zentaologic.cpp" line="563"/>
         <source>httptimeout</source>
         <translation>请求超时</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="553"/>
+        <location filename="../zentaologic.cpp" line="571"/>
         <source>invalidjson</source>
         <translation>无法解析json</translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="566"/>
+        <location filename="../zentaologic.cpp" line="584"/>
         <source>invalidtoken</source>
         <translation>登录超时，请重新登录</translation>
     </message>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../zentaobug.ui" line="250"/>
         <source>input_desc</source>
-        <translation type="unfinished">请输入bug描述</translation>
+        <translation>请输入Bug描述【重现步骤】、【结果】、【期望】</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="279"/>
@@ -351,6 +351,10 @@
         <location filename="../zentaobug.ui" line="423"/>
         <source>labelBrower</source>
         <translation>浏览器</translation>
+    </message>
+    <message>
+        <source>bug_title</source>
+        <translation type="vanished">提交Bug</translation>
     </message>
     <message>
         <location filename="../preview/zentaobug.cpp" line="172"/>
@@ -424,6 +428,10 @@
         <location filename="../zentaodemand.ui" line="352"/>
         <source>input_title</source>
         <translation>请输入需求名称</translation>
+    </message>
+    <message>
+        <source>demand_title</source>
+        <translation type="vanished">提交需求</translation>
     </message>
 </context>
 <context>
@@ -518,13 +526,13 @@
         <translation>绑定禅道站点</translation>
     </message>
     <message>
-        <location filename="../setting/zentaosetting.cpp" line="65"/>
-        <location filename="../setting/zentaosetting.cpp" line="69"/>
+        <location filename="../setting/zentaosetting.cpp" line="86"/>
+        <location filename="../setting/zentaosetting.cpp" line="90"/>
         <source>Title</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../setting/zentaosetting.cpp" line="65"/>
+        <location filename="../setting/zentaosetting.cpp" line="86"/>
         <source>unknownerr</source>
         <translation>未知错误</translation>
     </message>
@@ -590,7 +598,7 @@
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="156"/>
-        <location filename="../preview/zentaosubmit.cpp" line="154"/>
+        <location filename="../preview/zentaosubmit.cpp" line="158"/>
         <source>nextstep</source>
         <translation>下一步</translation>
     </message>
@@ -604,7 +612,24 @@
         <translation>上一步</translation>
     </message>
     <message>
-        <location filename="../preview/zentaosubmit.cpp" line="171"/>
+        <location filename="../preview/zentaosubmit.cpp" line="122"/>
+        <source>demand_title</source>
+        <translation>提交需求</translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="134"/>
+        <source>bug_title</source>
+        <translation>提交Bug</translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="156"/>
+        <location filename="../preview/zentaosubmit.cpp" line="174"/>
+        <location filename="../preview/zentaosubmit.cpp" line="282"/>
+        <source>submit_title</source>
+        <translation>提交</translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="178"/>
         <source>submit2zentao</source>
         <translation>提交到禅道</translation>
     </message>
@@ -634,7 +659,7 @@
     <message>
         <location filename="../zentaotips.ui" line="114"/>
         <source>okay</source>
-        <translation>去禅道看看</translation>
+        <translation type="unfinished">去禅道查看</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="101"/>

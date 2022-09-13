@@ -134,7 +134,8 @@ void XMLConfig::RemoveAllNode(const char* name, const char* sub_name)
 		return;
 	}
 
-	for (rapidxml::xml_node<>* node = root->last_node(sub_name); node; node = root->last_node(sub_name))
+	rapidxml::xml_node<>* node = root->first_node(sub_name);
+	for (; node; node = root->first_node(sub_name))
 	{
 		root->remove_node(node);
 	}

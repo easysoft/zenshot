@@ -15,11 +15,34 @@
 }
 
 #labelSeparation {
-    background-color: gray;
+    background-color: transparent;
     border: 0px;
 }
 
 #listView {
     background-color: #FFFFFF;
     border: 0px;
+
+    font-family: Microsoft YaHei;
+    font-size: 16px;
+}
+
+#listView::item {
+    background-color: transparent;
+    height: 40px;
+    color: black;
+}
+
+#listView::item:hover {
+    background-color: transparent;
+    color: #747DEF;
+}
+
+#listView::item:selected {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+
+    background-color: transparent;
+    color: #747DEF;
 }

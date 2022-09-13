@@ -252,6 +252,18 @@ void ZTSettingList::OncurrentRowChanged(int index)
 
 void ZTSettingList::OnNewSiteConfig()
 {
+	int count = 0;
+
+	auto count_cb = [&count](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
+	{
+		(void*)root;
+		(void*)node;
+
+		count++;
+		return false;
+	};
+	GetXMLConfig().FindAllNode("config", "zentao", count_cb);
+
 	// check if empty
 	{
 		auto item = m_listWidget->item(m_listWidget->count() - 1);
@@ -277,6 +289,14 @@ void ZTSettingList::OnNewSiteConfig()
 	item->setHidden(false);
 
 	m_listWidget->setCurrentItem(item);
+
+	const char* name = w->GetName();
+
+	if (!count)
+	{
+		emit SetDefaultSiteName(string_ptr(new std::string(name)));
+		w->SetDefaultItem(true);
+	}
 }
 
 void ZTSettingList::OnUpdateName(const QString& name)
@@ -350,6 +370,7 @@ void ZTSettingList::OnSelectDefault()
 		auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
 		if (w != nullptr && default_site == w->GetName())
 		{
+			w->SetDefaultItem(true);
 			default_item = item;
 			break;
 		}

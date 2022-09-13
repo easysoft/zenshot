@@ -51,6 +51,7 @@ void ZTPreview::SetupUI()
 
 	m_listView = findChild<QListView*>("listView");
 	m_listView->setModel(m_listModel);
+	m_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 // 	m_btnDemand = findChild<QPushButton*>("btnDemand");
 // 	m_btnBug = findChild<QPushButton*>("btnBug");

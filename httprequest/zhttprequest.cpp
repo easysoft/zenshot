@@ -9,6 +9,7 @@
 #include <QFile>
 
 static QSslConfiguration ssl_config(QSslConfiguration::defaultConfiguration());
+
 ZHttpRequest::ZHttpRequest(int interval)
 	: QObject(nullptr)
 	, m_Manager(new QNetworkAccessManager)
@@ -19,7 +20,7 @@ ZHttpRequest::ZHttpRequest(int interval)
 	m_Timer.setSingleShot(true);
 
     ssl_config.setPeerVerifyMode(QSslSocket::VerifyNone);
-    ssl_config.setProtocol(QSsl::TlsV1_0);
+    ssl_config.setProtocol(QSsl::TlsV1SslV3);
 }
 
 void ZHttpRequest::SetTimeout(int interval)
@@ -39,10 +40,11 @@ void ZHttpRequest::SetUrl(const char* fmt, ...)
 	va_start(args, fmt);
 	vsprintf(url, fmt, args);
 	va_end(args);
-	m_Request.reset(new QNetworkRequest(QUrl(url)));
+	m_Request.reset(new QNetworkRequest);
+
+	m_Request->setSslConfiguration(ssl_config);
+	m_Request->setUrl(QUrl(url));
 	m_Data.clear();
-    
-    m_Request->setSslConfiguration(ssl_config);
 }
 
 void ZHttpRequest::AddHeader(const char* key, const char* value)
@@ -101,6 +103,7 @@ bool ZHttpRequest::Exec(std::string& reply_str)
 	}
 	
 	m_Timer.stop();
+	disconnect(&m_Timer);
 
 	reply_str = std::move(reply->readAll().toStdString());
 	reply->deleteLater();

@@ -32,6 +32,24 @@ void StarterUI::OnShowZenTaoSetting()
 
 void StarterUI::OnShowPreview(Workspace* w)
 {
+    bool has_config = false;
+    auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
+    {
+        (void*)root;
+        (void*)node;
+
+        has_config = true;
+        return true;
+    };
+    GetXMLConfig().FindAllNode("config", "zentao", cb);
+    if (!has_config)
+    {
+        m_ZTSettingDlg.show();
+        m_ZTSettingDlg.raise();
+        m_ZTSettingDlg.activateWindow();
+        return;
+    }
+
 	if (!m_ZTSubmitDlg.isVisible())
 	{
         m_CurrentShot = w->result();

@@ -119,46 +119,46 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="56"/>
-        <location filename="../zentaologic.cpp" line="101"/>
-        <location filename="../zentaologic.cpp" line="501"/>
+        <location filename="../zentaologic.cpp" line="74"/>
+        <location filename="../zentaologic.cpp" line="119"/>
+        <location filename="../zentaologic.cpp" line="519"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="364"/>
-        <location filename="../zentaologic.cpp" line="376"/>
+        <location filename="../zentaologic.cpp" line="382"/>
+        <location filename="../zentaologic.cpp" line="394"/>
         <source>demandunknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="384"/>
+        <location filename="../zentaologic.cpp" line="402"/>
         <source>demandsuccess</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="427"/>
-        <location filename="../zentaologic.cpp" line="439"/>
+        <location filename="../zentaologic.cpp" line="445"/>
+        <location filename="../zentaologic.cpp" line="457"/>
         <source>bugunknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="447"/>
+        <location filename="../zentaologic.cpp" line="465"/>
         <source>bugsuccess</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="545"/>
+        <location filename="../zentaologic.cpp" line="563"/>
         <source>httptimeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="553"/>
+        <location filename="../zentaologic.cpp" line="571"/>
         <source>invalidjson</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../zentaologic.cpp" line="566"/>
+        <location filename="../zentaologic.cpp" line="584"/>
         <source>invalidtoken</source>
         <translation type="unfinished"></translation>
     </message>
@@ -435,13 +435,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/zentaosetting.cpp" line="65"/>
-        <location filename="../setting/zentaosetting.cpp" line="69"/>
+        <location filename="../setting/zentaosetting.cpp" line="86"/>
+        <location filename="../setting/zentaosetting.cpp" line="90"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../setting/zentaosetting.cpp" line="65"/>
+        <location filename="../setting/zentaosetting.cpp" line="86"/>
         <source>unknownerr</source>
         <translation type="unfinished"></translation>
     </message>
@@ -473,7 +473,7 @@
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="156"/>
-        <location filename="../preview/zentaosubmit.cpp" line="154"/>
+        <location filename="../preview/zentaosubmit.cpp" line="158"/>
         <source>nextstep</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,7 +483,24 @@
         <translation type="unfinished">cancel</translation>
     </message>
     <message>
-        <location filename="../preview/zentaosubmit.cpp" line="171"/>
+        <location filename="../preview/zentaosubmit.cpp" line="122"/>
+        <source>demand_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="134"/>
+        <source>bug_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="156"/>
+        <location filename="../preview/zentaosubmit.cpp" line="174"/>
+        <location filename="../preview/zentaosubmit.cpp" line="282"/>
+        <source>submit_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preview/zentaosubmit.cpp" line="178"/>
         <source>submit2zentao</source>
         <translation type="unfinished"></translation>
     </message>

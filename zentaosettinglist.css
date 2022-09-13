@@ -18,15 +18,19 @@ QLabel#label {
     outline:0px;
 }
 
-QListWidget::item:hover
-{
+QListWidget::item {
+    background-color: rgba(237,238,242,0.40);
+    border: 1px solid rgba(215,219,222,1);
+    border-radius: 2px;
+}
+
+QListWidget::item:hover {
     show-decoration-selected: 2px;
     background-color: transparent;
     border-radius: 2px;
 }
 
-QListWidget::item:selected
-{
+QListWidget::item:selected {
     background-color: rgba(116,125,255,0.06);
     padding: 0px;
     margin: 0px;

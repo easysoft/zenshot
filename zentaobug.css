@@ -13,6 +13,25 @@ QLabel {
     font-size: 12px;
     color: #3C4353;
     font-weight: 400;
+    background-color: #EDEEF2;
+    font-weight: 400;
+    border: 1px solid rgba(215,219,222,1);
+    border-right: 0px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+QLineEdit {
+    font-family: Microsoft YaHei;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+    background-color: transparent;
+    border: 1px solid rgba(215,219,222,1);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    padding-left: 8px;
 }
 
 QTextEdit {
@@ -20,4 +39,41 @@ QTextEdit {
     font-size: 12px;
     line-height: 20px;
     font-weight: 400;
+    background-color: transparent;
+    border: 1px solid rgba(215,219,222,1);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    padding-left: 8px;
+}
+
+QComboBox {
+    background-color: transparent;
+    border: 1px solid rgba(215,219,222,1);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    padding-left: 8px;
+}
+
+QComboBox::down-arrow
+{
+    border-image: url(:/images/cbx-down.png);
+    background-color: transparent;
+}
+
+QDateEdit {
+    background-color: transparent;
+    border: 1px solid rgba(215,219,222,1);
+    border-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    padding-left: 8px;
+}
+
+QDateEdit::down-arrow
+{
+    border-image: url(:/images/cbx-down.png);
+    background-color: transparent;
 }

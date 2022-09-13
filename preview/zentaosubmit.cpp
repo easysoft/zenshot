@@ -119,6 +119,7 @@ void ZTSubmitDlg::OnBtnSumitDemand()
 	if (name.empty())
 		return;
 
+    setWindowTitle(tr("demand_title"));
 	m_framesWidget->setEnabled(false);
 	emit SubmitLogin(string_ptr(new std::string(name)));
 }
@@ -130,6 +131,7 @@ void ZTSubmitDlg::OnBtnSubmitBug()
 	if (name.empty())
 		return;
 
+    setWindowTitle(tr("bug_title"));
 	m_framesWidget->setEnabled(false);
 	emit SubmitLogin(string_ptr(new std::string(name)));
 }
@@ -151,6 +153,8 @@ void ZTSubmitDlg::OnNextStep()
 
 void ZTSubmitDlg::OnCancel()
 {
+    setWindowTitle(tr("submit_title"));
+
 	m_btnNext->setText(tr("nextstep"));
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);
 
@@ -166,7 +170,10 @@ void ZTSubmitDlg::OnSubmitLoginResult(bool result)
     m_framesWidget->setEnabled(true);
 
     if (!result)
+    {
+        setWindowTitle(tr("submit_title"));
         return;
+    }
 
     m_btnNext->setText(tr("submit2zentao"));
     m_framesWidget->setCurrentIndex(m_Index);
@@ -271,6 +278,8 @@ void ZTSubmitDlg::OnUploadImageDone(bool success, string_ptr url)
 void ZTSubmitDlg::showEvent(QShowEvent* event)
 {
 	QDialog::showEvent(event);
+
+    setWindowTitle(tr("submit_title"));
 
 	m_Index = IDX_DEMAND;
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);

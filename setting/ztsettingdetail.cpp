@@ -26,6 +26,11 @@ ZTSettingDetail::ZTSettingDetail(QWidget* parent)
 	m_textPass->installEventFilter(this);
 }
 
+void ZTSettingDetail::SetDefaultSiteName(const std::string& name)
+{
+	m_DefaultSite = name;
+}
+
 bool ZTSettingDetail::eventFilter(QObject* watched, QEvent* event)
 {
 	if (event->type() == QEvent::FocusOut)
@@ -96,6 +101,11 @@ void ZTSettingDetail::OnSaveDefaultSite()
 	}
 	
 	GetXMLConfig().SaveConfig(SETTING_XML_NAME);
+}
+
+void ZTSettingDetail::OnSetDefaultSiteName(string_ptr name)
+{
+	m_checkSetDefault->setChecked(true);
 }
 
 void ZTSettingDetail::showEvent(QShowEvent* event)

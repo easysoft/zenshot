@@ -129,7 +129,7 @@ void ToolBar::createFunctionButons()
     QPushButton *closeBtn = createSingleFunctionButton(QChar(0xe904),tr("exit"),"cancelBtn");
     QPushButton *clipboardBtn = createSingleFunctionButton(QChar(0xe902),tr("finish"),"saveBtn");
 #if !NZENTAO_VER_
-    QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90d), tr("send2zentao"), "sendBtn");
+    QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90e), tr("send2zentao"), "sendBtn");
 #endif // NZENTAO_VER_
 
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
