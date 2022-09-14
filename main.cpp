@@ -39,7 +39,10 @@
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/file.h>
 #endif // Q_OS_WIN
+
+static const char mutex_name[] = "ZenShot#ZenTao";
 
 static bool IsRunning();
 
@@ -99,22 +102,15 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
-#ifdef Q_OS_WIN
     StarterUI ui;
     ui.show();
-#else
-    Starter starter(true);
-    starter.init();
-#endif // Q_OS_WIN
 
     int ret = a.exec();
-
     return ret;
 }
 
 static bool IsRunning()
 {
-    static const char mutex_name[] = "ZenShot@ZenTao";
 #ifdef Q_OS_WIN
     HANDLE hMutex = CreateMutexA(0, FALSE, mutex_name);
     if (GetLastError() == ERROR_ALREADY_EXISTS) 
@@ -125,13 +121,20 @@ static bool IsRunning()
         return true;
     }
 #else
-    sem_t* sem = sem_open(mutex_name, O_CREAT | O_EXCL, 0666, 0);
-    if (errno == EEXIST) 
+    int fd = open("/tmp/zenshot.pid", O_CREAT | O_WRONLY);
+    if (fd < 0)
     {
-        if (sem)
-            sem_close(sem);
         return true;
     }
+
+    if (flock(fd, LOCK_EX | LOCK_NB) == -1)
+    {
+        return true;
+    }
+
+    char pid[100] = { 0 };
+    snprintf(pid, sizeof(pid) / sizeof(pid[0]) - 1, "%ld", (long)getpid());
+    write(fd, pid, strlen(pid));
 #endif // Q_OS_WIN
 
     return false;

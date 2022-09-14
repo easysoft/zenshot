@@ -84,7 +84,7 @@ private slots:
 	void OnUpdatePass(const QString& pass);
 
 	void OnSelectDefault();
-	void OnSetDefaultItem(bool default);
+    void OnSetDefaultItem(bool flag);
 
 protected:
 	virtual void paintEvent(QPaintEvent* event) override;

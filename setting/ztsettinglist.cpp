@@ -379,7 +379,7 @@ void ZTSettingList::OnSelectDefault()
 	m_listWidget->setCurrentItem(default_item);
 }
 
-void ZTSettingList::OnSetDefaultItem(bool default)
+void ZTSettingList::OnSetDefaultItem(bool flag)
 {
 	if (!m_listWidget->count())
 	{
@@ -396,7 +396,7 @@ void ZTSettingList::OnSetDefaultItem(bool default)
 		}
 	}
 
-	if (!default)
+    if (!flag)
 	{
 		return;
 	}
@@ -408,5 +408,5 @@ void ZTSettingList::OnSetDefaultItem(bool default)
 	}
 
 	auto w = static_cast<ZTSettingListItem*>(m_listWidget->itemWidget(item));
-	w->SetDefaultItem(default);
+    w->SetDefaultItem(flag);
 }

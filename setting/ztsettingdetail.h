@@ -54,7 +54,7 @@ signals:
 	void SaveDefaultSite();
 	void ConfigSave();
 	void ConfigNew();
-	void SetDefaultSite(bool default);
+    void SetDefaultSite(bool flag);
 
 	void UpdateName(const QString& name);
 	void UpdateUrl(const QString& url);

@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include <string>
+
 #define LISTIEM_MIN_HEIGHT 84
 
 class ZTSettingListItem : public QWidget {
@@ -22,12 +24,12 @@ public:
 	void SetUsr(const char* usr);
 	void SetPass(const char* pass);
 
-	const char* GetName() { return name_.c_str(); }
-	const char* GetUrl() { return url_.c_str(); }
-	const char* GetUsr() { return usr_.c_str(); }
-	const char* GetPass() { return pass_.c_str(); }
+    const char* GetName() { return name_.c_str(); }
+    const char* GetUrl() { return url_.c_str(); }
+    const char* GetUsr() { return usr_.c_str(); }
+    const char* GetPass() { return pass_.c_str(); }
 
-	void SetDefaultItem(bool default);
+    void SetDefaultItem(bool flag);
 
 signals:
 	void RemoveItem(ZTSettingListItem* w);
@@ -48,15 +50,12 @@ private:
 	QLabel* m_labelDefault;
 	QLabel* m_labelName;
 	QLabel* m_labelUrl;
-	QPushButton* m_btnDel;
+    QPushButton* m_btnDel;
 
-	struct // zentao config info
-	{
-		std::string name_;
-		std::string url_;
-		std::string usr_;
-		std::string pass_;
-	};
+    std::string name_;
+    std::string url_;
+    std::string usr_;
+    std::string pass_;
 }; // ZTSettingListItem
 
 #endif // ZTSETTING_LISTITEM_H_

@@ -10,7 +10,11 @@
 #include <QMessageBox>
 
 ZTSettingListItem::ZTSettingListItem(QWidget* parent)
-	: QWidget(parent)
+    : QWidget(parent)
+    , name_("")
+    , url_("")
+    , usr_("")
+    , pass_("")
 {
 	ui.setupUi(this);
 
@@ -24,7 +28,7 @@ ZTSettingListItem::ZTSettingListItem(QWidget* parent)
 
 void ZTSettingListItem::SetName(const char* txt)
 {
-	name_ = txt;
+    name_ = txt;
 
 	m_labelName->setText(txt);
 	m_labelName->adjustSize();
@@ -32,7 +36,7 @@ void ZTSettingListItem::SetName(const char* txt)
 
 void ZTSettingListItem::SetUrl(const char* url)
 {
-	url_ = url;
+    url_ = url;
 
 	m_labelUrl->setText(url);
 	m_labelUrl->adjustSize();
@@ -40,17 +44,17 @@ void ZTSettingListItem::SetUrl(const char* url)
 
 void ZTSettingListItem::SetUsr(const char* usr)
 {
-	usr_ = usr;
+    usr_ = usr;
 }
 
 void ZTSettingListItem::SetPass(const char* pass)
 {
-	pass_ = pass;
+    pass_ = pass;
 }
 
-void ZTSettingListItem::SetDefaultItem(bool default)
+void ZTSettingListItem::SetDefaultItem(bool flag)
 {
-	m_labelDefault->setVisible(default);
+    m_labelDefault->setVisible(flag);
 }
 
 // void ZTSettingListItem::enterEvent(QEvent* event)
