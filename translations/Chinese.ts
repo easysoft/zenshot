@@ -57,12 +57,12 @@
     <message>
         <location filename="../setting.ui" line="77"/>
         <source>TextLabel</source>
-        <translation>设置</translation>
+        <translation>快捷键设置</translation>
     </message>
     <message>
         <location filename="../setting.ui" line="90"/>
         <source>close</source>
-        <translation></translation>
+        <translation> </translation>
     </message>
     <message>
         <source>CheckBox</source>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../setting/settingdlg.cpp" line="73"/>
         <source>setting_title</source>
-        <translation>设置</translation>
+        <translation>快捷键设置</translation>
     </message>
     <message>
         <source>hotkey_title</source>
@@ -127,7 +127,7 @@
     <message>
         <location filename="../starterui.cpp" line="99"/>
         <source>S&amp;eeting</source>
-        <translation>设置</translation>
+        <translation>快捷键设置</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="105"/>
@@ -439,7 +439,7 @@
     <message>
         <location filename="../zentaopreview.ui" line="14"/>
         <source>Form</source>
-        <translation></translation>
+        <translation>  </translation>
     </message>
     <message>
         <location filename="../zentaopreview.ui" line="26"/>
@@ -572,7 +572,7 @@
     <message>
         <location filename="../zentaosettinglistitem.ui" line="20"/>
         <source>Form</source>
-        <translation></translation>
+        <translation> </translation>
     </message>
 </context>
 <context>
@@ -600,7 +600,7 @@
         <location filename="../zentaosubmit.ui" line="156"/>
         <location filename="../preview/zentaosubmit.cpp" line="158"/>
         <source>nextstep</source>
-        <translation>下一步</translation>
+        <translation>提交到禅道</translation>
     </message>
     <message>
         <source>nxetstep</source>
@@ -659,7 +659,7 @@
     <message>
         <location filename="../zentaotips.ui" line="114"/>
         <source>okay</source>
-        <translation type="unfinished">去禅道查看</translation>
+        <translation>去禅道查看</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="101"/>

@@ -40,7 +40,7 @@ UserOper* UserOper::instance()
     return m_instance;
 }
 
-void UserOper::add(Command *command)
+void UserOper::add(std::shared_ptr<Command> command)
 {
     UserOper::instance()->addImpl(command);
 }
@@ -65,7 +65,12 @@ int UserOper::redoNum()
     return UserOper::instance()->redoNumImpl();
 }
 
-void UserOper::addImpl(Command* command)
+void UserOper::cleanAll()
+{
+    UserOper::instance()->clean();
+}
+
+void UserOper::addImpl(std::shared_ptr<Command> command)
 {
     addImpl(m_undoList,command);
     emit changed();
@@ -76,7 +81,7 @@ void UserOper::undoImpl()
     if(m_undoList.count() == 0)
         return;
 
-    Command* first = m_undoList.first();
+    std::shared_ptr<Command> first = m_undoList.first();
 
     first->undo();
     addImpl(m_redoList,first);
@@ -91,7 +96,7 @@ void UserOper::redoImpl()
     if(m_redoList.count() == 0)
         return;
 
-    Command* first = m_redoList.first();
+    auto first = m_redoList.first();
 
     first->redo();
     addImpl(m_undoList,first);
@@ -111,7 +116,7 @@ int UserOper::redoNumImpl()
     return m_redoList.count();
 }
 
-void UserOper::addImpl(QVector<Command *> &targetList, Command *item)
+void UserOper::addImpl(QVector<std::shared_ptr<Command>> &targetList, std::shared_ptr<Command> item)
 {
     if(targetList.count() < Utils::Undo_Max_Count)
         targetList.prepend(item);
@@ -120,4 +125,10 @@ void UserOper::addImpl(QVector<Command *> &targetList, Command *item)
         targetList.removeLast();
         targetList.prepend(item);
     }
+}
+
+void UserOper::clean()
+{
+    m_undoList.clear();
+    m_redoList.clear();
 }

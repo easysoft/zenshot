@@ -19,14 +19,14 @@
 #ifndef TEXTWIDGET_H
 #define TEXTWIDGET_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QHideEvent>
 
 #include <memory>
 
 #include "controls/textwidgetimpl.h"
 
-class TextWidget : public QWidget
+class TextWidget : public QDialog
 {
     Q_OBJECT
 public:

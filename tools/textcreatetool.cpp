@@ -34,6 +34,7 @@ QString TextCreateTool::forType()
 void TextCreateTool::onMousePress(QPoint mousePoint)
 {
     m_shape.reset(new Text(m_workspace));
+
     m_shape->setLocation(mousePoint);
 
     m_workspace->addShape(m_shape);
@@ -41,7 +42,7 @@ void TextCreateTool::onMousePress(QPoint mousePoint)
     m_workspace->textAssist()->attach(m_shape);
 
     //执行的是新增文本编辑功能
-    AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+    std::shared_ptr<AddCommand> addComm(new AddCommand(m_workspace,m_shape));
     UserOper::add(addComm);
 }
 

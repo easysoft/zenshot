@@ -51,7 +51,7 @@ void MoveTool::onMouseRelease(QPoint mousePoint)
 
     if(qAbs(totalOffset.x()) > 2 || qAbs(totalOffset.y()) > 2)
     {
-        MoveCommand *movComm = new MoveCommand(m_workspace,m_shape,totalOffset);
+        std::shared_ptr<MoveCommand> movComm(new MoveCommand(m_workspace,m_shape,totalOffset));
         UserOper::add(movComm);
     }
 }

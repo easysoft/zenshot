@@ -96,6 +96,8 @@ void ToolBar::cleanup()
         btn->setChecked(false);
     }
     btnGroup.setExclusive(true);
+
+    operChanged();
 }
 
 void ToolBar::createCreateButtons()
@@ -130,6 +132,8 @@ void ToolBar::createFunctionButons()
     QPushButton *clipboardBtn = createSingleFunctionButton(QChar(0xe902),tr("finish"),"saveBtn");
 #if !NZENTAO_VER_
     QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90e), tr("send2zentao"), "sendBtn");
+
+    send2ZenTaoBtn->setProperty("forTip", "mainBtnLight");
 #endif // NZENTAO_VER_
 
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));

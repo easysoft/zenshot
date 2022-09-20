@@ -143,6 +143,8 @@ void ZTSettingDlg::hideEvent(QHideEvent* event)
 {
 	QDialog::hideEvent(event);
 
+	resize(0, 0);
+
 	emit SettingZentaoHide();
 }
 

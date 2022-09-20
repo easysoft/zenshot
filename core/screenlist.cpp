@@ -62,20 +62,6 @@ QPixmap ScreenList::pixmapAt(int screenIndex)
     return m_List[screenIndex].pixmap;
 }
 
-int ScreenList::indexAtMouse()
-{
-    QPoint mousePos = QCursor::pos();
-    int mCount = m_List.count();
-
-    for(int i=0;i<mCount;i++)
-    {
-        if(m_List[i].boundary.contains(mousePos))
-            return i;
-    }
-
-    return 0;
-}
-
 void ScreenList::initParams()
 {
     int minX = 0;

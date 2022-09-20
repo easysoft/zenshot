@@ -65,6 +65,6 @@ void MosaicCreateTool::onMouseRelease(QPoint mousePoint)
 {
     m_workspace->refreshDraw();
 
-    AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+    std::shared_ptr<AddCommand> addComm(new AddCommand(m_workspace,m_shape));
     UserOper::add(addComm);
 }

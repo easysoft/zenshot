@@ -43,7 +43,6 @@ public:
     QScreen *screenAt(int screenIndex);
     QPixmap pixmapAt(int screenIndex);
 
-    int indexAtMouse();
     QRect toLocal(QRect rect);
     float scale();
 

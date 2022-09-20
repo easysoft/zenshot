@@ -68,7 +68,7 @@ public:
     /**
      * @brief 开始捕获
      */
-    void start(std::shared_ptr<ScreenList> list);
+    void start(std::shared_ptr<ScreenList> list, int index);
 
     /**
      * @brief 清理状态
@@ -115,7 +115,6 @@ private:
 
     QPen m_indicatorPen;          //边框画笔
 
-    void autoCaptureScreen();     //自动捕获屏幕
     void autoCaptureWindow();     //自动捕获窗口
 
     void drawMagnifier(QPainter &painter);

@@ -56,10 +56,12 @@ void Starter::init(QWidget* parent)
     m_widgets->clear();
 
     //收集屏幕信息
-    QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
+    auto screanList = ScreenGetter::screenList();
+    int index = 0;
     //构造截图界面
-    for (const auto& list : screanList)
+    for (int index = 0; index < screanList.size(); index++)
     {
+        auto list = screanList[index];
         L_DEBUG("list size = {0}", list.size());
         std::shared_ptr<ScreenList> alone(new ScreenList(list));
         Widget* w = nullptr;
@@ -77,10 +79,9 @@ void Starter::init(QWidget* parent)
             m_unused_widgets->pop_back();
         }
 
-        w->start(alone);
+        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3} && screen @ {4}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height(), index);
 
-        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3} =>> %{4}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height(), (unsigned)w);
-
+        w->start(alone, index);
         m_widgets->append(w);
     }
 

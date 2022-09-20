@@ -49,7 +49,7 @@ void HandleTool::onMouseRelease(QPoint mousePoint)
 
     if(qAbs(newPosition.x()-m_pressPosition.x()) > 2 || qAbs(newPosition.y()-m_pressPosition.y()) > 2)
     {
-        LocatorCommand *locatorComm = new LocatorCommand(m_workspace,m_handle->locator(),m_pressPosition,newPosition);
+        std::shared_ptr<LocatorCommand> locatorComm(new LocatorCommand(m_workspace,m_handle->locator(),m_pressPosition,newPosition));
         UserOper::add(locatorComm);
     }
 }

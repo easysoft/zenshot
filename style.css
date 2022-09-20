@@ -151,6 +151,22 @@ QPushButton[forTip='mainBtn']:disabled{
     color:rgba(51,51,51,25%);
 }
 
+QPushButton[forTip='mainBtnLight'] {
+    font-family:ZenShotIcon;
+    color:#007AFF;
+    font-size:16px;  /*15px*/
+    font-weight:500;
+    background-color:transparent;
+    margin:0px;
+    padding:0px;
+    height:26px;
+    width:26px;
+}
+
+QPushButton[forTip='mainBtnLight']:hover{
+    color:#2463C7;
+}
+
 SizeButton[forTip='thickness'] {
     color:#2f3343;
     font-size:22px;

@@ -43,7 +43,7 @@ Widget::~Widget()
     L_ERROR("{0}", __FUNCTION__);
 }
 
-void Widget::start(std::shared_ptr<ScreenList> list)
+void Widget::start(std::shared_ptr<ScreenList> list, int index)
 {
     L_FUNCTION();
 
@@ -58,7 +58,7 @@ void Widget::start(std::shared_ptr<ScreenList> list)
     setCursor(Qt::ArrowCursor);
 
 	m_screenlist = list;
-	m_workspace->start(m_screenlist);
+	m_workspace->start(m_screenlist, index);
 }
 
 void Widget::cleanup()

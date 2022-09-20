@@ -20,8 +20,9 @@
 #include "core/utils.h"
 #include <QPainter>
 
-TextWidget::TextWidget(QWidget *parent):QWidget(parent)
+TextWidget::TextWidget(QWidget *parent):QDialog(parent, Qt::SplashScreen | Qt::FramelessWindowHint)
 {
+    setAttribute(Qt::WA_TranslucentBackground);
     m_textImpl = new TextWidgetImpl(this);
     m_textImpl->move(Utils::TextEdit_Padding_Horizontal,Utils::TextEdit_Padding_Vertical);
     connect(m_textImpl, SIGNAL(sizeChanged(QSize)), this, SLOT(onContentSizeChanged(QSize)));

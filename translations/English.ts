@@ -17,7 +17,7 @@
     <message>
         <location filename="../screen/workspace.cpp" line="694"/>
         <source>save file</source>
-        <translation>save file</translation>
+        <translation>Save file</translation>
     </message>
 </context>
 <context>
@@ -46,44 +46,44 @@
         <location filename="../setting.ui" line="51"/>
         <location filename="../setting.ui" line="64"/>
         <source>PushButton</source>
-        <translation></translation>
+        <translation>None</translation>
     </message>
     <message>
         <location filename="../setting.ui" line="77"/>
         <source>TextLabel</source>
-        <translation></translation>
+        <translation>Hot key setting</translation>
     </message>
     <message>
         <location filename="../setting.ui" line="90"/>
         <source>close</source>
-        <translation></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="73"/>
         <source>setting_title</source>
-        <translation></translation>
+        <translation>Hot key setting</translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="78"/>
         <location filename="../setting/settingdlg.cpp" line="120"/>
         <source>hotkey_default</source>
-        <translation></translation>
+        <translation>None</translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="81"/>
         <location filename="../setting/settingdlg.cpp" line="229"/>
         <source>hotkey_stat_normal</source>
-        <translation></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="229"/>
         <source>hotkey_stat_conflict</source>
-        <translation></translation>
+        <translation>Hot key conflict, please reset.</translation>
     </message>
     <message>
         <location filename="../setting/settingdlg.cpp" line="87"/>
         <source>hotkey_save</source>
-        <translation></translation>
+        <translation>Save</translation>
     </message>
 </context>
 <context>
@@ -96,71 +96,71 @@
     <message>
         <location filename="../starterui.cpp" line="99"/>
         <source>S&amp;eeting</source>
-        <translation></translation>
+        <translation>Hot key setting</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="105"/>
         <source>Z&amp;enTaoSeeting</source>
-        <translation></translation>
+        <translation>ZenTao setting</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="110"/>
         <source>S&amp;hot</source>
-        <translation></translation>
+        <translation>Screenshot</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="115"/>
         <source>&amp;Quit</source>
-        <translation></translation>
+        <translation>Exit</translation>
     </message>
     <message>
         <location filename="../starterui.cpp" line="135"/>
         <source>zenshot</source>
-        <translation></translation>
+        <translation>ZenShot</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="74"/>
         <location filename="../zentaologic.cpp" line="119"/>
         <location filename="../zentaologic.cpp" line="519"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="382"/>
         <location filename="../zentaologic.cpp" line="394"/>
         <source>demandunknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Failed to craete sotry.</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="402"/>
         <source>demandsuccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Create story successfully</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="445"/>
         <location filename="../zentaologic.cpp" line="457"/>
         <source>bugunknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Failed to report bug</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="465"/>
         <source>bugsuccess</source>
-        <translation type="unfinished"></translation>
+        <translation>Report bug success</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="563"/>
         <source>httptimeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Time out</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="571"/>
         <source>invalidjson</source>
-        <translation type="unfinished"></translation>
+        <translation>Invalid json format</translation>
     </message>
     <message>
         <location filename="../zentaologic.cpp" line="584"/>
         <source>invalidtoken</source>
-        <translation type="unfinished"></translation>
+        <translation>Time out, please relogin.</translation>
     </message>
 </context>
 <context>
@@ -246,7 +246,7 @@
     <message>
         <location filename="../screen/toolbar.cpp" line="132"/>
         <source>send2zentao</source>
-        <translation type="unfinished"></translation>
+        <translation>ZenTao</translation>
     </message>
 </context>
 <context>
@@ -254,77 +254,77 @@
     <message>
         <location filename="../zentaobug.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="41"/>
         <source>labelProduct</source>
-        <translation type="unfinished"></translation>
+        <translation>Product</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="83"/>
         <source>labelModule</source>
-        <translation type="unfinished"></translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="125"/>
         <source>labelTitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Title</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="141"/>
         <source>labelSeverity</source>
-        <translation type="unfinished"></translation>
+        <translation>Severity</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="179"/>
         <source>labelPri</source>
-        <translation type="unfinished"></translation>
+        <translation>Priority</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="195"/>
         <source>input_bug</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in the bug name</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="234"/>
         <source>labelDesc</source>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="250"/>
         <source>input_desc</source>
-        <translation type="unfinished"></translation>
+        <translation>Templates recommendation: [Repro steps], [Result], [Expectation]</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="279"/>
         <source>labelVersion</source>
-        <translation type="unfinished"></translation>
+        <translation>Version</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="321"/>
         <source>labelDeadLine</source>
-        <translation type="unfinished"></translation>
+        <translation>Deadline</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="369"/>
         <source>labelType</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="385"/>
         <source>labelOS</source>
-        <translation type="unfinished"></translation>
+        <translation>OS</translation>
     </message>
     <message>
         <location filename="../zentaobug.ui" line="423"/>
         <source>labelBrower</source>
-        <translation type="unfinished"></translation>
+        <translation>Browser</translation>
     </message>
     <message>
         <location filename="../preview/zentaobug.cpp" line="172"/>
         <source>trunk</source>
-        <translation type="unfinished"></translation>
+        <translation>trunk</translation>
     </message>
 </context>
 <context>
@@ -332,67 +332,67 @@
     <message>
         <location filename="../zentaodemand.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="41"/>
         <source>labelProduct</source>
-        <translation type="unfinished"></translation>
+        <translation>Product</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="83"/>
         <source>labelModule</source>
-        <translation type="unfinished"></translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="125"/>
         <source>labelType</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="163"/>
         <source>labelPri</source>
-        <translation type="unfinished"></translation>
+        <translation>Priority</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="201"/>
         <source>labelStory</source>
-        <translation type="unfinished"></translation>
+        <translation>Estimation</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="217"/>
         <source>input_story</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in the story point.</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="246"/>
         <source>labelDesc</source>
-        <translation type="unfinished"></translation>
+        <translation>Description</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="262"/>
         <source>input_desc</source>
-        <translation type="unfinished"></translation>
+        <translation>Templates recommendation: As a &lt;type of user&gt;, I want to &lt;achieve some purpose&gt; to &lt;meet some expectation&gt;.</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="291"/>
         <source>labelVerify</source>
-        <translation type="unfinished"></translation>
+        <translation>Acceptance criteria:</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="307"/>
         <source>input_verify</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in the acceptance criteria here.</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="336"/>
         <source>labelTitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Title</translation>
     </message>
     <message>
         <location filename="../zentaodemand.ui" line="352"/>
         <source>input_title</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in the story point.</translation>
     </message>
 </context>
 <context>
@@ -400,12 +400,12 @@
     <message>
         <location filename="../zentaopreview.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../zentaopreview.ui" line="26"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
 </context>
 <context>
@@ -432,18 +432,18 @@
     <message>
         <location filename="../zentaosetting.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Bind your ZenTao site</translation>
     </message>
     <message>
         <location filename="../setting/zentaosetting.cpp" line="86"/>
         <location filename="../setting/zentaosetting.cpp" line="90"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location filename="../setting/zentaosetting.cpp" line="86"/>
         <source>unknownerr</source>
-        <translation type="unfinished"></translation>
+        <translation>Unknown error</translation>
     </message>
 </context>
 <context>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../zentaosettinglistitem.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
 </context>
 <context>
@@ -459,50 +459,50 @@
     <message>
         <location filename="../zentaosubmit.ui" line="20"/>
         <source>submit</source>
-        <translation type="unfinished"></translation>
+        <translation>Submit</translation>
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="83"/>
         <source>demand</source>
-        <translation type="unfinished"></translation>
+        <translation>Create story</translation>
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="102"/>
         <source>bug</source>
-        <translation type="unfinished"></translation>
+        <translation>Report bug</translation>
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="156"/>
         <location filename="../preview/zentaosubmit.cpp" line="158"/>
         <source>nextstep</source>
-        <translation type="unfinished"></translation>
+        <translation>Submit to ZenTao</translation>
     </message>
     <message>
         <location filename="../zentaosubmit.ui" line="137"/>
         <source>cancel</source>
-        <translation type="unfinished">cancel</translation>
+        <translation>Back</translation>
     </message>
     <message>
         <location filename="../preview/zentaosubmit.cpp" line="122"/>
         <source>demand_title</source>
-        <translation type="unfinished"></translation>
+        <translation>Create story</translation>
     </message>
     <message>
         <location filename="../preview/zentaosubmit.cpp" line="134"/>
         <source>bug_title</source>
-        <translation type="unfinished"></translation>
+        <translation>Report bug</translation>
     </message>
     <message>
         <location filename="../preview/zentaosubmit.cpp" line="156"/>
         <location filename="../preview/zentaosubmit.cpp" line="174"/>
         <location filename="../preview/zentaosubmit.cpp" line="282"/>
         <source>submit_title</source>
-        <translation type="unfinished"></translation>
+        <translation>Submit</translation>
     </message>
     <message>
         <location filename="../preview/zentaosubmit.cpp" line="178"/>
         <source>submit2zentao</source>
-        <translation type="unfinished"></translation>
+        <translation>Submit to ZenTao</translation>
     </message>
 </context>
 <context>
@@ -510,42 +510,42 @@
     <message>
         <location filename="../zentaotips.ui" line="23"/>
         <source>tips</source>
-        <translation type="unfinished"></translation>
+        <translation>Prompt</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="41"/>
         <source>success</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="54"/>
         <source>fail</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="67"/>
         <source>msg</source>
-        <translation type="unfinished"></translation>
+        <translation>msg</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="114"/>
         <source>okay</source>
-        <translation type="unfinished"></translation>
+        <translation>View in ZenTao</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="101"/>
         <source>modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Change</translation>
     </message>
     <message>
         <location filename="../zentaotips.ui" line="127"/>
         <source>3sec</source>
-        <translation type="unfinished"></translation>
+        <translation>Close in 3s</translation>
     </message>
     <message>
         <location filename="../preview/zentaotips.cpp" line="121"/>
         <source>close3sec</source>
-        <translation type="unfinished"></translation>
+        <translation>Close in </translation>
     </message>
 </context>
 <context>
@@ -553,62 +553,62 @@
     <message>
         <location filename="../zentaosettingdetail.ui" line="20"/>
         <source>detail</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="32"/>
         <source>checkSetDefault</source>
-        <translation type="unfinished"></translation>
+        <translation>Set as default site</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="45"/>
         <source>labelPass</source>
-        <translation type="unfinished"></translation>
+        <translation>Password</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="58"/>
         <source>labelUriTitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Access address</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="71"/>
         <source>labelUsr</source>
-        <translation type="unfinished"></translation>
+        <translation>Account</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="84"/>
         <source>labelNameTitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Site</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="97"/>
         <source>save</source>
-        <translation type="unfinished">save</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="110"/>
         <source>new</source>
-        <translation type="unfinished"></translation>
+        <translation>Add a new account</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="123"/>
         <source>input_name</source>
-        <translation type="unfinished"></translation>
+        <translation>Plese fill in site</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="136"/>
         <source>input_url</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill access address</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="149"/>
         <source>input_usr</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in account</translation>
     </message>
     <message>
         <location filename="../zentaosettingdetail.ui" line="165"/>
         <source>input_pass</source>
-        <translation type="unfinished"></translation>
+        <translation>Please fill in password</translation>
     </message>
 </context>
 <context>
@@ -616,7 +616,7 @@
     <message>
         <location filename="../zentaosettinglist.ui" line="14"/>
         <source>list</source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
 </context>
 </TS>

@@ -10,13 +10,13 @@
 #include "httprequest/zhttprequest.h"
 #include "usrmetatype.h"
 
-#include <QWidget>
+#include <QDialog>
 #include <QSystemTrayIcon>
 
 #include <list>
 #include <string>
 
-class StarterUI : public QWidget {
+class StarterUI : public QDialog {
 	Q_OBJECT
 public:
 	StarterUI();

@@ -19,7 +19,7 @@ StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
 
 StarterUI::StarterUI()
-	: QWidget(0)
+	: QDialog(0)
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
@@ -121,11 +121,11 @@ void StarterUI::createActions()
 void StarterUI::createTrayIcon()
 {
 	trayIconMenu = new QMenu(this);
+	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(settingAction);
 #if !NZENTAO_VER_
 	trayIconMenu->addAction(zentaoSettingAction);
 #endif // NZENTAO_VER_
-	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(quitAction);
 
 	trayIcon = new QSystemTrayIcon(this);
@@ -245,7 +245,7 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 	}
 #endif // Q_OS_WIN
 
-	return QWidget::nativeEvent(eventType, message, result);
+	return QDialog::nativeEvent(eventType, message, result);
 }
 
 void StarterUI::OnIconActivated(QSystemTrayIcon::ActivationReason reason)

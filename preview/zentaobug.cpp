@@ -247,6 +247,8 @@ void ZTBug::hideEvent(QHideEvent* event)
 {
     QWidget::hideEvent(event);
 
+    resize(0, 0);
+
     m_boxProduct->clear();
     m_boxModule->clear();
     m_cbxPri->clear();

@@ -23,7 +23,7 @@ void StarterUI::OnShowZenTaoSetting()
 {
 	if (!m_ZTSettingDlg.isVisible())
 	{
-		m_ZTSettingDlg.show();
+		m_ZTSettingDlg.showMaximized();
 	}
 
 	m_ZTSettingDlg.raise();
@@ -44,7 +44,7 @@ void StarterUI::OnShowPreview(Workspace* w)
     GetXMLConfig().FindAllNode("config", "zentao", cb);
     if (!has_config)
     {
-        m_ZTSettingDlg.show();
+        m_ZTSettingDlg.showMaximized();
         m_ZTSettingDlg.raise();
         m_ZTSettingDlg.activateWindow();
         return;
@@ -53,7 +53,7 @@ void StarterUI::OnShowPreview(Workspace* w)
 	if (!m_ZTSubmitDlg.isVisible())
 	{
         m_CurrentShot = w->result();
-		m_ZTSubmitDlg.show();
+		m_ZTSubmitDlg.showMaximized();
 		emit Thumbnail(m_CurrentShot);
 	}
 
@@ -65,6 +65,7 @@ void StarterUI::OnLogin(string_ptr url, string_ptr usr, string_ptr pass)
 {
 	if (IsSameUsr(*usr, *url))
 	{
+        L_TRACE("same usr && url ..........");
 		return;
 	}
 
@@ -74,6 +75,8 @@ void StarterUI::OnLogin(string_ptr url, string_ptr usr, string_ptr pass)
         QMessageBox::information(NULL, tr("Title"), err_token);
         return;
     }
+
+    L_DEBUG("usr [{0}] token = <<{1}>>", usr->c_str(), err_token.toStdString().c_str());
 
     m_HttpReq.SetToken(err_token.toStdString().c_str());
 }
@@ -97,13 +100,13 @@ void StarterUI::OnSubmitLogin(string_ptr name)
 
     if (url == nullptr || usr == nullptr || pass == nullptr)
     {
-        SubmitLoginResult(false);
+        emit SubmitLoginResult(false);
         return;
     }
 
     if (url->empty() || usr->empty() || pass->empty())
     {
-        SubmitLoginResult(false);
+        emit SubmitLoginResult(false);
         return;
     }
 
@@ -117,12 +120,13 @@ void StarterUI::OnSubmitLogin(string_ptr name)
     if (UsrLogin(url, usr, pass, err_token))
     {
         QMessageBox::information(NULL, tr("Title"), err_token);
-        SubmitLoginResult(false);
+        emit SubmitLoginResult(false);
         return;
     }
 
+    L_DEBUG("usr [{0}] token = <<{1}>>", usr->c_str(), err_token.toStdString().c_str());
     m_HttpReq.SetToken(err_token.toStdString().c_str());
-    SubmitLoginResult(true);
+    emit SubmitLoginResult(true);
 }
 
 void StarterUI::OnHttpProduct()
@@ -145,8 +149,6 @@ void StarterUI::OnHttpProduct()
             return;
         }
 
-        L_TRACE(data.c_str());
-
         QJsonParseError e;
         QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
         if (doc.isNull() || e.error != QJsonParseError::NoError)
@@ -168,6 +170,10 @@ void StarterUI::OnHttpProduct()
 
         int total = doc["total"].toInt();
         int limit = doc["limit"].toInt();
+
+        if (!limit)
+            break;
+
         int max_page = total / limit;
         if (total % limit) max_page++;
         if (i >= max_page)
@@ -195,8 +201,6 @@ void StarterUI::OnHttpModule(uint32_t product_id, string_ptr view_type)
         emit ModuleItems(items);
         return;
     }
-
-    L_TRACE(data.c_str());
 
     QJsonParseError e;
     QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
@@ -236,8 +240,6 @@ void StarterUI::OnHttpVersion(uint32_t product_id, string_ptr type)
         emit VersionItems(items);
         return;
     }
-
-    L_TRACE(data.c_str());
 
     QJsonParseError e;
     QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
@@ -281,8 +283,6 @@ void StarterUI::OnHttpModules(string_ptr type)
         emit ModulesItems(pris, serveritys, oss, browers, types);
         return;
     }
-
-    L_TRACE(data.c_str());
 
     QJsonParseError e;
     QJsonDocument doc = QJsonDocument::fromJson(data.c_str(), &e);
@@ -557,6 +557,8 @@ int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString
     m_HttpReq.SetUrl(uri.c_str());
     m_HttpReq.SetPost("{\"account\": \"%s\", \"password\": \"%s\"}", usr->c_str(), pass->c_str());
 
+    L_DEBUG("{0} & {1} LOGIN -> {2}", usr->c_str(), pass->c_str(), uri.c_str());
+
     std::string data;
     if (!m_HttpReq.Exec(data)) // http error
     {
@@ -577,6 +579,12 @@ int StarterUI::UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString
         err_token = doc["error"].toString().toUtf8();
         return -3;
     }
+
+	if (doc["errmsg"].isString())
+	{
+		err_token = doc["errmsg"].toString().toUtf8();
+		return -3;
+	}
 
     auto token = doc["token"].toString();
     if (token.isEmpty())

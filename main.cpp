@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
     L_TRACE("start");
 #endif // USE_SPDLOG_
 
+    QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+
     QApplication a(argc, argv);
 
 	if (!QSystemTrayIcon::isSystemTrayAvailable()) {
@@ -103,7 +105,7 @@ int main(int argc, char *argv[])
     a.setQuitOnLastWindowClosed(false);
 
     StarterUI ui;
-    ui.show();
+	ui.show();
 
     int ret = a.exec();
     return ret;

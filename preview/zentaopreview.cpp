@@ -71,12 +71,12 @@ void ZTPreview::SetupSignal()
 	connect(this, SIGNAL(SubmitSelectDefault()), this, SLOT(OnSubmitSelectDefault()));
 }
 
-// void ZTPreview::hideEvent(QHideEvent* event)
-// {
-//     QWidget::hideEvent(event);
-// 
-//     m_imgview->clear();
-// }
+void ZTPreview::hideEvent(QHideEvent* event)
+{
+    QWidget::hideEvent(event);
+
+	resize(0, 0);
+}
 
 void ZTPreview::showEvent(QShowEvent* event)
 {

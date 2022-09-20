@@ -122,11 +122,12 @@ void Workspace::setAreaBoundary(QRect rect)
     m_shotArea.setBoundary(rect);
 }
 
-void Workspace::start(std::shared_ptr<ScreenList> list)
+void Workspace::start(std::shared_ptr<ScreenList> list, int index)
 {
     L_FUNCTION();
     m_tool.reset(new AreaCreateTool(this));
-    m_shotArea.start(list);
+
+    m_shotArea.start(list, index);
 
     L_TRACE("list->scale() = {0}, m_widget isvisable: {1}", list->scale(), m_widget->isVisible() ? 1 : 0);
     GParams::instance()->setScale(list->scale());
@@ -138,6 +139,8 @@ void Workspace::cleanup()
 
     removeShape(m_selectedShape);
 	m_selectedShape = nullptr;
+
+    UserOper::cleanAll();
 	
     if (m_toolBar != nullptr) {
 		m_toolBar->move(0, -1000);
@@ -475,7 +478,7 @@ void Workspace::refreshProps()
         MemoryStore nowStore;
         m_selectedShape->saveProps(&nowStore);
 
-        PropsCommand *propsComm = new PropsCommand(this,m_selectedShape.get(), oldStore, nowStore);
+        std::shared_ptr<PropsCommand> propsComm(new PropsCommand(this,m_selectedShape.get(), oldStore, nowStore));
         UserOper::add(propsComm);
 
         if(m_selectedShape->type() == Utils::forTextKey() && m_textAssist->editing() == true)
@@ -557,7 +560,7 @@ void Workspace::deleteSelected()
         m_textAssist->unAttach();
     }
 
-    DeleteCommand *delComm = new DeleteCommand(this,m_selectedShape);
+    std::shared_ptr<DeleteCommand> delComm(new DeleteCommand(this,m_selectedShape));
     UserOper::add(delComm);
 
     removeShape(m_selectedShape);

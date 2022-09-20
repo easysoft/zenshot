@@ -10,6 +10,7 @@
 #include "usrmetatype.h"
 
 #include <QDialog>
+#include <QTimer>
 #include <QStackedWidget>
 
 class ZTSubmitDlg : public QDialog {
@@ -72,6 +73,8 @@ private slots:
 
     void OnUploadImageDone(bool success, string_ptr url);
 
+    void OnSubmitReqProductTimeOut();
+
 protected:
 // 	virtual void paintEvent(QPaintEvent* event) override;
 	virtual void showEvent(QShowEvent* event) override;
@@ -97,6 +100,8 @@ private:
 
 	QPushButton* m_btnDemand;
 	QPushButton* m_btnBug;
+
+    QTimer m_SubmitReqProductTimer;
 
 	int m_Index;
 #endif // NZENTAO_VER_

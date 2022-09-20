@@ -20,6 +20,7 @@ static int IDX_BUG = 0;
 
 ZTSubmitDlg::ZTSubmitDlg(QWidget* parent)
 	: QDialog(parent)
+    , m_SubmitReqProductTimer(this)
 	, m_Index(IDX_PREVIEW)
 {
 	ui.setupUi(this);
@@ -64,6 +65,9 @@ void ZTSubmitDlg::SetupUI()
 
 	// modif style
 	setStyleSheet(qss);
+
+    m_SubmitReqProductTimer.setInterval(300);
+    m_SubmitReqProductTimer.setSingleShot(true);
 }
 
 void ZTSubmitDlg::SetupSignal()
@@ -82,6 +86,8 @@ void ZTSubmitDlg::SetupSignal()
     connect(m_Demand, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqModule(uint32_t, string_ptr)));
     connect(m_Bug, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqModule(uint32_t, string_ptr)));
     connect(m_Bug, SIGNAL(ProductChanged(uint32_t, string_ptr)), this, SIGNAL(SubmitReqVersion(uint32_t, string_ptr)));
+
+    connect(&m_SubmitReqProductTimer, SIGNAL(timeout()), this, SLOT(OnSubmitReqProductTimeOut()));
 
 #define connect_act_ack(act__, type__) \
     connect(this, SIGNAL(Demand##act__##Items(type__)), m_Demand, SLOT(OnDemand##act__##Items(type__))); \
@@ -175,6 +181,13 @@ void ZTSubmitDlg::OnSubmitLoginResult(bool result)
         return;
     }
 
+    if (m_SubmitReqProductTimer.isActive())
+    {
+        m_SubmitReqProductTimer.stop();
+    }
+
+    m_SubmitReqProductTimer.start();
+
     m_btnNext->setText(tr("submit2zentao"));
     m_framesWidget->setCurrentIndex(m_Index);
 
@@ -184,16 +197,14 @@ void ZTSubmitDlg::OnSubmitLoginResult(bool result)
     m_btnDemand->hide();
     m_btnBug->hide();
 
-    emit SubmitReqProduct();
-    if (m_Index == IDX_DEMAND)
-    {
-        emit SubmitReqModules(string_ptr(new std::string("story")));
-    }
-    else
-    {
-        emit SubmitReqModules(string_ptr(new std::string("bug")));
-    }
-    
+	if (m_Index == IDX_DEMAND)
+	{
+		emit SubmitReqModules(string_ptr(new std::string("story")));
+	}
+	else
+	{
+		emit SubmitReqModules(string_ptr(new std::string("bug")));
+	}
 }
 
 void ZTSubmitDlg::OnSubmitProductItems(zproduct_item_vec_ptr products)
@@ -275,11 +286,18 @@ void ZTSubmitDlg::OnUploadImageDone(bool success, string_ptr url)
     }
 }
 
+void ZTSubmitDlg::OnSubmitReqProductTimeOut()
+{
+	emit SubmitReqProduct();
+}
+
 void ZTSubmitDlg::showEvent(QShowEvent* event)
 {
 	QDialog::showEvent(event);
 
     setWindowTitle(tr("submit_title"));
+
+    resize(maximumSize());
 
 	m_Index = IDX_DEMAND;
 	m_framesWidget->setCurrentIndex(IDX_PREVIEW);
@@ -295,6 +313,8 @@ void ZTSubmitDlg::showEvent(QShowEvent* event)
 void ZTSubmitDlg::hideEvent(QHideEvent* event)
 {
 	QDialog::hideEvent(event);
+    
+    resize(0, 0);
 
 	m_Index = IDX_PREVIEW;
 	m_btnCancel->hide();

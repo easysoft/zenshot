@@ -59,7 +59,7 @@ void CurveCreateTool::onMouseRelease(QPoint mousePoint)
     {
         if(m_autoSelected == true) m_workspace->setSelected(m_shape);
 
-        AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+        std::shared_ptr<AddCommand> addComm(new AddCommand(m_workspace,m_shape));
         UserOper::add(addComm);
     }
 

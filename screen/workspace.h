@@ -88,7 +88,7 @@ public:
     /**
      * @brief 启动截屏
      */
-    void start(std::shared_ptr<ScreenList> list);
+    void start(std::shared_ptr<ScreenList> list, int index);
     /**
      * @brief 清理截屏
      */
@@ -246,6 +246,8 @@ public:
         std::shared_ptr<QPixmap> ptr(new QPixmap(m_shotArea.result()));
         return ptr;
     }
+
+
 private:
     QFont m_iconfont;
 
