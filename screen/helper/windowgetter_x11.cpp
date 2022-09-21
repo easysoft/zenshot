@@ -16,6 +16,8 @@
  * along with Zenshot. If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <gtk/gtk.h>
+
 #include "screen/helper/windowgetter.h"
 
 //#include<QCursor>
@@ -35,6 +37,116 @@ struct WND_INFO{
     QRect pos;
 };
 
+static GdkWindow *
+screenshot_find_active_window (void)
+{
+  GdkWindow *window;
+  GdkScreen *default_screen;
+
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  default_screen = gdk_screen_get_default ();
+  window = gdk_screen_get_active_window (default_screen);
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+  return window;
+}
+
+static gboolean
+screenshot_window_is_desktop (GdkWindow *window)
+{
+  GdkWindow *root_window = gdk_get_default_root_window ();
+  GdkWindowTypeHint window_type_hint;
+
+  if (window == root_window)
+    return TRUE;
+
+  window_type_hint = gdk_window_get_type_hint (window);
+  if (window_type_hint == GDK_WINDOW_TYPE_HINT_DESKTOP)
+    return TRUE;
+
+  return FALSE;
+}
+
+GdkWindow *
+do_find_current_window (void)
+{
+  GdkWindow *current_window;
+  GdkDevice *device;
+  GdkSeat *seat;
+
+  current_window = screenshot_find_active_window ();
+  seat = gdk_display_get_default_seat (gdk_display_get_default ());
+  device = gdk_seat_get_pointer (seat);
+
+  /* If there's no active window, we fall back to returning the
+   * window that the cursor is in.
+   */
+  if (!current_window)
+    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
+
+  if (current_window)
+    {
+      if (screenshot_window_is_desktop (current_window))
+        /* if the current window is the desktop (e.g. nautilus), we
+         * return NULL, as getting the whole screen makes more sense.
+         */
+        return NULL;
+
+      /* Once we have a window, we take the toplevel ancestor. */
+      current_window = gdk_window_get_toplevel (current_window);
+    }
+
+  return current_window;
+}
+
+static void
+screenshot_fallback_get_window_rect_coords (GdkWindow    *window,
+                                            GdkRectangle *real_coordinates_out,
+                                            GdkRectangle *screenshot_coordinates_out)
+{
+  gint x_orig, y_orig;
+  gint width, height;
+  GdkRectangle real_coordinates;
+
+  gdk_window_get_frame_extents (window, &real_coordinates);
+
+  x_orig = real_coordinates.x;
+  y_orig = real_coordinates.y;
+  width  = real_coordinates.width;
+  height = real_coordinates.height;
+
+  if (real_coordinates_out != NULL)
+    *real_coordinates_out = real_coordinates;
+
+  if (x_orig < 0)
+    {
+      width = width + x_orig;
+      x_orig = 0;
+    }
+
+  if (y_orig < 0)
+    {
+      height = height + y_orig;
+      y_orig = 0;
+    }
+
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  if (x_orig + width > gdk_screen_width ())
+    width = gdk_screen_width () - x_orig;
+
+  if (y_orig + height > gdk_screen_height ())
+    height = gdk_screen_height () - y_orig;
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+  if (screenshot_coordinates_out != NULL)
+    {
+      screenshot_coordinates_out->x = x_orig;
+      screenshot_coordinates_out->y = y_orig;
+      screenshot_coordinates_out->width = width;
+      screenshot_coordinates_out->height = height;
+    }
+}
+
 static WindowList getWindowIdList(Atom prop)
 {
     WindowList res;
@@ -44,6 +156,9 @@ static WindowList getWindowIdList(Atom prop)
     ulong count, after;
     Display* display = QX11Info::display();
     Window window = QX11Info::appRootWindow();
+    XWindowAttributes attrs;
+    XGetWindowAttributes(display, window, &attrs);
+
     if (XGetWindowProperty(display, window, prop, 0, 1024 * sizeof(Window) / 4, False, AnyPropertyType,
                            &type, &format, &count, &after, &data) == Success)
     {
