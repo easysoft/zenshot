@@ -20,6 +20,8 @@
 
 #include "screen/helper/windowgetter.h"
 
+#include "spdlogwrapper.hpp"
+
 //#include<QCursor>
 #include <QScreen>
 #include <QApplication>
@@ -70,33 +72,37 @@ screenshot_window_is_desktop (GdkWindow *window)
 GdkWindow *
 do_find_current_window (void)
 {
-  GdkWindow *current_window;
-  GdkDevice *device;
-  GdkSeat *seat;
+    GdkWindow *current_window;
+    GdkDevice *device;
+    GdkSeat *seat;
 
-  current_window = screenshot_find_active_window ();
-  seat = gdk_display_get_default_seat (gdk_display_get_default ());
-  device = gdk_seat_get_pointer (seat);
-
-  /* If there's no active window, we fall back to returning the
-   * window that the cursor is in.
-   */
-  if (!current_window)
-    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
-
-  if (current_window)
+    current_window = screenshot_find_active_window ();
+    seat = gdk_display_get_default_seat (gdk_display_get_default ());
+    device = gdk_seat_get_pointer (seat);
+    current_window = NULL;
+    /* If there's no active window, we fall back to returning the
+     * window that the cursor is in.
+     */
+    if (!current_window)
     {
-      if (screenshot_window_is_desktop (current_window))
-        /* if the current window is the desktop (e.g. nautilus), we
-         * return NULL, as getting the whole screen makes more sense.
-         */
-        return NULL;
-
-      /* Once we have a window, we take the toplevel ancestor. */
-      current_window = gdk_window_get_toplevel (current_window);
+      int x, y;
+      gdk_device_get_position(device, NULL, &x, &y);
+      current_window = gdk_device_get_window_at_position (device, NULL, NULL);
     }
 
-  return current_window;
+    if (current_window)
+    {
+      if (screenshot_window_is_desktop (current_window))
+      /* if the current window is the desktop (e.g. nautilus), we
+       * return NULL, as getting the whole screen makes more sense.
+       */
+      return NULL;
+
+          /* Once we have a window, we take the toplevel ancestor. */
+          current_window = gdk_window_get_toplevel (current_window);
+        }
+
+      return current_window;
 }
 
 static void
@@ -145,6 +151,18 @@ G_GNUC_END_IGNORE_DEPRECATIONS
       screenshot_coordinates_out->width = width;
       screenshot_coordinates_out->height = height;
     }
+}
+
+static GList*
+do_find_all_window (void)
+{
+  GdkScreen* screen = gdk_display_get_default_screen(gdk_display_get_default ());
+  if (screen)
+  {
+    return gdk_screen_get_window_stack(screen);
+  }
+
+  return NULL;
 }
 
 static WindowList getWindowIdList(Atom prop)
@@ -206,40 +224,58 @@ QRect getWindowGeometry(WId window)
 
 QList<WND_INFO> getWindowInfoList()
 {
-    static Atom net_clients = 0;
-    if (!net_clients)
-        net_clients = XInternAtom(QX11Info::display(), "_NET_CLIENT_LIST_STACKING", True);
+  QList<WND_INFO> wnd_list;
+  WND_INFO info;
+  GdkWindow* window;
+  GList* gl_item = NULL, *gl = NULL;
+  GdkRectangle real_coordinates, screenshot_coordinates;
 
-    WindowList idList = getWindowIdList(net_clients);
+  int n;
 
-    QList<WND_INFO> infoList;
-    for(int i=0;i<idList.size();i++)
+  gl = do_find_all_window();
+  if (!gl)
+  {
+    return wnd_list;
+  }
+  
+  for (gl_item = g_list_first(gl); gl_item; gl_item = gl_item->next)
+  {
+    window = (GdkWindow*)gl_item->data;
+    if (screenshot_window_is_desktop(window))
     {
-        WND_INFO info;
-        info.id = idList[i];
-        info.pos = getWindowGeometry(idList[i]);
-
-        infoList.push_back(info);
+      continue;
     }
 
-    return infoList;
+    screenshot_fallback_get_window_rect_coords(window, &real_coordinates, &screenshot_coordinates);
+    
+    info.pos.setX(real_coordinates.x);
+    info.pos.setY(real_coordinates.y);
+    info.pos.setWidth(real_coordinates.width);
+    info.pos.setHeight(real_coordinates.height);
+
+    wnd_list.push_back(info);
+
+    g_object_unref(window);
+  }
+  g_list_free(gl);
+
+  return wnd_list;
 }
 
 static QList<WND_INFO> windowList;
 
-QRect WindowGetter::winGeometry(QScreen *screen,QWidget *host)
+QRect WindowGetter::winGeometry(QScreen *screen, QWidget *host)
 {
-    if(windowList.count() == 0)
-           windowList = getWindowInfoList();
+  windowList = getWindowInfoList();
 
-    QPoint mouse = QCursor::pos();
+  QPoint mouse = QCursor::pos();
 
-    for(int i=windowList.size()-1;i>=0;i--)
-    {
-        WND_INFO info = windowList[i];
-        if(info.pos.contains(mouse))
-            return info.pos;
-    }
+  for(int i=windowList.size()-1;i>=0;i--)
+  {
+    WND_INFO info = windowList[i];
+    if(info.pos.contains(mouse))
+        return info.pos;
+  }
 
-    return screen->geometry();
+  return screen->geometry();
 }

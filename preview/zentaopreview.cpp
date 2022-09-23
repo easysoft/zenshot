@@ -98,7 +98,7 @@ void ZTPreview::showEvent(QShowEvent* event)
 	m_listModel->setStringList(names);
 // 	m_btnDemand->setChecked(true);
 
-    emit SubmitSelectDefault();
+	emit SubmitSelectDefault();
 }
 
 void ZTPreview::closeEvent(QCloseEvent* event)

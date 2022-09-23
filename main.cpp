@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Zenshot. If not, see <https://www.gnu.org/licenses/>.
  */
+#include <gtk/gtk.h>
 
 #include <QApplication>
 #include <QTranslator>
@@ -61,6 +62,8 @@ int main(int argc, char *argv[])
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
 #endif // USE_SPDLOG_
+
+    gdk_init(NULL, NULL);
 
     QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 

@@ -118,10 +118,10 @@ QComboBox QScrollBar::handle::vertical{
 
 QComboBox QAbstractItemView
 {
-    selection-background-color:rgba(0,125,255);
+    selection-background-color:rgb(0,125,255);
 }
 
-QComboBox QListWidget::item:selected{background:rgba(0,125,255); }
+QComboBox QListWidget::item:selected{background:rgb(0,125,255); }
 
 QPushButton[forTip='mainBtn'] {
     font-family:ZenShotIcon;
