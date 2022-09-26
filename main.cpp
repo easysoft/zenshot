@@ -35,26 +35,19 @@
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
+#include <QSystemSemaphore>
+
 #ifdef Q_OS_WIN
 #include <direct.h>
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/file.h>
 #endif // Q_OS_WIN
 
-static const char mutex_name[] = "ZenShot#ZenTao";
-
-static bool IsRunning();
+static const char mutex_name[] = "Zenshot@ZenTao";
 
 int main(int argc, char *argv[])
 {
-    /*
-    if (IsRunning()) 
-    {
-        return 0;
-    }
-    */
 #ifdef USE_SPDLOG_
 #ifdef Q_OS_WIN
     mkdir("logs");
@@ -64,6 +57,14 @@ int main(int argc, char *argv[])
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
 #endif // USE_SPDLOG_
+
+    QSystemSemaphore sema(mutex_name, 1, QSystemSemaphore::Open);
+    L_INFO("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
+    if (!sema.acquire())
+    {
+        L_ERROR("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
+        return 0;
+    }
 
     gdk_init(NULL, NULL);
 
@@ -114,35 +115,4 @@ int main(int argc, char *argv[])
 
     int ret = a.exec();
     return ret;
-}
-
-static bool IsRunning()
-{
-#ifdef Q_OS_WIN
-    HANDLE hMutex = CreateMutexA(0, FALSE, mutex_name);
-    if (GetLastError() == ERROR_ALREADY_EXISTS) 
-    {
-        if (hMutex) 
-            CloseHandle(hMutex);
-
-        return true;
-    }
-#else
-    int fd = open("/tmp/zenshot.pid", O_CREAT | O_WRONLY);
-    if (fd < 0)
-    {
-        return true;
-    }
-
-    if (flock(fd, LOCK_EX | LOCK_NB) == -1)
-    {
-        return true;
-    }
-
-    char pid[100] = { 0 };
-    snprintf(pid, sizeof(pid) / sizeof(pid[0]) - 1, "%ld", (long)getpid());
-    write(fd, pid, strlen(pid));
-#endif // Q_OS_WIN
-
-    return false;
 }
