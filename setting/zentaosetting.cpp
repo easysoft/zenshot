@@ -42,8 +42,8 @@ void ZTSettingDlg::OnConfigSave()
 	int count = 0;
 	auto count_cb = [&count](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
-		(void*)node;
+		(void)root;
+		(void)node;
 
 		count++;
 		return false;

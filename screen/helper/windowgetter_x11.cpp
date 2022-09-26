@@ -229,9 +229,7 @@ QList<WND_INFO> getWindowInfoList()
   GdkWindow* window;
   GList* gl_item = NULL, *gl = NULL;
   GdkRectangle real_coordinates, screenshot_coordinates;
-
-  int n;
-
+  
   gl = do_find_all_window();
   if (!gl)
   {
@@ -266,7 +264,13 @@ static QList<WND_INFO> windowList;
 
 QRect WindowGetter::winGeometry(QScreen *screen, QWidget *host)
 {
+  (void)host;
   windowList = getWindowInfoList();
+
+  std::sort(windowList.begin(), windowList.end(), [](const WND_INFO& l, const WND_INFO& r)
+  {
+    return l.pos.width() > r.pos.width() && l.pos.height() > r.pos.height();
+  });
 
   QPoint mouse = QCursor::pos();
 

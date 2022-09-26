@@ -236,7 +236,7 @@ void SettingDlg::OnSaveHotKeyConfig()
     bool done = false;
     auto hot_key_cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
-        (void*)root;
+        (void)root;
 
         SetConfigNum(node, nullptr, m_KeyValue);
 

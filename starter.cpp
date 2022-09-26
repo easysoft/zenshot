@@ -107,7 +107,7 @@ void Starter::rasie()
 
 void Starter::finishShot(int code)
 {
-    (void*)code;
+    (void)code;
     L_FUNCTION();
     for (auto w : *m_widgets)
     {

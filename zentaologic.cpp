@@ -35,8 +35,8 @@ void StarterUI::OnShowPreview(Workspace* w)
     bool has_config = false;
     auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
-        (void*)root;
-        (void*)node;
+        (void)root;
+        (void)node;
 
         has_config = true;
         return true;
@@ -86,7 +86,7 @@ void StarterUI::OnSubmitLogin(string_ptr name)
     string_ptr url, usr, pass;
     auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
-        (void*)root;
+        (void)root;
         if (GetConfigAttrString(node, "name") == *name)
         {
             url.reset(new std::string(GetConfigAttrString(node, "url")));

@@ -262,6 +262,7 @@ RESOURCES += \
     main.qrc
 
 DISTFILES +=
+DEFINES += USE_SPDLOG_
 
 FORMS += \
     setting.ui \

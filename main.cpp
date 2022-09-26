@@ -49,10 +49,12 @@ static bool IsRunning();
 
 int main(int argc, char *argv[])
 {
+    /*
     if (IsRunning()) 
     {
         return 0;
     }
+    */
 #ifdef USE_SPDLOG_
 #ifdef Q_OS_WIN
     mkdir("logs");
