@@ -33,7 +33,7 @@ public:
     void onMouseRelease(QPoint mousePoint);
 
 private:
-    Ellipse *m_shape;
+    std::shared_ptr<Ellipse> m_shape;
     QPoint m_startPoint;
     QPoint m_endPoint;
     bool m_isInlist;

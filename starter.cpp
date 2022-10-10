@@ -21,6 +21,8 @@
 #include "core/screeninfo.h"
 #include "core/screenlist.h"
 
+#include "starterui.h"
+
 #include "spdlogwrapper.hpp"
 
 #include <QList>
@@ -31,6 +33,8 @@
 #include <QPropertyAnimation>
 
 #include <algorithm>
+
+extern StarterUI* g_start_ui_;
 
 Starter::Starter(bool exit_process)
     : QObject()
@@ -52,10 +56,12 @@ void Starter::init(QWidget* parent)
     m_widgets->clear();
 
     //收集屏幕信息
-    QList<QList<ScreenInfo>> screanList = ScreenGetter::screenList();
+    auto screanList = ScreenGetter::screenList();
+    int index = 0;
     //构造截图界面
-    for (const auto& list : screanList)
+    for (int index = 0; index < screanList.size(); index++)
     {
+        auto list = screanList[index];
         L_DEBUG("list size = {0}", list.size());
         std::shared_ptr<ScreenList> alone(new ScreenList(list));
         Widget* w = nullptr;
@@ -73,10 +79,9 @@ void Starter::init(QWidget* parent)
             m_unused_widgets->pop_back();
         }
 
-        w->start(alone);
+        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3} && screen @ {4}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height(), index);
 
-        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height());
-
+        w->start(alone, index);
         m_widgets->append(w);
     }
 
@@ -91,8 +96,18 @@ void Starter::cleanup()
     }
 }
 
+void Starter::rasie()
+{
+    for (auto w : *m_widgets)
+    {
+        w->raise();
+        w->activateWindow();
+    }
+}
+
 void Starter::finishShot(int code)
 {
+    (void)code;
     L_FUNCTION();
     for (auto w : *m_widgets)
     {
@@ -103,7 +118,7 @@ void Starter::finishShot(int code)
 
     if (m_bExit)
     {
-        QApplication::exit(code);
+        g_start_ui_->close();
     }
 }
 

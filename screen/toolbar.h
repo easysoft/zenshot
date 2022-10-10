@@ -68,6 +68,7 @@ signals:
     void save();
     void download();
     void closeProgram();
+    void ShowPreview(Workspace* w);
 
 private slots:
     void undo();
@@ -77,6 +78,9 @@ private slots:
     void downloadBtnClicked();
     void saveBtnClicked();
     void closeProgramBtnClicked();
+#if !NZENTAO_VER_
+    void OnShowPreviewClicked();
+#endif // NZENTAO_VER_
 };
 
 #endif // TOOLBAR_H

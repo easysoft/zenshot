@@ -96,6 +96,8 @@ void ToolBar::cleanup()
         btn->setChecked(false);
     }
     btnGroup.setExclusive(true);
+
+    operChanged();
 }
 
 void ToolBar::createCreateButtons()
@@ -129,7 +131,9 @@ void ToolBar::createFunctionButons()
     QPushButton *closeBtn = createSingleFunctionButton(QChar(0xe904),tr("exit"),"cancelBtn");
     QPushButton *clipboardBtn = createSingleFunctionButton(QChar(0xe902),tr("finish"),"saveBtn");
 #if !NZENTAO_VER_
-    QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90d), tr("send2zentao"), "sendBtn");
+    QPushButton *send2ZenTaoBtn = createSingleFunctionButton(QChar(0xe90e), tr("send2zentao"), "sendBtn");
+
+    send2ZenTaoBtn->setProperty("forTip", "mainBtnLight");
 #endif // NZENTAO_VER_
 
     connect(m_undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
@@ -139,7 +143,8 @@ void ToolBar::createFunctionButons()
     connect(closeBtn,SIGNAL(clicked()),this,SLOT(closeProgramBtnClicked()));
     connect(clipboardBtn,SIGNAL(clicked()),this,SLOT(saveBtnClicked()));
 #if !NZENTAO_VER_
-    connect(send2ZenTaoBtn, SIGNAL(clicked()), g_start_ui_, SLOT(OnShowPreview()));
+    connect(send2ZenTaoBtn, SIGNAL(clicked()), this, SLOT(OnShowPreviewClicked()));
+    connect(this, SIGNAL(ShowPreview(Workspace*)), g_start_ui_, SLOT(OnShowPreview(Workspace*)));
 #endif // NZENTAO_VER_
 }
 
@@ -218,3 +223,10 @@ void ToolBar::saveBtnClicked()
 {
     emit save();
 }
+
+#if !NZENTAO_VER_
+void ToolBar::OnShowPreviewClicked()
+{
+    emit ShowPreview(m_workspace);
+}
+#endif // NZENTAO_VER_

@@ -33,7 +33,7 @@ QString LineCreateTool::forType()
 
 void LineCreateTool::onMousePress(QPoint mousePoint)
 {
-    m_shape = new Line(m_workspace);
+    m_shape.reset(new Line(m_workspace));
 
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
     m_shape->addPoint(QPoint(mousePoint.x(),mousePoint.y()));
@@ -72,7 +72,7 @@ void LineCreateTool::onMouseRelease(QPoint mousePoint)
     {
         if(m_autoSelected == true) m_workspace->setSelected(m_shape);
 
-        AddCommand *addComm = new AddCommand(m_workspace,m_shape);
+        std::shared_ptr<AddCommand> addComm(new AddCommand(m_workspace,m_shape));
         UserOper::add(addComm);
     }
 

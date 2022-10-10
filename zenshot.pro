@@ -54,9 +54,11 @@ SOURCES += \
     locators/pointlocator.cpp \
     locators/rectlocator.cpp \
     main.cpp \
+    preview/zentaobug.cpp \
     preview/zentaodemand.cpp \
     preview/zentaopreview.cpp \
     preview/zentaosubmit.cpp \
+    preview/zentaotips.cpp \
     properties/arrowbar.cpp \
     properties/curvebar.cpp \
     properties/ellipsebar.cpp \
@@ -101,7 +103,8 @@ SOURCES += \
     tools/rectcreatetool.cpp \
     tools/textcreatetool.cpp \
     httprequest/zhttprequest.cpp \
-    widget.cpp
+    widget.cpp \
+    zentaologic.cpp
 
 HEADERS += \
     commands/addcommand.h \
@@ -110,6 +113,7 @@ HEADERS += \
     commands/movecommand.h \
     commands/propscommand.h \
     commands/textcontentcommand.h \
+    config/configvalue.h \
     config/xmlconfig.h \
     controls/colorbutton.h \
     controls/colorwidget.h \
@@ -139,9 +143,11 @@ HEADERS += \
     handles/rectshapehandle.h \
     locators/pointlocator.h \
     locators/rectlocator.h \
+    preview/zentaobug.h \
     preview/zentaodemand.h \
     preview/zentaopreview.h \
     preview/zentaosubmit.h \
+    preview/zentaotips.h \
     properties/arrowbar.h \
     properties/curvebar.h \
     properties/ellipsebar.h \
@@ -191,7 +197,9 @@ HEADERS += \
     tools/rectcreatetool.h \
     tools/textcreatetool.h \
     httprequest/zhttprequest.h \
-    widget.h
+    usrmetatype.h \
+    widget.h \
+    zdata/zdataitem.h
 
 TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
@@ -228,7 +236,7 @@ unix:!macx {
 win32 {
     RC_ICONS = zenshot.ico
     LIBS    += User32.lib
-    
+
     SOURCES += screen/helper/windowgetter_win.cpp
     HEADERS += screen/helper/windowgetter.h
 
@@ -255,16 +263,17 @@ RESOURCES += \
     main.qrc
 
 DISTFILES +=
-
 DEFINES += USE_SPDLOG_
 
 FORMS += \
     setting.ui \
+    zentaobug.ui \
     zentaodemand.ui \
     zentaopreview.ui \
     zentaosetting.ui \
-    zentaosetting.ui \
     zentaosettingdetail.ui \
     zentaosettinglist.ui \
-    zentaosubmit.ui
+    zentaosettinglistitem.ui \
+    zentaosubmit.ui \
+    zentaotips.ui
 

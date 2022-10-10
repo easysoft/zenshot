@@ -21,6 +21,7 @@
 
 #include <QVector>
 #include <QObject>
+#include <memory>
 #include "core/command.h"
 
 /**
@@ -43,7 +44,7 @@ public:
      * @brief 添加当前执行的操作命令
      * @param command 操作命令
      */
-    static void add(Command* command);
+    static void add(std::shared_ptr<Command> command);
 
     /**
      * @brief 取消操作
@@ -67,21 +68,28 @@ public:
      */
     static int redoNum();
 
+    /**
+     * @brief 本次截图结束，清除缓冲区
+     * @return
+     */
+    static void cleanAll();
+
 private:
     UserOper(){};
     static UserOper* m_instance;
 
-    QVector<Command*> m_undoList;
-    QVector<Command*> m_redoList;
+    QVector<std::shared_ptr<Command>> m_undoList;
+    QVector<std::shared_ptr<Command>> m_redoList;
 
-    void addImpl(Command* command);
+    void addImpl(std::shared_ptr<Command> command);
     void undoImpl();
     void redoImpl();
 
     int undoNumImpl();
     int redoNumImpl();
 
-    void addImpl(QVector<Command*> &targetList, Command* item);
+    void addImpl(QVector<std::shared_ptr<Command>> &targetList, std::shared_ptr<Command> item);
+    void clean();
 
 signals:
     void changed();

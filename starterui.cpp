@@ -19,13 +19,20 @@ StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
 
 StarterUI::StarterUI()
-	: QWidget(0)
+	: QDialog(0)
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
 	, m_SettingDlg(this)
 #if !NZENTAO_VER_
-	, m_ZTSettingDlg(nullptr)
-	, m_ZTSubmitDlg(nullptr)
+	, m_ZTSettingDlg(this)
+	, m_ZTSubmitDlg(this)
+	, m_ZTTipsDlg(this)
+	, m_HttpReq()
+    , m_CurrentShot(nullptr)
+	, m_CurrentStarter(nullptr)
+	, m_CurrentUsr()
+	, m_CurrentUrl()
+	, m_LastSubmitUrl()
 #endif // NZENTAO_VER_
 	, m_Shotting(false)
 {
@@ -35,16 +42,26 @@ StarterUI::StarterUI()
 	qRegisterMetaType<int32_t>("int32_t");
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<string_ptr>("string_ptr");
+	qRegisterMetaType<Workspace*>("Workspace*");
+#if !NZENTAO_VER_
+    qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
+    qRegisterMetaType<zproduct_item_vec_ptr>("zproduct_item_vec_ptr");
+    qRegisterMetaType<zmodule_item_vec_ptr>("zmodule_item_vec_ptr");
+    qRegisterMetaType<zversion_item_vec_ptr>("zversion_item_vec_ptr");
+    qRegisterMetaType<ztype_item_vec_ptr>("ztype_item_vec_ptr");
+    qRegisterMetaType<zos_item_vec_ptr>("zos_item_vec_ptr");
+    qRegisterMetaType<zbrowser_item_vec_ptr>("zbrowser_item_vec_ptr");
+    qRegisterMetaType<zseverity_item_vec_ptr>("zseverity_item_vec_ptr");
+    qRegisterMetaType<zpri_item_vec_ptr>("zpri_item_vec_ptr");
+#endif // NZENTAO_VER_
 
 	createActions();
 	createTrayIcon();
 
 	setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 	setAttribute(Qt::WA_TranslucentBackground, true);
-
-	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
-	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
- 	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+	
+	SetupSignal();
 
 	trayIcon->show();
 
@@ -104,11 +121,11 @@ void StarterUI::createActions()
 void StarterUI::createTrayIcon()
 {
 	trayIconMenu = new QMenu(this);
+	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(settingAction);
 #if !NZENTAO_VER_
 	trayIconMenu->addAction(zentaoSettingAction);
 #endif // NZENTAO_VER_
-	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(quitAction);
 
 	trayIcon = new QSystemTrayIcon(this);
@@ -116,6 +133,46 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
+}
+
+void StarterUI::SetupSignal()
+{
+	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
+	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
+	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+#if !NZENTAO_VER_
+	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
+	connect(this, SIGNAL(Login(string_ptr, string_ptr, string_ptr)), this, SLOT(OnLogin(string_ptr, string_ptr, string_ptr)));
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitLogin(string_ptr)), this, SLOT(OnSubmitLogin(string_ptr)));
+    connect(this, SIGNAL(SubmitLoginResult(bool)), &m_ZTSubmitDlg, SLOT(OnSubmitLoginResult(bool)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqProduct()), this, SIGNAL(ReqProduct()));
+    connect(this, SIGNAL(ReqProduct()), this, SLOT(OnHttpProduct()));
+    connect(this, SIGNAL(ProductItems(zproduct_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitProductItems(zproduct_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqModule(uint32_t, string_ptr)), this, SIGNAL(ReqModule(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ReqModule(uint32_t, string_ptr)), this, SLOT(OnHttpModule(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ModuleItems(zmodule_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitModuleItems(zmodule_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqVersion(uint32_t, string_ptr)), this, SIGNAL(ReqVersion(uint32_t, string_ptr)));
+    connect(this, SIGNAL(ReqVersion(uint32_t, string_ptr)), this, SLOT(OnHttpVersion(uint32_t, string_ptr)));
+    connect(this, SIGNAL(VersionItems(zversion_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitVersionItems(zversion_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitReqModules(string_ptr)), this, SIGNAL(ReqModules(string_ptr)));
+    connect(this, SIGNAL(ReqModules(string_ptr)), this, SLOT(OnHttpModules(string_ptr)));
+    connect(this, SIGNAL(ModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)), &m_ZTSubmitDlg, SLOT(OnSubmitModulesItems(zpri_item_vec_ptr, zseverity_item_vec_ptr, zos_item_vec_ptr, zbrowser_item_vec_ptr, ztype_item_vec_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitDemandJson(uint32_t, string_ptr)), this, SLOT(OnSubmitDemandJson(uint32_t, string_ptr)));
+    connect(&m_ZTSubmitDlg, SIGNAL(SubmitBugJson(uint32_t, string_ptr)), this, SLOT(OnSubmitBugJson(uint32_t, string_ptr)));
+
+    connect(&m_ZTSubmitDlg, SIGNAL(UploadImage()), this, SLOT(OnUploadImage()));
+    connect(this, SIGNAL(UploadImageDone(bool, string_ptr)), &m_ZTSubmitDlg, SLOT(OnUploadImageDone(bool, string_ptr)));
+	connect(&m_ZTTipsDlg, SIGNAL(OpenZentaoUrl()), this, SLOT(OnOpenZentaoUrl()));
+
+	connect(&m_ZTSettingDlg, SIGNAL(SettingZentaoHide()), this, SLOT(OnSubmitZentaoHide()));
+	connect(&m_ZTTipsDlg, SIGNAL(TipsZentaoHide()), this, SLOT(OnTipZentaoHide()));
+	connect(&m_ZTSubmitDlg, SIGNAL(SubmitZentaoHide()), this, SLOT(OnSubmitZentaoHide()));
+#endif // NZENTAO_VER_
 }
 
 void StarterUI::OnStartShot()
@@ -131,6 +188,7 @@ void StarterUI::OnStartShot()
 	if (m_Starer.empty())
 	{
 		starter = new Starter(false);
+		connect(this, SIGNAL(StopShot(Starter*)), starter, SIGNAL(ShotDone(Starter*)));
 		connect(starter, SIGNAL(ShotDone(Starter*)), this, SLOT(OnShotDone(Starter*)));
 	}
 	else
@@ -139,6 +197,9 @@ void StarterUI::OnStartShot()
 		m_Starer.pop_back();
 	}
 
+#if !NZENTAO_VER_
+	m_CurrentStarter = starter;
+#endif // NZENTAO_VER_
 	starter->init();
 
 	L_TRACE("============= m_Starer size = {0}", m_Starer.size());
@@ -146,6 +207,10 @@ void StarterUI::OnStartShot()
 
 void StarterUI::OnShotDone(Starter* starter)
 {
+#if !NZENTAO_VER_
+    m_CurrentShot = nullptr;
+	m_CurrentStarter = nullptr;
+#endif // NZENTAO_VER_
 	m_Shotting = false;
 	starter->cleanup();
 	m_Starer.push_back(starter);
@@ -156,20 +221,14 @@ void StarterUI::OnShotDone(Starter* starter)
 
 void StarterUI::OnExitShot()
 {
-#ifdef Q_OS_WIN
-	ExitProcess(0);
-#else
+	trayIcon->hide();
 	QApplication::exit(0);
-#endif // Q_OS_WIN
 }
 
 void StarterUI::closeEvent(QCloseEvent*)
 {
-#ifdef Q_OS_WIN
-	ExitProcess(0);
-#else
+	trayIcon->hide();
 	QApplication::exit(0);
-#endif // Q_OS_WIN
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -186,7 +245,7 @@ bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, long* re
 	}
 #endif // Q_OS_WIN
 
-	return QWidget::nativeEvent(eventType, message, result);
+	return QDialog::nativeEvent(eventType, message, result);
 }
 
 void StarterUI::OnIconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -209,27 +268,3 @@ void StarterUI::OnShowSetting()
 	m_SettingDlg.raise();
 	m_SettingDlg.activateWindow();
 }
-
-#if !NZENTAO_VER_
-void StarterUI::OnShowZenTaoSetting()
-{
-	if (!m_ZTSettingDlg.isVisible())
-	{
-		m_ZTSettingDlg.show();
-	}
-
-	m_ZTSettingDlg.raise();
-	m_ZTSettingDlg.activateWindow();
-}
-
-void StarterUI::OnShowPreview()
-{
-	if (!m_ZTSubmitDlg.isVisible())
-	{
-		m_ZTSubmitDlg.show();
-	}
-
-	m_ZTSubmitDlg.raise();
-	m_ZTSubmitDlg.activateWindow();
-}
-#endif // NZENTAO_VER_

@@ -29,6 +29,8 @@
 #include "core/utils.h"
 #include "core/store.h"
 
+#include <memory>
+
 class Workspace;
 
 /**

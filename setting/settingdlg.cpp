@@ -1,6 +1,7 @@
 #include "setting/settingdlg.h"
 
 #include "config/xmlconfig.h"
+#include "config/configvalue.h"
 #include "spdlogwrapper.hpp"
 
 #include "rapidxml/rapidxml.hpp"
@@ -232,7 +233,22 @@ void SettingDlg::OnSaveHotKeyConfig()
 {
     OnUpdateHotKeyValue();
 
-    GetXMLConfig().SetConfigNum2("config", "hotkey", m_KeyValue);
+    bool done = false;
+    auto hot_key_cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
+    {
+        (void)root;
+
+        SetConfigNum(node, nullptr, m_KeyValue);
+
+        done = true;
+        return true;
+    };
+    GetXMLConfig().FindAllNode("config", "hotkey", hot_key_cb);
+    if (!done)
+    {
+        GetXMLConfig().AddConfigNum2("config", "hotkey", m_KeyValue);
+    }
+
     GetXMLConfig().SaveConfig(SETTING_XML_NAME);
 
     if (m_OrigKeyValue == m_KeyValue)

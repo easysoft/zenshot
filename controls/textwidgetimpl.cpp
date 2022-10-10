@@ -19,11 +19,14 @@
 #include "textwidgetimpl.h"
 #include "core/utils.h"
 
+#include "spdlogwrapper.hpp"
+
 #include <QTextFrame>
 #include <QPainter>
 
 TextWidgetImpl::TextWidgetImpl(QWidget* parent):QTextEdit(parent)
 {
+//     setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint);
     QString sheet(
          "TextWidgetImpl { background: transparent; border:0px solid transparent; padding:0px 0px 0px 0px; }");
 

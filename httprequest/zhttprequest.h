@@ -18,6 +18,7 @@ public:
     ~ZHttpRequest() {}
 
 public:
+    void SetTimeout(int interval);
     void SetUrl(const char* fmt, ...);
     void AddHeader(const char* key, const char* value);
     void SetPost(const char* fmt, ...);
@@ -29,6 +30,7 @@ public:
 	}
 
     bool Exec(std::string& reply_str);
+    bool UploadFormFile(std::string& reply_str, const QByteArray& pix_bytes);
 
 private:
     QNetworkAccessManager* m_Manager;

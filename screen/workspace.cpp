@@ -122,11 +122,12 @@ void Workspace::setAreaBoundary(QRect rect)
     m_shotArea.setBoundary(rect);
 }
 
-void Workspace::start(std::shared_ptr<ScreenList> list)
+void Workspace::start(std::shared_ptr<ScreenList> list, int index)
 {
     L_FUNCTION();
     m_tool.reset(new AreaCreateTool(this));
-    m_shotArea.start(list);
+
+    m_shotArea.start(list, index);
 
     L_TRACE("list->scale() = {0}, m_widget isvisable: {1}", list->scale(), m_widget->isVisible() ? 1 : 0);
     GParams::instance()->setScale(list->scale());
@@ -138,6 +139,8 @@ void Workspace::cleanup()
 
     removeShape(m_selectedShape);
 	m_selectedShape = nullptr;
+
+    UserOper::cleanAll();
 	
     if (m_toolBar != nullptr) {
 		m_toolBar->move(0, -1000);
@@ -146,9 +149,7 @@ void Workspace::cleanup()
 
         m_toolBar->cleanup();
     }
-	m_propsBar = nullptr;
-    m_tool = nullptr;
-
+    
 	qDeleteAll(m_activeHandles);
 	m_activeHandles.clear();
 
@@ -159,6 +160,10 @@ void Workspace::cleanup()
     if (m_tool) m_tool->cleanup();
     if (m_createTool) m_createTool->cleanup();
     if (m_hoverTool) m_hoverTool->cleanup();
+
+    m_propsBar = nullptr;
+    m_createTool = nullptr;
+    m_tool = nullptr;
 
     m_textAssist->cleanup();
 
@@ -178,7 +183,7 @@ void Workspace::onMousePress(QMouseEvent *event)
 
         Handle *handle = m_hoverTool->shapeHandle();
         Handle *areaHandle = m_hoverTool->shotAeaHandle();
-        Shape *shape = m_hoverTool->shape();
+        std::shared_ptr<Shape> shape = m_hoverTool->shape();
         bool isSelf = m_hoverTool->shotAreaSelf();
 
         //鼠标单击，取消之前文本输入控件的绑定
@@ -213,8 +218,9 @@ void Workspace::onMousePress(QMouseEvent *event)
             //第二次单击到同一个文本图形，触发在位编辑功能
             if(m_selectedShape == shape && shape->type() == Utils::forTextKey())
             {
-                Text *text = dynamic_cast<Text*>(shape);
-                m_textAssist->attach(text);
+                Text* text = dynamic_cast<Text*>(shape.get());
+                std::shared_ptr<Text> text_ptr(text);
+                m_textAssist->attach(text_ptr);
 
                 m_tool = nullptr;
             }
@@ -347,7 +353,7 @@ void Workspace::draw(QPainter &painter)
 
     foreach(auto shape, m_shapeList)
     {
-        if(shape.get() == m_selectedShape &&
+        if(shape == m_selectedShape &&
            m_selectedShape->type() == Utils::forTextKey() &&
            m_textAssist->editing() == true){
             continue;
@@ -368,7 +374,7 @@ void Workspace::draw(QPainter &painter)
 
         loadResource();
         m_toolBar.reset(new ToolBar(this));
-        m_toolBar->move(0,-1000);
+        m_toolBar->move(0,-43200);
         m_toolBar->show();
         m_toolBar->setVisible(false);
     }
@@ -390,12 +396,12 @@ Handle *Workspace::getShapeHandleAt(QPoint point)
     return nullptr;
 }
 
-Shape *Workspace::getShapeAt(QPoint point)
+std::shared_ptr<Shape> Workspace::getShapeAt(QPoint point)
 {
     for(auto shape:m_shapeList)
     {
         if(shape->contain(point))
-            return  shape.get();
+            return  shape;
     }
 
     return  nullptr;
@@ -414,13 +420,13 @@ bool Workspace::isShotAreaSelfAt(QPoint point)
     return m_shotArea.contain(point);
 }
 
-void Workspace::addShape(Shape *shape)
+void Workspace::addShape(std::shared_ptr<Shape> shape)
 {
     std::shared_ptr<Shape> ptr(shape);
     m_shapeList.append(ptr);
 }
 
-void Workspace::addMosaic(Shape *shape)
+void Workspace::addMosaic(std::shared_ptr<Shape> shape)
 {
     int newIndex = 0;
     for(int i=m_shapeList.size()-1;i>=0;i--)
@@ -436,11 +442,11 @@ void Workspace::addMosaic(Shape *shape)
     m_shapeList.insert(newIndex, ptr);
 }
 
-void Workspace::removeShape(Shape *shape,bool tempOper)
+void Workspace::removeShape(std::shared_ptr<Shape> shape,bool tempOper)
 {
     auto iter = std::find_if(m_shapeList.begin(), m_shapeList.end(), [=](std::shared_ptr<Shape> ptr)
         {
-            return ptr.get() == shape;
+            return ptr == shape;
         });
     if (iter == m_shapeList.end())
     {
@@ -472,7 +478,7 @@ void Workspace::refreshProps()
         MemoryStore nowStore;
         m_selectedShape->saveProps(&nowStore);
 
-        PropsCommand *propsComm = new PropsCommand(this,m_selectedShape,oldStore,nowStore);
+        std::shared_ptr<PropsCommand> propsComm(new PropsCommand(this,m_selectedShape.get(), oldStore, nowStore));
         UserOper::add(propsComm);
 
         if(m_selectedShape->type() == Utils::forTextKey() && m_textAssist->editing() == true)
@@ -487,7 +493,7 @@ bool Workspace::hasCreateTool()
     return m_createTool == nullptr ? false : true;
 }
 
-void Workspace::setSelected(Shape *newSelected)
+void Workspace::setSelected(std::shared_ptr<Shape>newSelected)
 {
     L_FUNCTION();
     if(m_selectedShape == newSelected)
@@ -554,7 +560,7 @@ void Workspace::deleteSelected()
         m_textAssist->unAttach();
     }
 
-    DeleteCommand *delComm = new DeleteCommand(this,m_selectedShape);
+    std::shared_ptr<DeleteCommand> delComm(new DeleteCommand(this,m_selectedShape));
     UserOper::add(delComm);
 
     removeShape(m_selectedShape);
@@ -891,5 +897,3 @@ void Workspace::loadResource()
 
     m_widget->setStyleSheet(qss);
 }
-
-

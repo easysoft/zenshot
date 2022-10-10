@@ -1,12 +1,16 @@
 #ifndef ZTSETTING_LISTITEM_H_
 #define ZTSETTING_LISTITEM_H_
 
+#include "ui_zentaosettinglistitem.h"
+
 #include <QWidget>
 #include <QLayout>
 #include <QLabel>
 #include <QPushButton>
 
-#define LISTIEM_MIN_HEIGHT 36
+#include <string>
+
+#define LISTIEM_MIN_HEIGHT 84
 
 class ZTSettingListItem : public QWidget {
 	Q_OBJECT
@@ -20,29 +24,33 @@ public:
 	void SetUsr(const char* usr);
 	void SetPass(const char* pass);
 
-	const char* GetName() { return name_.c_str(); }
-	const char* GetUrl() { return url_.c_str(); }
-	const char* GetUsr() { return usr_.c_str(); }
-	const char* GetPass() { return pass_.c_str(); }
+    const char* GetName() { return name_.c_str(); }
+    const char* GetUrl() { return url_.c_str(); }
+    const char* GetUsr() { return usr_.c_str(); }
+    const char* GetPass() { return pass_.c_str(); }
+
+    void SetDefaultItem(bool flag);
 
 signals:
 	void RemoveItem(ZTSettingListItem* w);
-
+	
 private slots:
 	void OnRemoveItem();
 
-protected:
-	virtual void enterEvent(QEvent* event) override;
-	virtual void leaveEvent(QEvent* event) override;
+// protected:
+// 	virtual void enterEvent(QEvent* event) override;
+// 	virtual void leaveEvent(QEvent* event) override;
 
 private:
 	void SetupUI();
 	void SetupSignal();
 
 private:
-	QVBoxLayout m_Layer;
-	QLabel m_labelName;
-	QPushButton m_btnDel;
+	Ui::ZTSettingListItem ui;
+	QLabel* m_labelDefault;
+	QLabel* m_labelName;
+	QLabel* m_labelUrl;
+    QPushButton* m_btnDel;
 
     std::string name_;
     std::string url_;

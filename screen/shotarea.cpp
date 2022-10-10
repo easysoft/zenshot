@@ -61,9 +61,10 @@ bool ShotArea::areaConfirmed()
     return m_areaConfirmed;
 }
 
-void ShotArea::start(std::shared_ptr<ScreenList> list)
+void ShotArea::start(std::shared_ptr<ScreenList> list, int index)
 {
     L_FUNCTION();
+    m_nowScreenIndex = index;
 	m_indicatorPen.setColor(QColor(151, 151, 151));
 	m_indicatorPen.setWidth(1);
 
@@ -89,16 +90,7 @@ void ShotArea::cleanup()
 
 void ShotArea::autoCapture()
 {
-    autoCaptureScreen();
     autoCaptureWindow();
-}
-
-void ShotArea::autoCaptureScreen()
-{
-    //获取鼠标所在位置的屏幕
-    m_nowScreenIndex = m_screenList->indexAtMouse();
-
-    L_TRACE("m_nowScreenIndex: {0}", m_nowScreenIndex);
 }
 
 void ShotArea::autoCaptureWindow()
@@ -106,12 +98,12 @@ void ShotArea::autoCaptureWindow()
     QWidget *host = m_workspace->widget();
 
     //初始化选择区域
-    QRect globalArea = WindowGetter::winGeometry(m_screenList->screenAt(m_nowScreenIndex),host);
+    QRect globalArea = WindowGetter::winGeometry(QApplication::screens()[m_nowScreenIndex], host);
 
     QRect area = m_screenList->toLocal(globalArea);
     m_boundary.setRect(area.x(),area.y(),area.width(),area.height());
     
-    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3}, index = {4}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom(), m_nowScreenIndex);
+    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3} & index = {4}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom(), m_nowScreenIndex);
 
     //根据屏幕大小来进一步约束选择区域
     int x1 = m_boundary.x() < m_allScreenRect.x() ? m_allScreenRect.x() : m_boundary.x();
@@ -153,22 +145,24 @@ QPixmap ShotArea::result()
 {
     m_isGettingResult = true;
 
-    QRectF mBoundary = boundary();
+    QWidget* host = m_workspace->widget();
+    auto screen = QApplication::screens()[m_nowScreenIndex];
+    double pixelRatio = screen->devicePixelRatio();
+    QRect mRect = screen->geometry();
 
-    QPixmap tmpPixmap(m_allScreenRect.width(),m_allScreenRect.height());
+    QRect mBoundary = boundary();
 
-    QPainter tmpPainter(&tmpPixmap);
-    tmpPainter.drawPixmap(m_allScreenRect,m_screenList->allPixMap());
+    int x = mRect.x() + mBoundary.x(),
+        y = mRect.y() + mBoundary.y();
 
-    m_workspace->draw(tmpPainter);
-
-    QPixmap result(mBoundary.width(),mBoundary.height());
-    QPainter resultPainter(&result);
-    resultPainter.drawPixmap(QRect(0,0,mBoundary.width(),mBoundary.height()),tmpPixmap,mBoundary);
-
+	QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
+        x,
+        y,
+        mBoundary.width() / pixelRatio,
+        mBoundary.height() / pixelRatio);
     m_isGettingResult = false;
 
-    return  result;
+    return  mPixmap;
 }
 
 QVector<Handle*> ShotArea::handles()

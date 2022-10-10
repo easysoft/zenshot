@@ -15,33 +15,34 @@
 }
 
 #labelSeparation {
-    background-color: gray;
+    background-color: transparent;
     border: 0px;
-}
-
-#btnDemand {
-    background-color: #FFFFFF;
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
-}
-
-#btnBug {
-    background-color: #F5F5F5;
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
-}
-
-#btnOkay {
-    border: 1px solid rgba(116,125,255,1);
-    border-radius: 4px;
-}
-
-#btnCancel {
-    border: 1px solid rgba(215,219,222,1);
-    border-radius: 4px;
 }
 
 #listView {
     background-color: #FFFFFF;
     border: 0px;
+
+    font-family: Microsoft YaHei;
+    font-size: 16px;
+}
+
+#listView::item {
+    background-color: transparent;
+    height: 40px;
+    color: black;
+}
+
+#listView::item:hover {
+    background-color: transparent;
+    color: #747DEF;
+}
+
+#listView::item:selected {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+
+    background-color: transparent;
+    color: #747DEF;
 }

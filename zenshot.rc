@@ -6,8 +6,8 @@ IDI_ICON1 ICON DISCARDABLE "zenshot.ico"
 #  include <windows.h>
 # endif
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 1,0,1,1
-    PRODUCTVERSION 1,1
+    FILEVERSION 1,0,2,3
+    PRODUCTVERSION 1,2,1
     FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
     FILEFLAGS VS_FF_DEBUG
@@ -24,11 +24,11 @@ VS_VERSION_INFO VERSIONINFO
             BEGIN
                 VALUE "CompanyName", "青岛易软天创网络科技有限公司\0"
                 VALUE "FileDescription", "开源跨平台截图工具\0"
-                VALUE "FileVersion", "1.0.1.1\0"
+                VALUE "FileVersion", "1.0.2.3\0"
                 VALUE "LegalCopyright", "Copyright 2022 青岛易软天创网络科技有限公司\0"
                 VALUE "OriginalFilename", "zenshot.exe\0"
                 VALUE "ProductName", "zenshot\0"
-                VALUE "ProductVersion", "1.1\0"
+                VALUE "ProductVersion", "1.2.1\0"
             END
         END
         BLOCK "VarFileInfo"

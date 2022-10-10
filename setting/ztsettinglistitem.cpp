@@ -10,11 +10,14 @@
 #include <QMessageBox>
 
 ZTSettingListItem::ZTSettingListItem(QWidget* parent)
-	: QWidget(parent)
-	, m_Layer(this)
-	, m_labelName(this)
-	, m_btnDel(this)
+    : QWidget(parent)
+    , name_("")
+    , url_("")
+    , usr_("")
+    , pass_("")
 {
+	ui.setupUi(this);
+
 	setWindowFlags(windowFlags() | Qt::Tool | Qt::FramelessWindowHint);
 
 	setMinimumHeight(LISTIEM_MIN_HEIGHT);
@@ -25,59 +28,71 @@ ZTSettingListItem::ZTSettingListItem(QWidget* parent)
 
 void ZTSettingListItem::SetName(const char* txt)
 {
-	name_ = txt;
-	m_labelName.setText(txt);
+    name_ = txt;
+
+	m_labelName->setText(txt);
+	m_labelName->adjustSize();
 }
 
 void ZTSettingListItem::SetUrl(const char* url)
 {
-	url_ = url;
+    url_ = url;
+
+	m_labelUrl->setText(url);
+	m_labelUrl->adjustSize();
 }
 
 void ZTSettingListItem::SetUsr(const char* usr)
 {
-	usr_ = usr;
+    usr_ = usr;
 }
 
 void ZTSettingListItem::SetPass(const char* pass)
 {
-	pass_ = pass;
+    pass_ = pass;
 }
 
-void ZTSettingListItem::enterEvent(QEvent* event)
+void ZTSettingListItem::SetDefaultItem(bool flag)
 {
-	QWidget::enterEvent(event);
-	m_btnDel.setVisible(true);
+    m_labelDefault->setVisible(flag);
 }
 
-void ZTSettingListItem::leaveEvent(QEvent* event)
-{
-	QWidget::leaveEvent(event);
-	m_btnDel.setVisible(false);
-}
+// void ZTSettingListItem::enterEvent(QEvent* event)
+// {
+// 	QWidget::enterEvent(event);
+// 	m_btnDel.setVisible(true);
+// }
+// 
+// void ZTSettingListItem::leaveEvent(QEvent* event)
+// {
+// 	QWidget::leaveEvent(event);
+// 	m_btnDel.setVisible(false);
+// }
 
 void ZTSettingListItem::SetupUI()
 {
-	setLayout(&m_Layer);
-	m_Layer.setSpacing(0);
-	m_Layer.setContentsMargins(0, 0, 18, 30);
+	// load qss
+	QFile file(":/zentaosettinglistitem.css");
 
-	m_labelName.setMinimumHeight(LISTIEM_MIN_HEIGHT);
-	m_btnDel.setMinimumHeight(LISTIEM_MIN_HEIGHT);
+	file.open(QFile::ReadOnly);
+	QString qss = QString::fromLatin1(file.readAll());
+	file.close();
 
-	m_labelName.setAlignment(Qt::AlignVCenter);
-	m_labelName.setProperty("class", "listItemTxt");
-	m_btnDel.setProperty("class", "listItemBtn");
-	m_btnDel.setVisible(false);
+	// modif style
+	setStyleSheet(qss);
 
-	m_Layer.addWidget(&m_labelName, 8, Qt::AlignLeft | Qt::AlignVCenter);
-	m_Layer.addWidget(&m_btnDel, 2, Qt::AlignRight | Qt::AlignVCenter);
+	m_labelDefault = findChild<QLabel*>("labelDefault");
+	m_labelName = findChild<QLabel*>("labelName");
+	m_labelUrl = findChild<QLabel*>("labelUrl");
+	m_btnDel = findChild<QPushButton*>("btnDel");
+
+	m_labelDefault->setVisible(false);
 }
 
 void ZTSettingListItem::SetupSignal()
 {
-	connect(&m_btnDel, SIGNAL(clicked()), this, SLOT(OnRemoveItem()));
-	connect(this, SIGNAL(RemoveItem(ZTSettingListItem*)), parent(), SLOT(OnRealRemoveItem(ZTSettingListItem*)));
+	connect(m_btnDel, SIGNAL(clicked()), this, SLOT(OnRemoveItem()));
+	connect(this, SIGNAL(RemoveItem(ZTSettingListItem*)), parent(), SIGNAL(RemoveListItem(ZTSettingListItem*)));
 }
 
 void ZTSettingListItem::OnRemoveItem()

@@ -1,0 +1,42 @@
+
+#ZTTipsDlg {
+    background-color: #FFFFFF;
+    border: 1px solid #D7DBDE;
+    margin: 0px;
+    padding: 0px;
+}
+
+QLabel.TipsLabel {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+#labelSuccess {
+    background-image: url(:/images/success-tip.png);
+}
+
+#labelFailed {
+    background-image: url(:/images/failed-tip.png);
+}
+
+QPushButton {
+    background-color: transparent;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+
+    font-family: Microsoft YaHei;
+    font-size: 15px;
+    color: #747DFF;
+    font-weight: 400;
+}
+
+#btn3Sec {
+    font-family: Microsoft YaHei;
+    font-size: 15px;
+    color: #3C4353;
+    font-weight: 400;
+}

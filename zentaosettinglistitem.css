@@ -1,0 +1,32 @@
+
+QWidget#ZTSettingListItem {
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+QLabel {
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+
+    font-family: Microsoft YaHei;
+    font-size: 14px;
+    color: #3C4353;
+    line-height: 18px;
+    font-weight: 400;
+}
+
+QLabel#labelDefault {
+    background-image: url(:/images/item-default.png);
+    background-repeat: no-repeat;
+}
+
+QPushButton {
+    background-color: transparent;
+}
+
+QPushButton#btnDel {
+    background-image: url(:/images/remove-item.png);
+    background-repeat: no-repeat;
+}

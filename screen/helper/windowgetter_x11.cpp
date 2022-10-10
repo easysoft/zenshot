@@ -229,13 +229,13 @@ QList<WND_INFO> getWindowInfoList()
   GdkWindow* window;
   GList* gl_item = NULL, *gl = NULL;
   GdkRectangle real_coordinates, screenshot_coordinates;
-
+  
   gl = do_find_all_window();
   if (!gl)
   {
     return wnd_list;
   }
-
+  
   for (gl_item = g_list_first(gl); gl_item; gl_item = gl_item->next)
   {
     window = (GdkWindow*)gl_item->data;
@@ -245,7 +245,7 @@ QList<WND_INFO> getWindowInfoList()
     }
 
     screenshot_fallback_get_window_rect_coords(window, &real_coordinates, &screenshot_coordinates);
-
+    
     info.pos.setX(real_coordinates.x);
     info.pos.setY(real_coordinates.y);
     info.pos.setWidth(real_coordinates.width);

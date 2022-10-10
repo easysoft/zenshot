@@ -32,13 +32,13 @@
 class MoveCommand : public Command
 {
 public:
-    explicit MoveCommand(Workspace *workspace,Shape *shape,QPoint offsetPoint);
+    explicit MoveCommand(Workspace *workspace, std::shared_ptr<Shape> shape,QPoint offsetPoint);
 
     void undo();
     void redo();
 
 private:
-    Shape *m_shape;
+    std::shared_ptr<Shape> m_shape;
     QPoint m_offsetPoint;  //移动的偏移量 
 };
 

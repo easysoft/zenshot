@@ -2,135 +2,163 @@
   "metadata": {
     "name": "ZenShot",
     "lastOpened": 0,
-    "created": 1638258177777
+    "created": 1662776973481
   },
   "iconSets": [
     {
       "selection": [
         {
+          "order": 32,
+          "id": 14,
+          "name": "zentao",
+          "prevSize": 64,
+          "code": 59662,
+          "tempChar": ""
+        },
+        {
           "order": 19,
           "id": 5,
           "name": "rect",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59654,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 16,
           "id": 8,
           "name": "circle",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59651,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 14,
           "id": 11,
           "name": "arrow",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59648,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 29,
           "id": 6,
           "name": "line",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59653,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 23,
           "id": 1,
           "name": "pencil",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59658,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 22,
           "id": 0,
           "name": "text",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 25,
           "id": 2,
           "name": "mosaic",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59657,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 26,
           "id": 3,
           "name": "undo",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59656,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 27,
           "id": 12,
           "name": "redo",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 28,
           "id": 4,
           "name": "save",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59655,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 31,
           "id": 13,
           "name": "upload",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59661,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 17,
           "id": 7,
           "name": "close",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59652,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 30,
           "id": 9,
           "name": "check",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59650,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
           "id": 10,
           "name": "caret",
-          "prevSize": 32,
+          "prevSize": 64,
           "code": 59649,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 0,
       "metadata": {
         "name": "Untitled Set",
         "importSize": {
-          "width": 768,
-          "height": 896
+          "width": 576,
+          "height": 576
         }
       },
       "height": 1024,
       "prevSize": 64,
       "icons": [
+        {
+          "id": 14,
+          "paths": [
+            "M512 1024c-282.77 0-512-229.23-512-512s229.23-512 512-512c282.77 0 512 229.23 512 512s-229.23 512-512 512zM870.158 235.214c23.225 147.195-5.157 208.046-85.145 182.558-119.982-38.233-159.246-290.565-433.701-261.911-269.079 28.126-248.551 349.284-248.551 349.284s32.887-189.035 157.392-209.963c88.814-14.916 106.651 53.028 61.454 89.3-45.129 36.32-118.917 69.172-75.031 263.115 12.77 56.4-39.764 95.284-96.114 52.404-17.406-13.198-27.854-25.38-27.854-25.38s-8.021-10.795 21.445 52.18c78.626 167.975 277.001 211.191 397.079 189.689 237.010-42.43 293.509-275.602 134.174-378.507-88.565-57.221-275.356-32.052-256.612 120.555 11.019 89.694 93.941 94 93.941 94-46.386-18.082-59.14-75.218-25.637-116.078 25.637-31.255 72.254-28.777 95.927-17.577 69.483 32.837 47.022 128.551 5.79 165.289-51.412 45.764-139.435 33.611-202.548-5.14-84.236-51.716-133.424-206.933-15.442-295.94 139.534-105.234 267.228 9.236 370.178 43.472 66.286 22.052 149.164-1.902 171.995-70.091 34.028-101.602-42.741-221.26-42.741-221.26z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 16,
+          "tags": [
+            "zentao"
+          ],
+          "colorPermutations": {
+            "12225512552552551": [
+              {}
+            ]
+          }
+        },
         {
           "id": 5,
           "paths": [
@@ -411,7 +439,6 @@
       "colorThemeIdx": 0
     }
   ],
-  "uid": -1,
   "preferences": {
     "showGlyphs": true,
     "showCodes": true,
@@ -453,5 +480,6 @@
     "historySize": 50,
     "gridSize": 16,
     "showGrid": true
-  }
+  },
+  "uid": -1
 }

@@ -34,12 +34,15 @@ public:
     void init(QWidget* parent = nullptr);
     void cleanup();
 
+    void rasie();
+
 private:
     QList<Widget*>* m_widgets;
     QList<Widget*>* m_unused_widgets;
 
 signals:
     void ShotDone(Starter*);
+    void ShotResult(std::shared_ptr<QPixmap> pixmap);
 
 private slots:
     void finishShot(int code);

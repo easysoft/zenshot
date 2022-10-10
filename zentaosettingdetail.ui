@@ -10,6 +10,12 @@
     <height>405</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>343</width>
+    <height>405</height>
+   </size>
+  </property>
   <property name="baseSize">
    <size>
     <width>0</width>
@@ -29,7 +35,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>CheckBox</string>
+    <string>checkSetDefault</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelPass">
@@ -42,7 +48,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>labelPass</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelUriTitle">
@@ -55,7 +61,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>labelUriTitle</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelUsr">
@@ -68,7 +74,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>labelUsr</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelNameTitle">
@@ -81,7 +87,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>labelNameTitle</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnSave">
@@ -119,6 +125,9 @@
      <height>36</height>
     </rect>
    </property>
+   <property name="placeholderText">
+    <string>input_name</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="textUri">
    <property name="geometry">
@@ -128,6 +137,9 @@
      <width>340</width>
      <height>36</height>
     </rect>
+   </property>
+   <property name="placeholderText">
+    <string>input_url</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="textUsr">
@@ -139,6 +151,9 @@
      <height>36</height>
     </rect>
    </property>
+   <property name="placeholderText">
+    <string>input_usr</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="textPass">
    <property name="geometry">
@@ -148,6 +163,12 @@
      <width>340</width>
      <height>36</height>
     </rect>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>input_pass</string>
    </property>
   </widget>
  </widget>

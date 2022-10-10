@@ -36,7 +36,7 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    void start(std::shared_ptr<ScreenList> list);
+    void start(std::shared_ptr<ScreenList> list, int index);
     void cleanup();
 
     Workspace* workspace() const;

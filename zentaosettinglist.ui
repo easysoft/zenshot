@@ -10,6 +10,12 @@
     <height>405</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>300</width>
+    <height>405</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>list</string>
   </property>
@@ -18,7 +24,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>280</width>
+     <width>300</width>
      <height>405</height>
     </rect>
    </property>
@@ -33,6 +39,9 @@
    </property>
    <property name="autoScrollMargin">
     <number>8</number>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::ListMode</enum>
    </property>
   </widget>
  </widget>

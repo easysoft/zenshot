@@ -33,7 +33,7 @@ public:
     void onMouseRelease(QPoint mousePoint);
 
 private:
-    Curve *m_shape;
+    std::shared_ptr<Curve> m_shape;
 
 };
 

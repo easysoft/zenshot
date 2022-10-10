@@ -51,7 +51,7 @@ public:
      * @brief 获取可被命中的图形
      * @return
      */
-    Shape *shape() const;
+    std::shared_ptr<Shape> shape() const;
 
     /**
      * @brief 获取截图区域本身是否可被命中
@@ -71,7 +71,7 @@ public:
 
 private:
     bool m_shotAreaSelf;
-    Shape *m_shape;
+    std::shared_ptr<Shape> m_shape;
     Handle *m_shapeHandle;
     Handle *m_shotAreaHandle;
 

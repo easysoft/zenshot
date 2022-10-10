@@ -88,7 +88,7 @@ public:
     /**
      * @brief 启动截屏
      */
-    void start(std::shared_ptr<ScreenList> list);
+    void start(std::shared_ptr<ScreenList> list, int index);
     /**
      * @brief 清理截屏
      */
@@ -170,7 +170,7 @@ public:
      * @param point
      * @return
      */
-    Shape* getShapeAt(QPoint point);
+    std::shared_ptr<Shape> getShapeAt(QPoint point);
 
     /**
      * @brief 在给定位置获取截图区域控制手柄
@@ -190,20 +190,20 @@ public:
      * @brief 新增图形
      * @param shape 目标图形
      */
-    void addShape(Shape *shape);
+    void addShape(std::shared_ptr<Shape> shape);
 
     /**
      * @brief 新增马赛克
      * @param shape 马赛克图形对象
      */
-    void addMosaic(Shape *shape);
+    void addMosaic(std::shared_ptr<Shape> shape);
 
     /**
      * @brief 移除图形
      * @param shape 目标图形
      * @param tempOper 是否零时移除
      */
-    void removeShape(Shape *shape,bool tempOper=false);
+    void removeShape(std::shared_ptr<Shape> shape,bool tempOper=false);
 
     /**
      * @brief 更新属性(仅更新当前选中的图形)
@@ -231,7 +231,7 @@ public:
      * @brief 设置选中图形
      * @param 被选中的图形
      */
-    void setSelected(Shape *newSelected);
+    void setSelected(std::shared_ptr<Shape> newSelected);
 
     /**
      * @brief 获取当前控制手柄
@@ -240,6 +240,12 @@ public:
     const QVector<Handle *>& activeHandles() const;
 
     void normalbeforeUndo();
+
+    std::shared_ptr<QPixmap> result()
+    {
+        std::shared_ptr<QPixmap> ptr(new QPixmap(m_shotArea.result()));
+        return ptr;
+    }
 
 
 private:
@@ -259,7 +265,7 @@ private:
     QPoint m_lastMosue;
 
     QVector<std::shared_ptr<Shape>> m_shapeList;
-    Shape* m_selectedShape;
+    std::shared_ptr<Shape> m_selectedShape;
     QVector<Handle*> m_activeHandles;
 
     bool m_firstRender;

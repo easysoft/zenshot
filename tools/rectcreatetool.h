@@ -33,7 +33,7 @@ public:
     void onMouseRelease(QPoint mousePoint);
 
 private:
-    Rectangle *m_shape;
+    std::shared_ptr<Rectangle> m_shape;
     QPoint m_startPoint;
     QPoint m_endPoint;
     bool m_isInlist;

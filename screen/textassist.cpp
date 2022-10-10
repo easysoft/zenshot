@@ -37,7 +37,7 @@ bool TextAssist::editing() const
     return m_editing;
 }
 
-void TextAssist::attach(Text *shape)
+void TextAssist::attach(std::shared_ptr<Text> shape)
 {
     m_editing = true;
     this->m_shape = shape;
@@ -46,7 +46,11 @@ void TextAssist::attach(Text *shape)
     m_workspace->refreshDraw();
 
     QPointF location = shape->location();
-    m_textWidget->move(location.x()-2,location.y()-2);
+	QPointF pt = location;
+	pt.setX(pt.x() + m_workspace->widget()->screen()->geometry().x());
+	pt.setY(pt.y() + m_workspace->widget()->screen()->geometry().y());
+
+    m_textWidget->move(pt.x()-2, pt.y()-2);
     m_textWidget->setFont(shape->font());
     m_textWidget->setTextColor(shape->color());
     m_textWidget->setText(shape->content());
@@ -79,7 +83,7 @@ void TextAssist::unAttach()
         else
         {
             //执行的是修改文本内容功能
-            TextContentCommand *txtComm = new TextContentCommand(m_workspace,m_shape,m_preContent);
+            std::shared_ptr<TextContentCommand> txtComm(new TextContentCommand(m_workspace,m_shape,m_preContent));
             UserOper::add(txtComm);
         }
     }
@@ -94,7 +98,7 @@ void TextAssist::unAttach()
         else
         {
             //执行的是删除文本图形功能
-            DeleteCommand *delComm = new DeleteCommand(m_workspace,m_shape);
+            std::shared_ptr<DeleteCommand> delComm(new DeleteCommand(m_workspace,m_shape));
             UserOper::add(delComm);
         }
     }

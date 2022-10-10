@@ -19,7 +19,7 @@
 #include "textcontentcommand.h"
 #include "screen/workspace.h"
 
-TextContentCommand::TextContentCommand(Workspace *workspace,Text *shape,QString preContent):Command(workspace)
+TextContentCommand::TextContentCommand(Workspace *workspace, std::shared_ptr<Text> shape,QString preContent):Command(workspace)
 {
     this->m_shape = shape;
     m_oldContent = preContent;

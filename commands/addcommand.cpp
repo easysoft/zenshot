@@ -19,7 +19,7 @@
 #include "addcommand.h"
 #include "screen/workspace.h"
 
-AddCommand::AddCommand(Workspace *workspace,Shape *shape):Command(workspace)
+AddCommand::AddCommand(Workspace *workspace, std::shared_ptr<Shape> shape):Command(workspace)
 {
     this->m_shape = shape;
 }

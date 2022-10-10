@@ -48,7 +48,7 @@ void ArrowCreateTool::onMouseMove(QPoint mousePoint, QPoint mouseOffset)
 
     if(m_isInlist == false)
     {
-        m_workspace->addShape(m_shape.get());
+        m_workspace->addShape(m_shape);
         m_isInlist = true;
     }
 
@@ -67,13 +67,13 @@ void ArrowCreateTool::onMouseRelease(QPoint mousePoint)
 
     if(Utils::distance(start,end) < Utils::Auto_Remove_Line)
     {
-        m_workspace->removeShape(m_shape.get());
+        m_workspace->removeShape(m_shape);
     }
     else
     {
-        if(m_autoSelected == true) m_workspace->setSelected(m_shape.get());
+        if(m_autoSelected == true) m_workspace->setSelected(m_shape);
 
-        AddCommand *addComm = new AddCommand(m_workspace,m_shape.get());
+        std::shared_ptr<AddCommand> addComm(new AddCommand(m_workspace,m_shape));
         UserOper::add(addComm);
     }
 

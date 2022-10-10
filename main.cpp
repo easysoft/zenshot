@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Zenshot. If not, see <https://www.gnu.org/licenses/>.
  */
+#include <gtk/gtk.h>
 
 #include <QApplication>
 #include <QTranslator>
@@ -34,6 +35,8 @@
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
+#include <QSystemSemaphore>
+
 #ifdef Q_OS_WIN
 #include <direct.h>
 #else
@@ -41,7 +44,7 @@
 #include <sys/types.h>
 #endif // Q_OS_WIN
 
-#define ZENTAO_ZENSHOT      "ZENSHOT@ZENTAO"
+static const char mutex_name[] = "Zenshot@ZenTao";
 
 int main(int argc, char *argv[])
 {
@@ -54,6 +57,18 @@ int main(int argc, char *argv[])
     spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
     L_TRACE("start");
 #endif // USE_SPDLOG_
+
+    QSystemSemaphore sema(mutex_name, 1, QSystemSemaphore::Open);
+    L_INFO("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
+    if (!sema.acquire())
+    {
+        L_ERROR("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
+        return 0;
+    }
+
+    gdk_init(NULL, NULL);
+
+    QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 
     QApplication a(argc, argv);
 
@@ -96,9 +111,8 @@ int main(int argc, char *argv[])
     a.setQuitOnLastWindowClosed(false);
 
     StarterUI ui;
-    ui.show();
+	ui.show();
 
     int ret = a.exec();
-
     return ret;
 }
