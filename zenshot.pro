@@ -197,14 +197,33 @@ TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
 
 unix:!macx {
+    message("linux")
     QT       += x11extras
-    LIBS     += -lX11
+
+    PKGCONFIG += x11 \
+            gtk+-3.0
+
+    CONFIG += link_pkgconfig
+
+    LIBS     += \
+            -L/usr/lib/x86_64-linux-gnu/
+
+    INCLUDEPATH += \
+         /usr/include/atk-1.0/ \
+        /usr/include/gdk-pixbuf-2.0/ \
+        /usr/include/cairo/ \
+        /usr/include/harfbuzz/ \
+        /usr/include/pango-1.0/ \
+        /usr/lib/x86_64-linux-gnu/glib-2.0/include/ \
+        /usr/include/glib-2.0/ \
+        /usr/include/gtk-3.0/
 
     SOURCES += screen/helper/windowgetter_x11.cpp
     HEADERS += screen/helper/windowgetter.h
 
     SOURCES += screen/helper/screengetter_x11.cpp
 }
+
 
 win32 {
     RC_ICONS = zenshot.ico

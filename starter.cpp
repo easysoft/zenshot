@@ -75,7 +75,7 @@ void Starter::init(QWidget* parent)
 
         w->start(alone);
 
-        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3} =>> %{4}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height(), (unsigned)w);
+        L_DEBUG("!!!!!!!!!!!! x = {0}, y = {1}, w = {2}, h = {3}", w->pos().x(), w->pos().y(), w->size().width(), w->size().height());
 
         m_widgets->append(w);
     }

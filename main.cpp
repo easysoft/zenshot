@@ -41,6 +41,8 @@
 #include <sys/types.h>
 #endif // Q_OS_WIN
 
+#define ZENTAO_ZENSHOT      "ZENSHOT@ZENTAO"
+
 int main(int argc, char *argv[])
 {
 #ifdef USE_SPDLOG_
@@ -93,13 +95,8 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
-#ifdef Q_OS_WIN
     StarterUI ui;
     ui.show();
-#else
-    Starter starter(true);
-    starter.init();
-#endif // Q_OS_WIN
 
     int ret = a.exec();
 

@@ -26,6 +26,10 @@ QPushButton {
     background-position: center;
 }
 
+QPushButton#hotkeyStatus {
+    background-color: #ffffff;
+}
+
 QPushButton#closeButton {
     width: 10px;
     height: 10px;

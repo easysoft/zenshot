@@ -111,7 +111,7 @@ void ShotArea::autoCaptureWindow()
     QRect area = m_screenList->toLocal(globalArea);
     m_boundary.setRect(area.x(),area.y(),area.width(),area.height());
     
-    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3} & this = {4:d}, index = {5}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom(), (unsigned)this, m_nowScreenIndex);
+    L_TRACE(">>> INIT m_boundary: left: {0}, top: {1}, right: {2}, bottom: {3}, index = {4}", m_boundary.left(), m_boundary.top(), m_boundary.right(), m_boundary.bottom(), m_nowScreenIndex);
 
     //根据屏幕大小来进一步约束选择区域
     int x1 = m_boundary.x() < m_allScreenRect.x() ? m_allScreenRect.x() : m_boundary.x();

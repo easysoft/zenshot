@@ -44,13 +44,10 @@ private:
 	QLabel m_labelName;
 	QPushButton m_btnDel;
 
-	struct // zentao config info
-	{
-		std::string name_;
-		std::string url_;
-		std::string usr_;
-		std::string pass_;
-	};
+    std::string name_;
+    std::string url_;
+    std::string usr_;
+    std::string pass_;
 }; // ZTSettingListItem
 
 #endif // ZTSETTING_LISTITEM_H_
