@@ -23,7 +23,7 @@ void StarterUI::OnShowZenTaoSetting()
 {
 	if (!m_ZTSettingDlg.isVisible())
 	{
-		m_ZTSettingDlg.showMaximized();
+		m_ZTSettingDlg.showNormal();
 	}
 
 	m_ZTSettingDlg.raise();
@@ -44,7 +44,7 @@ void StarterUI::OnShowPreview(Workspace* w)
     GetXMLConfig().FindAllNode("config", "zentao", cb);
     if (!has_config)
     {
-        m_ZTSettingDlg.showMaximized();
+        m_ZTSettingDlg.showNormal();
         m_ZTSettingDlg.raise();
         m_ZTSettingDlg.activateWindow();
         return;
@@ -53,7 +53,7 @@ void StarterUI::OnShowPreview(Workspace* w)
 	if (!m_ZTSubmitDlg.isVisible())
 	{
         m_CurrentShot = w->result();
-		m_ZTSubmitDlg.showMaximized();
+		m_ZTSubmitDlg.showNormal();
 		emit Thumbnail(m_CurrentShot);
 	}
 
