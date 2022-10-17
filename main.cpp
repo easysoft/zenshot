@@ -15,10 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Zenshot. If not, see <https://www.gnu.org/licenses/>.
  */
-#ifdef Q_OS_UNIX
+#ifdef __unix__
 #include <gtk/gtk.h>
-#endif // Q_OS_UNIX
-
+#endif // __unix__
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>
@@ -70,7 +69,7 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_UNIX
     gdk_init(NULL, NULL);
-#endif // Q_OS_UNIX
+#endif // Q_OS_LINUX
 
     QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 
