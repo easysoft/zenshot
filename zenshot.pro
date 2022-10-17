@@ -205,7 +205,7 @@ TRANSLATIONS = translations/chinese.ts \
                translations/english.ts
 
 unix:!macx {
-    message("linux")
+    message("linux VERSION")
     QT       += x11extras
 
     PKGCONFIG += x11 \

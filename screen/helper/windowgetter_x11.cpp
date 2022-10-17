@@ -45,10 +45,8 @@ screenshot_find_active_window (void)
   GdkWindow *window;
   GdkScreen *default_screen;
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   default_screen = gdk_screen_get_default ();
   window = gdk_screen_get_active_window (default_screen);
-G_GNUC_END_IGNORE_DEPRECATIONS
 
   return window;
 }
@@ -72,41 +70,38 @@ screenshot_window_is_desktop (GdkWindow *window)
 GdkWindow *
 do_find_current_window (void)
 {
-    GdkWindow *current_window;
-    GdkDevice *device;
-    GdkSeat *seat;
+  GdkWindow *current_window;
+  GdkDeviceManager *manager;
+  GdkDevice *device;
 
-    current_window = screenshot_find_active_window ();
-    seat = gdk_display_get_default_seat (gdk_display_get_default ());
-    device = gdk_seat_get_pointer (seat);
-    current_window = NULL;
-    /* If there's no active window, we fall back to returning the
-     * window that the cursor is in.
-     */
-    if (!current_window)
-    {
-      int x, y;
-      gdk_device_get_position(device, NULL, &x, &y);
-      current_window = gdk_device_get_window_at_position (device, NULL, NULL);
-    }
+  current_window = screenshot_find_active_window ();
+  manager = gdk_display_get_device_manager (gdk_display_get_default ());
+  device = gdk_device_manager_get_client_pointer (manager);
+  
+  /* If there's no active window, we fall back to returning the
+   * window that the cursor is in.
+   */
+  if (!current_window)
+    current_window = gdk_device_get_window_at_position (device, NULL, NULL);
 
-    if (current_window)
+  if (current_window)
     {
       if (screenshot_window_is_desktop (current_window))
-      /* if the current window is the desktop (e.g. nautilus), we
-       * return NULL, as getting the whole screen makes more sense.
-       */
-      return NULL;
+	/* if the current window is the desktop (e.g. nautilus), we
+	 * return NULL, as getting the whole screen makes more sense.
+         */
+        return NULL;
 
-          /* Once we have a window, we take the toplevel ancestor. */
-          current_window = gdk_window_get_toplevel (current_window);
-        }
+      /* Once we have a window, we take the toplevel ancestor. */
+      current_window = gdk_window_get_toplevel (current_window);
+    }
 
-      return current_window;
+  return current_window;
 }
 
 static void
-screenshot_fallback_get_window_rect_coords (GdkWindow    *window,
+screenshot_fallback_get_window_rect_coords (GdkWindow *window,
+                                            gboolean include_border,
                                             GdkRectangle *real_coordinates_out,
                                             GdkRectangle *screenshot_coordinates_out)
 {
@@ -114,7 +109,17 @@ screenshot_fallback_get_window_rect_coords (GdkWindow    *window,
   gint width, height;
   GdkRectangle real_coordinates;
 
-  gdk_window_get_frame_extents (window, &real_coordinates);
+  if (include_border)
+    {
+      gdk_window_get_frame_extents (window, &real_coordinates);
+    }
+  else
+    {
+      real_coordinates.width = gdk_window_get_width (window);
+      real_coordinates.height = gdk_window_get_height (window);
+      
+      gdk_window_get_origin (window, &real_coordinates.x, &real_coordinates.y);
+    }
 
   x_orig = real_coordinates.x;
   y_orig = real_coordinates.y;
@@ -136,13 +141,11 @@ screenshot_fallback_get_window_rect_coords (GdkWindow    *window,
       y_orig = 0;
     }
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   if (x_orig + width > gdk_screen_width ())
     width = gdk_screen_width () - x_orig;
 
   if (y_orig + height > gdk_screen_height ())
     height = gdk_screen_height () - y_orig;
-G_GNUC_END_IGNORE_DEPRECATIONS
 
   if (screenshot_coordinates_out != NULL)
     {
@@ -244,7 +247,7 @@ QList<WND_INFO> getWindowInfoList()
       continue;
     }
 
-    screenshot_fallback_get_window_rect_coords(window, &real_coordinates, &screenshot_coordinates);
+    screenshot_fallback_get_window_rect_coords(window, false, &real_coordinates, &screenshot_coordinates);
     
     info.pos.setX(real_coordinates.x);
     info.pos.setY(real_coordinates.y);
