@@ -87,7 +87,7 @@ void ZTSettingList::showEvent(QShowEvent* event)
 
 	auto each_node = [this](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
+		(void)root;
 
 		std::string name = GetConfigAttrString(node, "name"),
 			url = GetConfigAttrString(node, "url"),
@@ -256,8 +256,8 @@ void ZTSettingList::OnNewSiteConfig()
 
 	auto count_cb = [&count](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
-		(void*)node;
+		(void)root;
+		(void)node;
 
 		count++;
 		return false;
@@ -357,7 +357,7 @@ void ZTSettingList::OnSelectDefault()
 	std::string default_site;
 	auto get_default = [&default_site](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
+		(void)root;
 		default_site = GetConfigString(node);
 		return true;
 	};

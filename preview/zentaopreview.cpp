@@ -85,7 +85,7 @@ void ZTPreview::showEvent(QShowEvent* event)
 	QStringList names;
 	auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
+		(void)root;
 		auto name = GetConfigAttrString(node, "name");
 		if (name.empty())
 			return false;
@@ -123,7 +123,8 @@ void ZTPreview::OnSubmitSelectDefault()
 	std::string default_site;
 	auto cb = [&default_site](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)node;
+		(void)root;
+		(void)node;
 
 		default_site = GetConfigString(node);
 		return true;

@@ -168,11 +168,11 @@ void Widget::enterEvent(QEvent* event)
 void Widget::leaveEvent(QEvent* event)
 {
     L_FUNCTION();
-    if (m_workspace->areaConfirmed() == false)
-    {
+//     if (m_workspace->areaConfirmed() == false)
+//     {
 //         m_workspace->setAreaBoundary(QRect(0,0,0,0));
 //         update();
-    }
+//     }
 
     QWidget::leaveEvent(event);
 }

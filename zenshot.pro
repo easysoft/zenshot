@@ -251,10 +251,8 @@ FORMS += \
     zentaodemand.ui \
     zentaopreview.ui \
     zentaosetting.ui \
-    zentaosetting.ui \
     zentaosettingdetail.ui \
     zentaosettinglist.ui \
     zentaosettinglistitem.ui \
     zentaosubmit.ui \
     zentaotips.ui
-

@@ -57,7 +57,7 @@ void Starter::init(QWidget* parent)
 
     //收集屏幕信息
     auto screanList = ScreenGetter::screenList();
-    int index = 0;
+
     //构造截图界面
     for (int index = 0; index < screanList.size(); index++)
     {
@@ -107,7 +107,7 @@ void Starter::rasie()
 
 void Starter::finishShot(int code)
 {
-    (void*)code;
+    (void)code;
     L_FUNCTION();
     for (auto w : *m_widgets)
     {

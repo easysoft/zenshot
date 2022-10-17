@@ -95,6 +95,7 @@ private:
 #endif // NZENTAO_VER_
 
 	void SetupSignal();
+	void CenterDlg(QWidget* widget);
 
 private:
 	std::list<Starter*> m_Starer;

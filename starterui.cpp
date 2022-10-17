@@ -15,6 +15,9 @@
 #include <shlobj.h>
 #endif // Q_OS_WIN
 
+#include <QApplication>
+#include <QDesktopWidget>
+
 StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
 
@@ -175,6 +178,17 @@ void StarterUI::SetupSignal()
 #endif // NZENTAO_VER_
 }
 
+void StarterUI::CenterDlg(QWidget* widget)
+{
+	int w = QApplication::desktop()->screen(0)->width(),
+		h = QApplication::desktop()->screen(0)->height();
+
+	int w1 = widget->width(),
+		h1 = widget->height();
+
+	widget->move((w - w1) / 2, (h - h1) / 2);
+}
+
 void StarterUI::OnStartShot()
 {
 	if (m_Shotting)
@@ -262,7 +276,8 @@ void StarterUI::OnShowSetting()
 {
 	if (!m_SettingDlg.isVisible()) 
 	{
-		m_SettingDlg.show();
+		m_SettingDlg.showNormal();
+		CenterDlg(&m_SettingDlg);
 	}
 	
 	m_SettingDlg.raise();

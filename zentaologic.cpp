@@ -23,9 +23,9 @@ void StarterUI::OnShowZenTaoSetting()
 {
 	if (!m_ZTSettingDlg.isVisible())
 	{
-		m_ZTSettingDlg.showMaximized();
+		m_ZTSettingDlg.showNormal();
+        CenterDlg(&m_ZTSettingDlg);
 	}
-
 	m_ZTSettingDlg.raise();
 	m_ZTSettingDlg.activateWindow();
 }
@@ -35,8 +35,8 @@ void StarterUI::OnShowPreview(Workspace* w)
     bool has_config = false;
     auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
-        (void*)root;
-        (void*)node;
+        (void)root;
+        (void)node;
 
         has_config = true;
         return true;
@@ -44,7 +44,8 @@ void StarterUI::OnShowPreview(Workspace* w)
     GetXMLConfig().FindAllNode("config", "zentao", cb);
     if (!has_config)
     {
-        m_ZTSettingDlg.showMaximized();
+        m_ZTSettingDlg.showNormal();
+        CenterDlg(&m_ZTSettingDlg);
         m_ZTSettingDlg.raise();
         m_ZTSettingDlg.activateWindow();
         return;
@@ -53,7 +54,8 @@ void StarterUI::OnShowPreview(Workspace* w)
 	if (!m_ZTSubmitDlg.isVisible())
 	{
         m_CurrentShot = w->result();
-		m_ZTSubmitDlg.showMaximized();
+		m_ZTSubmitDlg.showNormal();
+        CenterDlg(&m_ZTSubmitDlg);
 		emit Thumbnail(m_CurrentShot);
 	}
 
@@ -86,7 +88,7 @@ void StarterUI::OnSubmitLogin(string_ptr name)
     string_ptr url, usr, pass;
     auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
     {
-        (void*)root;
+        (void)root;
         if (GetConfigAttrString(node, "name") == *name)
         {
             url.reset(new std::string(GetConfigAttrString(node, "url")));
@@ -402,6 +404,7 @@ void StarterUI::OnSubmitDemandJson(uint32_t product_id, string_ptr json)
         m_ZTTipsDlg.SetContent(true, tr("demandsuccess"));
         success = true;
     }
+    CenterDlg(&m_ZTTipsDlg);
     int ret = m_ZTTipsDlg.exec();
 
 	if (success)
@@ -465,6 +468,7 @@ void StarterUI::OnSubmitBugJson(uint32_t product_id, string_ptr json)
 		m_ZTTipsDlg.SetContent(true, tr("bugsuccess"));
         success = true;
 	}
+    CenterDlg(&m_ZTTipsDlg);
 	int ret = m_ZTTipsDlg.exec();
 
     if (success)

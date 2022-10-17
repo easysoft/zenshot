@@ -50,7 +50,6 @@ QRect WindowGetter::winGeometry(QScreen *screen,QWidget *host)
 			temp_window.bottom - temp_window.top);
 	}
 
-
 	::EnableWindow((HWND)host->winId(), TRUE);
 
 	result = result.intersected(limit);
