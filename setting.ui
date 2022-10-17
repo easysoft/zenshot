@@ -16,6 +16,12 @@
     <height>0</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>355</width>
+    <height>103</height>
+   </size>
+  </property>
   <property name="baseSize">
    <size>
     <width>0</width>
@@ -46,6 +52,9 @@
      <width>331</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>PushButton</string>

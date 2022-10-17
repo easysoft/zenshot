@@ -123,7 +123,10 @@ void ZTPreview::OnSubmitSelectDefault()
 	std::string default_site;
 	auto cb = [&default_site](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
+<<<<<<< HEAD
 		(void)root;
+=======
+>>>>>>> 0101b19b8a1c7e7813734eae99192add9e08d718
 		(void)node;
 
 		default_site = GetConfigString(node);

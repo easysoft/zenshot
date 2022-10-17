@@ -86,7 +86,7 @@ void ZTSettingDetail::OnSaveDefaultSite()
 	bool done = false;
 	auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
+		(void)root;
 
 		SetConfigStr(node, nullptr, m_DefaultSite.c_str());
 
@@ -114,7 +114,7 @@ void ZTSettingDetail::showEvent(QShowEvent* event)
 
 	auto cb = [&](rapidxml::xml_node<>*& root, rapidxml::xml_node<>*& node)
 	{
-		(void*)root;
+		(void)root;
 
 		m_DefaultSite = GetConfigString(node);
 
