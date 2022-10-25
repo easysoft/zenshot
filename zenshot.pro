@@ -6,6 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 CONFIG += c++11
 QMAKE_CXXFLAGS_RELEASE += -O2
+PKGCONFIG += xcb xcb-util
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -214,10 +215,13 @@ unix:!macx {
     CONFIG += link_pkgconfig
 
     LIBS     += \
-            -L/usr/lib/x86_64-linux-gnu/
+        -L/usr/lib/x86_64-linux-gnu/ \
+	    -lX11 \
+	    -lXext \
+        -lXtst
 
     INCLUDEPATH += \
-         /usr/include/atk-1.0/ \
+        /usr/include/atk-1.0/ \
         /usr/include/gdk-pixbuf-2.0/ \
         /usr/include/cairo/ \
         /usr/include/harfbuzz/ \
@@ -226,10 +230,14 @@ unix:!macx {
         /usr/include/glib-2.0/ \
         /usr/include/gtk-3.0/
 
-    SOURCES += screen/helper/windowgetter_x11.cpp
-    HEADERS += screen/helper/windowgetter.h
+    SOURCES += \
+        screen/helper/windowgetter_x11.cpp \
+        screen/helper/screengetter_x11.cpp \
+        xrecord/event_monitor.cpp
 
-    SOURCES += screen/helper/screengetter_x11.cpp
+    HEADERS += \
+        screen/helper/windowgetter.h \
+        xrecord/event_monitor.h
 }
 
 
