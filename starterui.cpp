@@ -14,6 +14,10 @@
 #include <Windowsx.h>
 #include <shlobj.h>
 #endif // Q_OS_WIN
+#ifdef Q_OS_UNIX
+#include "xrecord/event_monitor.h"
+#include <X11/Xlibint.h>
+#endif // Q_OS_UNIX
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -37,6 +41,10 @@ StarterUI::StarterUI()
 	, m_CurrentUrl()
 	, m_LastSubmitUrl()
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	, m_EventMonitor(new EventMonitor(this))
+	, m_PrevClkTick(0)
+#endif // Q_OS_UNIX
 	, m_Shotting(false)
 {
 	g_start_ui_ = this;
@@ -57,6 +65,9 @@ StarterUI::StarterUI()
     qRegisterMetaType<zseverity_item_vec_ptr>("zseverity_item_vec_ptr");
     qRegisterMetaType<zpri_item_vec_ptr>("zpri_item_vec_ptr");
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	memset(m_PressedKey, 0, sizeof(m_PressedKey));
+#endif // Q_OS_UNIX
 
 	createActions();
 	createTrayIcon();
@@ -91,6 +102,8 @@ StarterUI::StarterUI()
 	resize(0, 0);
 
 	hide();
+
+	m_EventMonitor->start();
 }
 
 StarterUI::~StarterUI()
@@ -138,6 +151,13 @@ void StarterUI::createTrayIcon()
 	trayIcon->setToolTip(tr("zenshot"));
 }
 
+#ifdef Q_OS_UNIX
+bool StarterUI::CheckHotKeyTrigger()
+{
+	return false;
+}
+#endif // Q_OS_UNIX
+
 void StarterUI::SetupSignal()
 {
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
@@ -176,6 +196,13 @@ void StarterUI::SetupSignal()
 	connect(&m_ZTTipsDlg, SIGNAL(TipsZentaoHide()), this, SLOT(OnTipZentaoHide()));
 	connect(&m_ZTSubmitDlg, SIGNAL(SubmitZentaoHide()), this, SLOT(OnSubmitZentaoHide()));
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	connect(m_EventMonitor, SIGNAL(buttonPress(int, int)), this, SLOT(OnEventMonitorbuttonPress(int, int)), Qt::QueuedConnection);
+	connect(m_EventMonitor, SIGNAL(buttonDrag(int, int)), this, SLOT(OnEventMonitorbuttonDrag(int, int)), Qt::QueuedConnection);
+	connect(m_EventMonitor, SIGNAL(buttonRelease(int, int)), this, SLOT(OnEventMonitorbuttonRelease(int, int)), Qt::QueuedConnection);
+	connect(m_EventMonitor, SIGNAL(keyPress(int)), this, SLOT(OnEventMonitorkeyPress(int)), Qt::QueuedConnection);
+	connect(m_EventMonitor, SIGNAL(keyRelease(int)), this, SLOT(OnEventMonitorkeyRelease(int)), Qt::QueuedConnection);
+#endif // Q_OS_UNIX
 }
 
 void StarterUI::CenterDlg(QWidget* widget)
@@ -197,6 +224,11 @@ void StarterUI::OnStartShot()
 	}
 
 	L_DEBUG(">>>>>>>>>>>>>>>>>>>>>>>>>> GAME START <<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+#ifdef Q_OS_UNIX
+	memset(m_PressedKey, 0, sizeof(m_PressedKey));
+	m_PrevClkTick = 0;
+#endif // Q_OS_UNIX
+
 	m_Shotting = true;
 	Starter* starter = nullptr;
 	if (m_Starer.empty())
@@ -245,6 +277,57 @@ void StarterUI::closeEvent(QCloseEvent*)
 	QApplication::exit(0);
 }
 
+#ifdef Q_OS_UNIX
+void StarterUI::OnEventMonitorbuttonPress(int x, int y)
+{
+	bool is_dbclk = false;
+	if (time(0) - m_PrevClkTick < 1)
+	{
+		is_dbclk = true;
+		m_PrevClkTick = 0;
+	}
+	else
+	{
+		m_PrevClkTick = time(0);
+	}
+
+	if (is_dbclk)
+	{
+		L_TRACE("{0} - DBCLK", __FUNCTION__);
+	}
+	else
+	{
+		L_TRACE("{0} - NO {1}", __FUNCTION__, m_PrevClkTick);
+	}
+}
+
+void StarterUI::OnEventMonitorbuttonDrag(int x, int y)
+{
+}
+
+
+void StarterUI::OnEventMonitorbuttonRelease(int x, int y)
+{
+}
+
+void StarterUI::OnEventMonitorkeyPress(int code)
+{
+	if (!m_PressedKey[code])
+	{
+		CheckHotKeyTrigger();
+	}
+	m_PressedKey[code] = time(0);
+
+	L_TRACE("+++++++++++++ key -> {0} pressed", code);
+}
+
+void StarterUI::OnEventMonitorkeyRelease(int code)
+{
+	m_PressedKey[code] = 0;
+	L_TRACE("------------- key -> {0} released", code);
+}
+#endif // Q_OS_UNIX
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, qintptr* result)
 #else
@@ -266,7 +349,7 @@ void StarterUI::OnIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	switch (reason)
 	{
-	case QSystemTrayIcon::Trigger: /* À´×ÔÓÚµ¥»÷¼¤»î¡£ */
+	case QSystemTrayIcon::Trigger: /* ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î¡£ */
 		emit SatrtShot();
 		break;
 	}

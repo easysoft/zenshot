@@ -13,6 +13,10 @@
 #include <QDialog>
 #include <QSystemTrayIcon>
 
+#ifdef Q_OS_UNIX
+#include <linux/input.h>
+#endif // Q_OS_UNIX
+
 #include <list>
 #include <string>
 
@@ -74,6 +78,13 @@ private slots:
 	void OnTipZentaoHide();
 	void OnSubmitZentaoHide();
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	void OnEventMonitorbuttonPress(int x, int y);
+    void OnEventMonitorbuttonDrag(int x, int y);
+    void OnEventMonitorbuttonRelease(int x, int y);
+    void OnEventMonitorkeyPress(int code);
+    void OnEventMonitorkeyRelease(int code);
+#endif // Q_OS_UNIX
 
 protected:
 	void closeEvent(QCloseEvent*) override;
@@ -93,6 +104,9 @@ private:
 		return m_CurrentUsr == usr && m_CurrentUrl == url;
 	}
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	bool CheckHotKeyTrigger();
+#endif // Q_OS_UNIX
 
 	void SetupSignal();
 	void CenterDlg(QWidget* widget);
@@ -119,6 +133,11 @@ private:
     std::shared_ptr<QPixmap> m_CurrentShot;
 	Starter* m_CurrentStarter;
 #endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	class EventMonitor* m_EventMonitor;
+	int m_PressedKey[KEY_CNT];
+	time_t m_PrevClkTick;
+#endif // Q_OS_UNIX
 	QAction* shotAction;
 	QAction* quitAction;
 
