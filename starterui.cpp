@@ -103,7 +103,9 @@ StarterUI::StarterUI()
 
 	hide();
 
+#ifdef Q_OS_UNIX
 	m_EventMonitor->start();
+#endif // Q_OS_UNIX
 }
 
 StarterUI::~StarterUI()

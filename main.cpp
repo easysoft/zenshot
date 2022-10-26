@@ -45,7 +45,11 @@
 #include <sys/types.h>
 #endif // Q_OS_WIN
 
+#ifdef IS_XUANXUAN_VER_
+static const char mutex_name[] = "Zenshot@ZenTao-XX";
+#else
 static const char mutex_name[] = "Zenshot@ZenTao";
+#endif // IS_XUANXUAN_VER_
 
 int main(int argc, char *argv[])
 {
