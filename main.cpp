@@ -36,7 +36,8 @@
 #include "screen/helper/screengetter.h"
 #include "core/gparams.h"
 
-#include <QSystemSemaphore>
+#include <QDir>
+#include <QLockFile>
 
 #ifdef Q_OS_WIN
 #include <direct.h>
@@ -46,9 +47,9 @@
 #endif // Q_OS_WIN
 
 #ifdef IS_XUANXUAN_VER_
-static const char mutex_name[] = "Zenshot@ZenTao-XX";
+static const char mutex_name[] = "zenshot.zentao.xx";
 #else
-static const char mutex_name[] = "Zenshot@ZenTao";
+static const char mutex_name[] = "zenshot.zentao";
 #endif // IS_XUANXUAN_VER_
 
 int main(int argc, char *argv[])
@@ -63,11 +64,12 @@ int main(int argc, char *argv[])
     L_TRACE("start");
 #endif // USE_SPDLOG_
 
-    QSystemSemaphore sema(mutex_name, 1, QSystemSemaphore::Open);
-    L_INFO("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
-    if (!sema.acquire())
+    QString full_name = QDir::temp().absoluteFilePath(mutex_name);
+    L_TRACE(full_name.toStdString().c_str());
+    QLockFile file(full_name);
+    if (!file.tryLock())
     {
-        L_ERROR("++>>> {0} @ {1}", sema.error(), sema.errorString().toStdString().c_str());
+        L_TRACE("already running ...");
         return 0;
     }
 
