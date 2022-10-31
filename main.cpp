@@ -38,6 +38,8 @@
 
 #include <QDir>
 #include <QLockFile>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 #ifdef Q_OS_WIN
 #include <direct.h>
@@ -64,22 +66,100 @@ int main(int argc, char *argv[])
     L_TRACE("start");
 #endif // USE_SPDLOG_
 
-    QString full_name = QDir::temp().absoluteFilePath(mutex_name);
-    L_TRACE(full_name.toStdString().c_str());
-    QLockFile file(full_name);
-    if (!file.tryLock())
+	QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+
+	QApplication a(argc, argv);
+    for (int i = 0; i < argc; i++)
+        L_TRACE("[{0}] = {1}", i, argv[i]);
+
+    QCoreApplication::setApplicationName("ZenShot");
+    QCoreApplication::setApplicationVersion("1.2.1");
+
+    QCommandLineOption* ops[] =
     {
-        L_TRACE("already running ...");
-        return 0;
+        new QCommandLineOption("mark", "", "mark"),
+        new QCommandLineOption("m", "", "mark"),
+        new QCommandLineOption("save", "", "save"),
+        new QCommandLineOption("s", "", "save"),
+		new QCommandLineOption("clipboard", "", "clipboard"),
+		new QCommandLineOption("c", "", "clipboard"),
+    };
+	QCommandLineParser parser;
+    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
+    parser.setApplicationDescription("ZenShot");
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    for (int i = 0; i < sizeof(ops) / sizeof(ops[0]); i++)
+        parser.addOption(*ops[i]);
+	
+    parser.process(a);
+
+    std::string m, s, c;
+	if (parser.isSet("m"))
+		m = parser.value("m").toStdString();
+    else if (parser.isSet("mark"))
+        m = parser.value("mark").toStdString();
+    L_TRACE("*** m = {0} & {1}", m.c_str(), m.length());
+
+	if (parser.isSet("s"))
+		s = parser.value("s").toStdString();
+    else if (parser.isSet("save"))
+        s = parser.value("save").toStdString();
+    L_TRACE("*** s = {0} & {1}", s.c_str(), s.length());
+
+	if (parser.isSet("c"))
+		c = parser.value("c").toStdString();
+    else if (parser.isSet("clipboard"))
+        c = parser.value("clipboard").toStdString();
+    L_TRACE("*** c = {0} & {1}", c.c_str(), c.length());
+
+    bool is_client = true;
+    QLocalSocket local_sock;
+    QLocalServer local_server;
+    local_sock.connectToServer(mutex_name);
+    if (m.empty() && s.empty() && c.empty())
+    {
+        if (local_sock.waitForConnected(800))
+        {
+            local_sock.disconnectFromServer();
+            local_sock.close();
+
+            L_TRACE("already running ...");
+            return 0;
+        }
+
+        if (!local_server.listen(mutex_name))
+        {
+            L_TRACE("local_server listen {0} failed ...", mutex_name);
+            return 0;
+        }
+        is_client = false;
     }
+    else 
+    {
+		if (!local_sock.waitForConnected(800))
+		{
+			local_sock.disconnectFromServer();
+			local_sock.close();
+
+            L_TRACE("connect to server {0} failed ...", mutex_name);
+			return 0;
+		}
+    }
+
+//     QString full_name = QDir::temp().absoluteFilePath(mutex_name);
+//     L_TRACE(full_name.toStdString().c_str());
+//     QLockFile file(full_name);
+//     if (!file.tryLock())
+//     {
+//         L_TRACE("already running ...");
+//         return 0;
+//     }
 
 #ifdef Q_OS_UNIX
     gdk_init(NULL, NULL);
 #endif // Q_OS_LINUX
-
-    QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
-
-    QApplication a(argc, argv);
 
 	if (!QSystemTrayIcon::isSystemTrayAvailable()) {
 		L_ERROR("system tray disabled");
@@ -119,8 +199,16 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
-    StarterUI ui;
-	ui.show();
+    StarterUI* ui;
+    if (is_client) 
+    {
+        ui = new StarterUI(&local_sock);
+    }
+    else 
+    {
+        ui = new StarterUI(&local_server);
+    }
+	ui->show();
 
     int ret = a.exec();
     return ret;

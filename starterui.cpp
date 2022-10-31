@@ -25,7 +25,7 @@
 StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
 
-StarterUI::StarterUI()
+StarterUI::StarterUI(QLocalServer* server)
 	: QDialog(0)
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
@@ -46,25 +46,69 @@ StarterUI::StarterUI()
 	, m_PrevClkTick(0)
 #endif // Q_OS_UNIX
 	, m_Shotting(false)
+	, m_LocalServer(server)
+	, m_LocalSock(nullptr)
 {
-	g_start_ui_ = this;
+	InitMetaType();
+	Init();
+}
 
+StarterUI::StarterUI(QLocalSocket* client)
+	: QDialog(0)
+	, trayIcon(new QSystemTrayIcon(this))
+	, trayIconMenu(new QMenu(this))
+	, m_SettingDlg(this)
+#if !NZENTAO_VER_
+	, m_ZTSettingDlg(this)
+	, m_ZTSubmitDlg(this)
+	, m_ZTTipsDlg(this)
+	, m_HttpReq()
+	, m_CurrentShot(nullptr)
+	, m_CurrentStarter(nullptr)
+	, m_CurrentUsr()
+	, m_CurrentUrl()
+	, m_LastSubmitUrl()
+#endif // NZENTAO_VER_
+#ifdef Q_OS_UNIX
+	, m_EventMonitor(new EventMonitor(this))
+	, m_PrevClkTick(0)
+#endif // Q_OS_UNIX
+	, m_Shotting(false)
+	, m_LocalServer(nullptr)
+	, m_LocalSock(client)
+{
+	InitMetaType();
+	Init();
+}
+
+StarterUI::~StarterUI()
+{
+}
+
+void StarterUI::InitMetaType()
+{
 	qRegisterMetaType<Starter*>("Starter*");
 	qRegisterMetaType<int32_t>("int32_t");
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<string_ptr>("string_ptr");
 	qRegisterMetaType<Workspace*>("Workspace*");
 #if !NZENTAO_VER_
-    qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
-    qRegisterMetaType<zproduct_item_vec_ptr>("zproduct_item_vec_ptr");
-    qRegisterMetaType<zmodule_item_vec_ptr>("zmodule_item_vec_ptr");
-    qRegisterMetaType<zversion_item_vec_ptr>("zversion_item_vec_ptr");
-    qRegisterMetaType<ztype_item_vec_ptr>("ztype_item_vec_ptr");
-    qRegisterMetaType<zos_item_vec_ptr>("zos_item_vec_ptr");
-    qRegisterMetaType<zbrowser_item_vec_ptr>("zbrowser_item_vec_ptr");
-    qRegisterMetaType<zseverity_item_vec_ptr>("zseverity_item_vec_ptr");
-    qRegisterMetaType<zpri_item_vec_ptr>("zpri_item_vec_ptr");
+	qRegisterMetaType<std::shared_ptr<QPixmap>>("std::shared_ptr<QPixmap>");
+	qRegisterMetaType<zproduct_item_vec_ptr>("zproduct_item_vec_ptr");
+	qRegisterMetaType<zmodule_item_vec_ptr>("zmodule_item_vec_ptr");
+	qRegisterMetaType<zversion_item_vec_ptr>("zversion_item_vec_ptr");
+	qRegisterMetaType<ztype_item_vec_ptr>("ztype_item_vec_ptr");
+	qRegisterMetaType<zos_item_vec_ptr>("zos_item_vec_ptr");
+	qRegisterMetaType<zbrowser_item_vec_ptr>("zbrowser_item_vec_ptr");
+	qRegisterMetaType<zseverity_item_vec_ptr>("zseverity_item_vec_ptr");
+	qRegisterMetaType<zpri_item_vec_ptr>("zpri_item_vec_ptr");
 #endif // NZENTAO_VER_
+}
+
+void StarterUI::Init()
+{
+	g_start_ui_ = this;
+
 #ifdef Q_OS_UNIX
 	memset(m_PressedKey, 0, sizeof(m_PressedKey));
 #endif // Q_OS_UNIX
@@ -74,7 +118,7 @@ StarterUI::StarterUI()
 
 	setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 	setAttribute(Qt::WA_TranslucentBackground, true);
-	
+
 	SetupSignal();
 
 	trayIcon->show();
@@ -106,10 +150,6 @@ StarterUI::StarterUI()
 #ifdef Q_OS_UNIX
 	m_EventMonitor->start();
 #endif // Q_OS_UNIX
-}
-
-StarterUI::~StarterUI()
-{
 }
 
 void StarterUI::createActions()
@@ -151,6 +191,14 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
+}
+
+void StarterUI::createLocalServer()
+{
+}
+
+void StarterUI::createLocalSock()
+{
 }
 
 #ifdef Q_OS_UNIX

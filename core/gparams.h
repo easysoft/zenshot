@@ -36,6 +36,9 @@ public:
     QString clipboard() const;
     void setClipboard(const QString &clipboard);
 
+    void SetArgMark(const QString& m);
+    void SetArgSave(const QString& s);
+    void SetArgClipboard(const QString& c);
     int fromArgs(int argc, char *argv[]);
 
 private:

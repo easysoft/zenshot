@@ -12,6 +12,8 @@
 
 #include <QDialog>
 #include <QSystemTrayIcon>
+#include <QLocalServer>
+#include <QLocalSocket>
 
 #ifdef Q_OS_UNIX
 #include <linux/input.h>
@@ -23,7 +25,8 @@
 class StarterUI : public QDialog {
 	Q_OBJECT
 public:
-	StarterUI();
+	StarterUI(QLocalServer* server);
+	StarterUI(QLocalSocket* client);
 	virtual ~StarterUI();
 
 	int UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token);
@@ -95,8 +98,12 @@ protected:
 #endif
 
 private:
+	void InitMetaType();
+	void Init();
 	void createActions();
 	void createTrayIcon();
+	void createLocalServer();
+	void createLocalSock();
 
 #if !NZENTAO_VER_
 	bool IsSameUsr(const std::string& usr, const std::string& url)
@@ -144,6 +151,9 @@ private:
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayIconMenu;
 	SettingDlg m_SettingDlg;
+
+	QLocalServer* m_LocalServer;
+	QLocalSocket* m_LocalSock;
 }; // StarterUI
 
 extern StarterUI* g_start_ui_;

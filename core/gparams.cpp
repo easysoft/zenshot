@@ -51,6 +51,27 @@ QString GParams::save() const
     return m_save;
 }
 
+void GParams::SetArgMark(const QString& m)
+{
+	m_mark = m;
+	m_clipboard = "auto";
+	m_save = nullptr;
+}
+
+void GParams::SetArgSave(const QString& s)
+{
+	m_mark = "yes";
+	m_clipboard = "auto";
+	m_save = s;
+}
+
+void GParams::SetArgClipboard(const QString& c)
+{
+	m_mark = "yes";
+	m_clipboard = c;
+	m_save = nullptr;
+}
+
 int GParams::fromArgs(int argc, char *argv[])
 {
     m_mark = "yes";
