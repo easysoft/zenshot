@@ -5,6 +5,7 @@
 #include "spdlogwrapper.hpp"
 
 #include "usrmetatype.h"
+#include "core/gparams.h"
 
 #include <QMenu>
 #include <QDir>
@@ -24,6 +25,8 @@
 
 StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
+
+static uint32_t local_conn_id_ = 1;
 
 StarterUI::StarterUI(QLocalServer* server)
 	: QDialog(0)
@@ -47,35 +50,6 @@ StarterUI::StarterUI(QLocalServer* server)
 #endif // Q_OS_UNIX
 	, m_Shotting(false)
 	, m_LocalServer(server)
-	, m_LocalSock(nullptr)
-{
-	InitMetaType();
-	Init();
-}
-
-StarterUI::StarterUI(QLocalSocket* client)
-	: QDialog(0)
-	, trayIcon(new QSystemTrayIcon(this))
-	, trayIconMenu(new QMenu(this))
-	, m_SettingDlg(this)
-#if !NZENTAO_VER_
-	, m_ZTSettingDlg(this)
-	, m_ZTSubmitDlg(this)
-	, m_ZTTipsDlg(this)
-	, m_HttpReq()
-	, m_CurrentShot(nullptr)
-	, m_CurrentStarter(nullptr)
-	, m_CurrentUsr()
-	, m_CurrentUrl()
-	, m_LastSubmitUrl()
-#endif // NZENTAO_VER_
-#ifdef Q_OS_UNIX
-	, m_EventMonitor(new EventMonitor(this))
-	, m_PrevClkTick(0)
-#endif // Q_OS_UNIX
-	, m_Shotting(false)
-	, m_LocalServer(nullptr)
-	, m_LocalSock(client)
 {
 	InitMetaType();
 	Init();
@@ -253,6 +227,9 @@ void StarterUI::SetupSignal()
 	connect(m_EventMonitor, SIGNAL(keyPress(int)), this, SLOT(OnEventMonitorkeyPress(int)), Qt::QueuedConnection);
 	connect(m_EventMonitor, SIGNAL(keyRelease(int)), this, SLOT(OnEventMonitorkeyRelease(int)), Qt::QueuedConnection);
 #endif // Q_OS_UNIX
+
+	// for lcoalserver
+	connect(m_LocalServer, SIGNAL(newConnection()), SLOT(OnNewConnectionHandler()));
 }
 
 void StarterUI::CenterDlg(QWidget* widget)
@@ -309,7 +286,19 @@ void StarterUI::OnShotDone(Starter* starter)
 #endif // NZENTAO_VER_
 	m_Shotting = false;
 	starter->cleanup();
+	GParams::instance()->CleanUpArgs();
+
 	m_Starer.push_back(starter);
+
+	QLocalSocket* fd = m_LocalServer->findChild<QLocalSocket*>(std::to_string(local_conn_id_).c_str());
+	if (fd)
+	{
+		QByteArray pkg;
+		pkg.append(std::to_string(0).c_str());
+		fd->write(pkg);
+		fd->close();
+		L_DEBUG("send pkg to {0}, data: {1}, size: {2}", fd->objectName().toInt(), pkg.toInt(), pkg.size())
+	}
 
 	L_TRACE("!!!!!!!!!!!!! m_Starer size = {0}", m_Starer.size());
 	L_DEBUG("@@@@@@@@@@@@@@@@@@@@@@@@ GAME END @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -378,6 +367,62 @@ void StarterUI::OnEventMonitorkeyRelease(int code)
 }
 #endif // Q_OS_UNIX
 
+void StarterUI::OnNewConnectionHandler()
+{
+	QLocalSocket* fd = m_LocalServer->nextPendingConnection();
+	local_conn_id_++;
+	fd->setObjectName(std::to_string(local_conn_id_).c_str());
+	L_DEBUG("{0} @ {1} connid = {0}", __FUNCTION__, __LINE__, local_conn_id_);
+
+	connect(fd, SIGNAL(readyRead()), this, SLOT(OnRead()));
+	connect(fd, SIGNAL(disconnected()), fd, SLOT(deleteLater()));
+}
+
+void StarterUI::OnRead()
+{
+	QLocalSocket* fd = static_cast<QLocalSocket*>(sender());
+	L_TRACE("{0} - {1} -> && fd = {2}", __FUNCTION__, __LINE__, (uint32_t)fd);
+	if (!fd)
+		return;
+
+	L_TRACE("{0} - {1} ## {2}", __FUNCTION__, __LINE__, fd->objectName().toUInt());
+
+	QTextStream stream(fd);
+	std::string cmd = stream.readAll().toStdString();
+	L_DEBUG("### recv cmd = {0}", cmd.c_str());
+	if (cmd.length() < 2)
+		return;
+
+	// split cmd & param
+	const char* pcmd = cmd.c_str();
+	for (; pcmd && *pcmd;)
+	{
+		char c[100] = { 0 };
+		char p[100] = { 0 };
+		if (sscanf(pcmd, "%[^:]%*[:]%[^;]%*[;]", c, p) != 2)
+			break;
+
+		L_TRACE("### {0} - cmd: {1} - param: {2}", pcmd, c, p);
+		if (c[0] == 'm')
+		{
+			GParams::instance()->SetArgMark(p);
+		}
+		else if (c[0] == 's')
+		{
+			GParams::instance()->SetArgSave(p);
+		}
+		else if (c[0] == 'c')
+		{
+			GParams::instance()->SetArgClipboard(p);
+		}
+
+		//		'm'/'s'/'c' + : + "yes" ... + ';'
+		pcmd += (strlen(c) + 1 + strlen(p) + 1);
+	}
+
+	emit SatrtShot();
+}
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool StarterUI::nativeEvent(const QByteArray& eventType, void* message, qintptr* result)
 #else
@@ -399,7 +444,7 @@ void StarterUI::OnIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	switch (reason)
 	{
-	case QSystemTrayIcon::Trigger: /* �����ڵ������ */
+	case QSystemTrayIcon::Trigger:
 		emit SatrtShot();
 		break;
 	}

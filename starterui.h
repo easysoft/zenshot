@@ -26,7 +26,6 @@ class StarterUI : public QDialog {
 	Q_OBJECT
 public:
 	StarterUI(QLocalServer* server);
-	StarterUI(QLocalSocket* client);
 	virtual ~StarterUI();
 
 	int UsrLogin(string_ptr url, string_ptr usr, string_ptr pass, QString& err_token);
@@ -88,6 +87,10 @@ private slots:
     void OnEventMonitorkeyPress(int code);
     void OnEventMonitorkeyRelease(int code);
 #endif // Q_OS_UNIX
+
+	// for localserver
+	void OnNewConnectionHandler();
+	void OnRead();
 
 protected:
 	void closeEvent(QCloseEvent*) override;
@@ -153,7 +156,6 @@ private:
 	SettingDlg m_SettingDlg;
 
 	QLocalServer* m_LocalServer;
-	QLocalSocket* m_LocalSock;
 }; // StarterUI
 
 extern StarterUI* g_start_ui_;

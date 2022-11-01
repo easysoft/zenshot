@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
             return 0;
         }
 
+        QLocalServer::removeServer(mutex_name);
         if (!local_server.listen(mutex_name))
         {
             L_TRACE("local_server listen {0} failed ...", mutex_name);
@@ -146,6 +147,45 @@ int main(int argc, char *argv[])
             L_TRACE("connect to server {0} failed ...", mutex_name);
 			return 0;
 		}
+
+        std::string pkg;
+        if (!m.empty())
+        {
+            pkg.append("m:")
+                .append(m.c_str())
+                .append(";");
+        }
+
+		if (!s.empty())
+		{
+            pkg.append("s:")
+                .append(s.c_str())
+                .append(";");
+		}
+
+		if (!c.empty())
+		{
+            pkg.append("c:")
+                .append(c.c_str())
+                .append(";");
+		}
+
+        if (pkg.empty())
+        {
+            return -1;
+        }
+
+        int l = local_sock.write(pkg.c_str());
+        L_DEBUG("## send: {0}, size: {1}", pkg.c_str(), l);
+
+        while (local_sock.isOpen() && !local_sock.waitForReadyRead())
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+		QTextStream stream(&local_sock);
+		int ret = stream.readAll().toInt();
+        L_DEBUG("## recv: ret - {0}", ret);
+        system("pause");
+        return ret;
     }
 
 //     QString full_name = QDir::temp().absoluteFilePath(mutex_name);
@@ -199,16 +239,8 @@ int main(int argc, char *argv[])
 
     a.setQuitOnLastWindowClosed(false);
 
-    StarterUI* ui;
-    if (is_client) 
-    {
-        ui = new StarterUI(&local_sock);
-    }
-    else 
-    {
-        ui = new StarterUI(&local_server);
-    }
-	ui->show();
+    StarterUI ui(&local_server);
+	ui.show();
 
     int ret = a.exec();
     return ret;

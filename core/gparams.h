@@ -39,6 +39,7 @@ public:
     void SetArgMark(const QString& m);
     void SetArgSave(const QString& s);
     void SetArgClipboard(const QString& c);
+    void CleanUpArgs();
     int fromArgs(int argc, char *argv[]);
 
 private:

@@ -53,22 +53,29 @@ QString GParams::save() const
 
 void GParams::SetArgMark(const QString& m)
 {
+    if (m_mark != "yes" && m_mark != "no")
+        return;
+
 	m_mark = m;
-	m_clipboard = "auto";
-	m_save = nullptr;
 }
 
 void GParams::SetArgSave(const QString& s)
 {
-	m_mark = "yes";
-	m_clipboard = "auto";
 	m_save = s;
 }
 
 void GParams::SetArgClipboard(const QString& c)
 {
-	m_mark = "yes";
+    if (m_clipboard != "auto" && m_clipboard != "yes" && m_clipboard != "no")
+        return;
+
 	m_clipboard = c;
+}
+
+void GParams::CleanUpArgs()
+{
+	m_mark = "yes";
+	m_clipboard = "auto";
 	m_save = nullptr;
 }
 
