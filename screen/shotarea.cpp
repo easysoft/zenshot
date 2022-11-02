@@ -152,17 +152,21 @@ QPixmap ShotArea::result()
 
     QRect mBoundary = boundary();
 
-    int x = mRect.x() + mBoundary.x(),
-        y = mRect.y() + mBoundary.y();
+//     int x = mRect.x() + mBoundary.x(),
+//         y = mRect.y() + mBoundary.y();
+    int x = mBoundary.x(),
+        y = mBoundary.y();
 
-	QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
-        x,
-        y,
-        mBoundary.width() / pixelRatio,
-        mBoundary.height() / pixelRatio);
+    QPixmap pixPixmap = this->m_screenList->allPixMap();
+    QPixmap mPixmap = pixPixmap.copy(x, y, mBoundary.width() / pixelRatio, mBoundary.height() / pixelRatio);
+// 	QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
+//         x,
+//         y,
+//         mBoundary.width() / pixelRatio,
+//         mBoundary.height() / pixelRatio);
     m_isGettingResult = false;
 
-    return  mPixmap;
+    return mPixmap;
 }
 
 QVector<Handle*> ShotArea::handles()
@@ -386,12 +390,8 @@ void ShotArea::draw(QPainter &painter)
 
 void ShotArea::loadPropsImpl(Store *store)
 {
-
 }
 
 void ShotArea::savePropsImpl(Store *store)
 {
-
 }
-
-

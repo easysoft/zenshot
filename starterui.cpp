@@ -30,8 +30,10 @@ static uint32_t local_conn_id_ = 1;
 
 StarterUI::StarterUI(QLocalServer* server)
 	: QDialog(0)
+#if !IS_XUANXUAN_VER_
 	, trayIcon(new QSystemTrayIcon(this))
 	, trayIconMenu(new QMenu(this))
+#endif // IS_XUANXUAN_VER_
 	, m_SettingDlg(this)
 #if !NZENTAO_VER_
 	, m_ZTSettingDlg(this)
@@ -95,7 +97,9 @@ void StarterUI::Init()
 
 	SetupSignal();
 
+#if !IS_XUANXUAN_VER_
 	trayIcon->show();
+#endif // IS_XUANXUAN_VER_
 
 #ifdef Q_OS_WIN
 	char config_path[MAX_PATH] = { 0 };
@@ -128,6 +132,7 @@ void StarterUI::Init()
 
 void StarterUI::createActions()
 {
+#if !IS_XUANXUAN_VER_
 	settingAction = new QAction(tr("S&eeting"), this);
 	QIcon settingIcon(":/images/menu-setting.png");
 	settingAction->setIcon(settingIcon);
@@ -148,10 +153,12 @@ void StarterUI::createActions()
 	QIcon quitIcon(":/images/menu-exit.png");
 	quitAction->setIcon(quitIcon);
 	connect(quitAction, &QAction::triggered, this, &StarterUI::OnExitShot);
+#endif // IS_XUANXUAN_VER_
 }
 
 void StarterUI::createTrayIcon()
 {
+#if !IS_XUANXUAN_VER_
 	trayIconMenu = new QMenu(this);
 	trayIconMenu->addAction(shotAction);
 	trayIconMenu->addAction(settingAction);
@@ -165,15 +172,9 @@ void StarterUI::createTrayIcon()
 
 	trayIcon->setIcon(QIcon(":/zenshot.png"));
 	trayIcon->setToolTip(tr("zenshot"));
+#endif // IS_XUANXUAN_VER_
 }
 
-void StarterUI::createLocalServer()
-{
-}
-
-void StarterUI::createLocalSock()
-{
-}
 
 #ifdef Q_OS_UNIX
 bool StarterUI::CheckHotKeyTrigger()
@@ -186,7 +187,9 @@ void StarterUI::SetupSignal()
 {
 	connect(this, SIGNAL(SatrtShot()), this, SLOT(OnStartShot()));
 	connect(this, SIGNAL(CheckHotKey(uint32_t)), &m_SettingDlg, SIGNAL(InitHotKeyValue(uint32_t)));
+#if !IS_XUANXUAN_VER_
 	connect(trayIcon, &QSystemTrayIcon::activated, this, &StarterUI::OnIconActivated);
+#endif // IS_XUANXUAN_VER_
 #if !NZENTAO_VER_
 	connect(this, SIGNAL(Thumbnail(std::shared_ptr<QPixmap>)), &m_ZTSubmitDlg, SIGNAL(ShowThumbnail(std::shared_ptr<QPixmap>)));
 	connect(this, SIGNAL(Login(string_ptr, string_ptr, string_ptr)), this, SLOT(OnLogin(string_ptr, string_ptr, string_ptr)));
@@ -306,13 +309,17 @@ void StarterUI::OnShotDone(Starter* starter)
 
 void StarterUI::OnExitShot()
 {
+#if !IS_XUANXUAN_VER_
 	trayIcon->hide();
+#endif // IS_XUANXUAN_VER_
 	QApplication::exit(0);
 }
 
 void StarterUI::closeEvent(QCloseEvent*)
 {
+#if !IS_XUANXUAN_VER_
 	trayIcon->hide();
+#endif // IS_XUANXUAN_VER_
 	QApplication::exit(0);
 }
 

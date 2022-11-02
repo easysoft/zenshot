@@ -184,7 +184,6 @@ int main(int argc, char *argv[])
 		QTextStream stream(&local_sock);
 		int ret = stream.readAll().toInt();
         L_DEBUG("## recv: ret - {0}", ret);
-        system("pause");
         return ret;
     }
 
@@ -201,10 +200,12 @@ int main(int argc, char *argv[])
     gdk_init(NULL, NULL);
 #endif // Q_OS_LINUX
 
+#if !IS_XUANXUAN_VER_
 	if (!QSystemTrayIcon::isSystemTrayAvailable()) {
 		L_ERROR("system tray disabled");
 		return 1;
 	}
+#endif // IS_XUANXUAN_VER_
 
     //加载并应用语言翻译界面
     QLocale locale;

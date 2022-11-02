@@ -41,8 +41,6 @@ void MosaicCreateTool::setCursor()
     QCursor cursor(scaledPixmap,-1,-1);
 
     m_workspace->widget()->setCursor(cursor);
-
-    L_DEBUG("@@@@@@@@@@ 0x{0:x} Set Mosaic Cursor", (uint64_t)this);
 }
 
 void MosaicCreateTool::onMousePress(QPoint mousePoint)

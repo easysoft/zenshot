@@ -105,8 +105,6 @@ private:
 	void Init();
 	void createActions();
 	void createTrayIcon();
-	void createLocalServer();
-	void createLocalSock();
 
 #if !NZENTAO_VER_
 	bool IsSameUsr(const std::string& usr, const std::string& url)
@@ -148,11 +146,14 @@ private:
 	int m_PressedKey[KEY_CNT];
 	time_t m_PrevClkTick;
 #endif // Q_OS_UNIX
+
+#if !IS_XUANXUAN_VER_
 	QAction* shotAction;
 	QAction* quitAction;
 
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayIconMenu;
+#endif // IS_XUANXUAN_VER_
 	SettingDlg m_SettingDlg;
 
 	QLocalServer* m_LocalServer;
