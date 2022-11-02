@@ -302,6 +302,10 @@ void StarterUI::OnShotDone(Starter* starter)
 		fd->close();
 		L_DEBUG("send pkg to {0}, data: {1}, size: {2}", fd->objectName().toInt(), pkg.toInt(), pkg.size())
 	}
+	else
+	{
+		L_ERROR("No local socket @ {0}", local_conn_id_);
+	}
 
 	L_TRACE("!!!!!!!!!!!!! m_Starer size = {0}", m_Starer.size());
 	L_DEBUG("@@@@@@@@@@@@@@@@@@@@@@@@ GAME END @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -379,7 +383,7 @@ void StarterUI::OnNewConnectionHandler()
 	QLocalSocket* fd = m_LocalServer->nextPendingConnection();
 	local_conn_id_++;
 	fd->setObjectName(std::to_string(local_conn_id_).c_str());
-	L_DEBUG("{0} @ {1} connid = {0}", __FUNCTION__, __LINE__, local_conn_id_);
+	L_DEBUG("{0} @ {1} conn id = {0}", __FUNCTION__, __LINE__, local_conn_id_);
 
 	connect(fd, SIGNAL(readyRead()), this, SLOT(OnRead()));
 	connect(fd, SIGNAL(disconnected()), fd, SLOT(deleteLater()));

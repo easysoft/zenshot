@@ -69,8 +69,8 @@ void Starter::init(QWidget* parent)
         {
             L_TRACE("++++++++++++++ new screen list & widget");
             w = new Widget(parent);
-            connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int)), Qt::DirectConnection);
-            connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea()), Qt::DirectConnection);
+            connect(w->workspace(), SIGNAL(quitShot(int)), this, SLOT(finishShot(int))/*, Qt::DirectConnection*/);
+            connect(w->workspace(), SIGNAL(finishConfirmArea()), this, SLOT(finishConfirmArea())/*, Qt::DirectConnection*/);
         }
         else
         {

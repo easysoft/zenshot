@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 
         if (pkg.empty())
         {
-            return -1;
+            return 0;
         }
 
         int l = local_sock.write(pkg.c_str());
