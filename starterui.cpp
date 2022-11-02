@@ -23,10 +23,10 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
+#include <algorithm>
+
 StarterUI* g_start_ui_;
 extern std::string SETTING_XML_NAME;
-
-static uint32_t local_conn_id_ = 1;
 
 StarterUI::StarterUI(QLocalServer* server)
 	: QDialog(0)
@@ -293,18 +293,15 @@ void StarterUI::OnShotDone(Starter* starter)
 
 	m_Starer.push_back(starter);
 
-	QLocalSocket* fd = m_LocalServer->findChild<QLocalSocket*>(std::to_string(local_conn_id_).c_str());
-	if (fd)
+	auto all_fd = m_LocalServer->findChildren<QLocalSocket*>(QRegularExpression("(zenshotxx.local@)(\\d+)"));
+	L_TRACE("fd count = {0}", all_fd.size());
+	for (auto* fd : all_fd)
 	{
 		QByteArray pkg;
 		pkg.append(std::to_string(0).c_str());
 		fd->write(pkg);
 		fd->close();
-		L_DEBUG("send pkg to {0}, data: {1}, size: {2}", fd->objectName().toInt(), pkg.toInt(), pkg.size())
-	}
-	else
-	{
-		L_ERROR("No local socket @ {0}", local_conn_id_);
+		L_DEBUG("send pkg to {0}, data: {1}, size: {2}", fd->objectName().toStdString().c_str(), pkg.toInt(), pkg.size())
 	}
 
 	L_TRACE("!!!!!!!!!!!!! m_Starer size = {0}", m_Starer.size());
@@ -380,10 +377,12 @@ void StarterUI::OnEventMonitorkeyRelease(int code)
 
 void StarterUI::OnNewConnectionHandler()
 {
+	static int conn_id = 0;
 	QLocalSocket* fd = m_LocalServer->nextPendingConnection();
-	local_conn_id_++;
-	fd->setObjectName(std::to_string(local_conn_id_).c_str());
-	L_DEBUG("{0} @ {1} conn id = {0}", __FUNCTION__, __LINE__, local_conn_id_);
+	std::string conn_id_str = "zenshotxx.local@" + std::to_string(conn_id);
+	conn_id++;
+	fd->setObjectName(conn_id_str.c_str());
+	L_DEBUG("{0} @ {1} conn id = {0}", __FUNCTION__, __LINE__, conn_id);
 
 	connect(fd, SIGNAL(readyRead()), this, SLOT(OnRead()));
 	connect(fd, SIGNAL(disconnected()), fd, SLOT(deleteLater()));

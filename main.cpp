@@ -49,9 +49,17 @@
 #endif // Q_OS_WIN
 
 #ifdef IS_XUANXUAN_VER_
-static const char mutex_name[] = "zenshot.zentao.xx";
+#ifdef Q_OS_WIN
+static const char mutex_name[] = "\\\\.\\pipe\\zenshot.zentao.xx";
 #else
-static const char mutex_name[] = "zenshot.zentao";
+static const char mutex_name[] = "/tmp/zenshot.zentao.xx";
+#endif // Q_OS_WIN
+#else
+#ifdef Q_OS_WIN
+static const char mutex_name[] = "\\\\.\\pipe\\zenshot.zentao";
+#else
+static const char mutex_name[] = "/tmp/zenshot.zentao";
+#endif // Q_OS_WIN
 #endif // IS_XUANXUAN_VER_
 
 int main(int argc, char *argv[])

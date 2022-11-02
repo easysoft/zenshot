@@ -33,7 +33,7 @@ Widget::Widget(QWidget* parent)
     , m_status("unknown")
 {
 #ifndef USE_SPDLOG_
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
 #endif // USE_SPDLOG_
 }
