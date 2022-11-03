@@ -391,7 +391,6 @@ void StarterUI::OnNewConnectionHandler()
 void StarterUI::OnRead()
 {
 	QLocalSocket* fd = static_cast<QLocalSocket*>(sender());
-	L_TRACE("{0} - {1} -> && fd = {2}", __FUNCTION__, __LINE__, (uint32_t)fd);
 	if (!fd)
 		return;
 
