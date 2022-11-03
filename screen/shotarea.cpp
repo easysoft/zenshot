@@ -146,6 +146,7 @@ QPixmap ShotArea::result()
     m_isGettingResult = true;
 
     QWidget* host = m_workspace->widget();
+    host->repaint();
     auto screen = QApplication::screens()[m_nowScreenIndex];
     double pixelRatio = screen->devicePixelRatio();
     QRect mRect = screen->geometry();
