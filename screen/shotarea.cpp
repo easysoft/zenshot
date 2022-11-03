@@ -146,24 +146,23 @@ QPixmap ShotArea::result()
     m_isGettingResult = true;
 
     QWidget* host = m_workspace->widget();
+    host->repaint();
     auto screen = QApplication::screens()[m_nowScreenIndex];
     double pixelRatio = screen->devicePixelRatio();
     QRect mRect = screen->geometry();
 
     QRect mBoundary = boundary();
 
-//     int x = mRect.x() + mBoundary.x(),
-//         y = mRect.y() + mBoundary.y();
-    int x = mBoundary.x(),
-        y = mBoundary.y();
+    int x = mRect.x() + mBoundary.x(),
+        y = mRect.y() + mBoundary.y();
+//     int x = mBoundary.x(),
+//         y = mBoundary.y();
 
-    QPixmap pixPixmap = this->m_screenList->allPixMap();
-    QPixmap mPixmap = pixPixmap.copy(x, y, mBoundary.width() / pixelRatio, mBoundary.height() / pixelRatio);
-// 	QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
-//         x,
-//         y,
-//         mBoundary.width() / pixelRatio,
-//         mBoundary.height() / pixelRatio);
+	QPixmap mPixmap = screen->grabWindow(QApplication::desktop()->winId(),
+        x,
+        y,
+        mBoundary.width() / pixelRatio,
+        mBoundary.height() / pixelRatio);
     m_isGettingResult = false;
 
     return mPixmap;
