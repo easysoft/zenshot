@@ -16,3 +16,4 @@ logs
 setting.xml
 msvc_make.bat
 build
+build.sh

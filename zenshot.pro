@@ -271,7 +271,9 @@ RESOURCES += \
     main.qrc
 
 DISTFILES +=
-DEFINES += USE_SPDLOG_
+DEFINES += \
+	USE_SPDLOG_ \
+	NZENTAO_VER_
 
 FORMS += \
     setting.ui \

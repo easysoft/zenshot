@@ -88,10 +88,6 @@ private slots:
     void OnEventMonitorkeyRelease(int code);
 #endif // Q_OS_UNIX
 
-	// for localserver
-	void OnNewConnectionHandler();
-	void OnRead();
-
 protected:
 	void closeEvent(QCloseEvent*) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -105,8 +101,6 @@ private:
 	void Init();
 	void createActions();
 	void createTrayIcon();
-	void createLocalServer();
-	void createLocalSock();
 
 #if !NZENTAO_VER_
 	bool IsSameUsr(const std::string& usr, const std::string& url)
@@ -154,7 +148,7 @@ private:
 	QSystemTrayIcon* trayIcon;
 	QMenu* trayIconMenu;
 	SettingDlg m_SettingDlg;
-
+	
 	QLocalServer* m_LocalServer;
 }; // StarterUI
 
