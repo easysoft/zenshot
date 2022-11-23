@@ -467,25 +467,32 @@ void Workspace::refreshProps()
 //        m_textAssist->unAttach();
 //    }
 
-    if(m_selectedShape != nullptr)
+
+
+    if(m_selectedShape == nullptr)
     {
-        MemoryStore oldStore;
-        m_selectedShape->saveProps(&oldStore);
-
-        m_selectedShape->loadProps();
-        refreshDraw();
-
-        MemoryStore nowStore;
-        m_selectedShape->saveProps(&nowStore);
-
-        std::shared_ptr<PropsCommand> propsComm(new PropsCommand(this,m_selectedShape.get(), oldStore, nowStore));
-        UserOper::add(propsComm);
-
-        if(m_selectedShape->type() == Utils::forTextKey() && m_textAssist->editing() == true)
-        {
-            m_textAssist->refreshProps();
-        }
+        L_DEBUG("{0} @ {1}: NO Selected Shape", __FUNCTION__, __LINE__);
+        return;
     }
+
+    L_TRACE("{0} @ {1}: HAS Selected Shape", __FUNCTION__, __LINE__);
+
+	MemoryStore oldStore;
+	m_selectedShape->saveProps(&oldStore);
+
+	m_selectedShape->loadProps();
+	refreshDraw();
+
+	MemoryStore nowStore;
+	m_selectedShape->saveProps(&nowStore);
+
+	std::shared_ptr<PropsCommand> propsComm(new PropsCommand(this, m_selectedShape.get(), oldStore, nowStore));
+	UserOper::add(propsComm);
+
+	if (m_selectedShape->type() == Utils::forTextKey() && m_textAssist->editing() == true)
+	{
+		m_textAssist->refreshProps();
+	}
 }
 
 bool Workspace::hasCreateTool()
@@ -493,7 +500,7 @@ bool Workspace::hasCreateTool()
     return m_createTool == nullptr ? false : true;
 }
 
-void Workspace::setSelected(std::shared_ptr<Shape>newSelected)
+void Workspace::setSelected(std::shared_ptr<Shape> newSelected)
 {
     L_FUNCTION();
     if(m_selectedShape == newSelected)
