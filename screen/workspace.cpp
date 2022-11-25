@@ -69,6 +69,11 @@
 #include <QDir>
 #include <QDebug>
 
+#ifdef IS_XUANXUAN_VER_
+const char* file_prefix = "xuanxuan_";
+#else
+const char* file_prefix = "zenshot_";
+#endif // IS_XUANXUAN_VER_
 
 Workspace::Workspace(QWidget *host)
     : m_shotArea(this)
@@ -695,7 +700,7 @@ void Workspace::download()
 
     QDateTime current_date_time = QDateTime::currentDateTime();
     QString current_date = current_date_time.toString("yyyyMMdd_hhmmss");
-    QString savefile="xuanxuan_"+current_date+".png";
+    QString savefile=file_prefix+current_date+".png";
     QString savepath=store.read("Setting","QuickSaveDir",".").toString();
 
     QString fileName = QFileDialog::getSaveFileName(widget(),QObject::tr("save file"),savepath+"/"+savefile,"PNG File (*.png)");
@@ -733,7 +738,7 @@ int Workspace::saveFolderImpl(QString folderPath)
 
         QDateTime current_date_time = QDateTime::currentDateTime();
         QString current_date = current_date_time.toString("yyyyMMdd_hhmmss");
-        QString fileName ="xuanxuan_"+current_date+".png";
+        QString fileName =file_prefix+current_date+".png";
         QString savefile = dir.filePath(fileName);
 
         result.toImage().save(savefile,"png");
