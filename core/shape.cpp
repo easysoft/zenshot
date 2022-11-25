@@ -19,6 +19,8 @@
 #include "shape.h"
 #include "stores/localstore.h"
 
+#include "spdlogwrapper.hpp"
+
 Shape::Shape(Workspace *workspace)
 {
     m_selected = false;
@@ -49,11 +51,13 @@ void Shape::loadProps(Store *store)
 {
     if(store == nullptr)
     {
+        L_INFO("{0} @ {1} IS NULL", __FUNCTION__, __LINE__);
         LocalStore *local = new LocalStore();
         loadPropsImpl(local);
     }
     else
     {
+        L_INFO("{0} @ {1} NOT NULL", __FUNCTION__, __LINE__);
         loadPropsImpl(store);
     }
 }

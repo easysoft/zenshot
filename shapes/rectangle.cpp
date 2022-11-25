@@ -19,6 +19,8 @@
 #include "rectangle.h"
 #include "screen/workspace.h"
 
+#include "spdlogwrapper.hpp"
+
 #include <QPainterPath>
 
 Rectangle::Rectangle(Workspace *workspace):RectShape(workspace)
@@ -106,6 +108,8 @@ void Rectangle::loadPropsImpl(Store *store)
     m_lineWidth = store->read(Utils::forRectKey(),Utils::RectWidthName(),Utils::RectWidthDefault()).toInt();
     m_lineColor = store->readColor(Utils::forRectKey(),Utils::RectColorName(),Utils::RectColorDefault());
     m_lineStyle = store->readPenStyle(Utils::forRectKey(),Utils::RectStyleName(),Utils::RectStyleDefault());
+
+    L_DEBUG("{0} @ {1}: m_lineWidth = {2}, m_lineStyle = {3}", __FUNCTION__, __LINE__, m_lineWidth, m_lineStyle);
 }
 
 void Rectangle::savePropsImpl(Store *store)
@@ -113,4 +117,6 @@ void Rectangle::savePropsImpl(Store *store)
     store->write(Utils::forRectKey(),Utils::RectWidthName(),m_lineWidth);
     store->writeColor(Utils::forRectKey(),Utils::RectColorName(),m_lineColor);
     store->writePenStyle(Utils::forRectKey(),Utils::RectStyleName(),m_lineStyle);
+
+    L_DEBUG("{0} @ {1}: m_lineWidth = {2}, m_lineStyle = {3}", __FUNCTION__, __LINE__, m_lineWidth, m_lineStyle);
 }

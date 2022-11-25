@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 #else
     mkdir("logs", S_IRWXU);
 #endif // Q_OS_WIN
-    spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 0, 0);
+    spdlog::spdlog_init("zenshot", "logs/log.log", 23, 57, 1, 1);
     L_TRACE("start");
 #endif // USE_SPDLOG_
 

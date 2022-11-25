@@ -34,8 +34,8 @@ signals:
 	void SatrtShot();
 	void ShotDone(Starter* starer);
 	void CheckHotKey(uint32_t value);
-#if !NZENTAO_VER_
 	void StopShot(Starter* starter);
+#if !NZENTAO_VER_
 	void Thumbnail(std::shared_ptr<QPixmap> pixmap);
 	void Login(string_ptr url, string_ptr usr, string_ptr pass);
     void SubmitLoginResult(bool result);

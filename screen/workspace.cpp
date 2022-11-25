@@ -466,16 +466,13 @@ void Workspace::refreshProps()
 //    {
 //        m_textAssist->unAttach();
 //    }
-
-
-
     if(m_selectedShape == nullptr)
     {
         L_DEBUG("{0} @ {1}: NO Selected Shape", __FUNCTION__, __LINE__);
         return;
     }
 
-    L_TRACE("{0} @ {1}: HAS Selected Shape", __FUNCTION__, __LINE__);
+    L_DEBUG("{0} @ {1}: HAS Selected Shape", __FUNCTION__, __LINE__);
 
 	MemoryStore oldStore;
 	m_selectedShape->saveProps(&oldStore);

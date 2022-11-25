@@ -382,7 +382,6 @@ void ShotArea::draw(QPainter &painter)
     }
 
     painter.restore();
-    L_TRACE("$$$$$$$$$$$ END");
 }
 
 void ShotArea::loadPropsImpl(Store *store)

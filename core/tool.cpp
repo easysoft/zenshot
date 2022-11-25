@@ -46,14 +46,10 @@ void Tool::setCursor()
     QCursor cursor(Qt::CrossCursor);
 
     m_workspace->widget()->setCursor(cursor);
-
-    L_DEBUG("$$$$$$$$$$ 0x{0:x} set cross32", (uint64_t)this);
 }
 
 void Tool::cleanup()
 {
     QCursor cursor(Qt::ArrowCursor);
     m_workspace->widget()->setCursor(cursor);
-
-    L_INFO("********* 0x{0:x} set ArrowCursor", (uint64_t)this);
 }

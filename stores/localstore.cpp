@@ -38,9 +38,10 @@ LocalStore::LocalStore():Store(), setting_ini()
 		if (!dir.exists(setting_ini.c_str())) {
 			dir.mkdir(setting_ini.c_str());
 		}
-		setting_ini.append("setting.ini");
 	}
 #endif // Q_OS_WIN
+
+	setting_ini.append("setting.ini");
 }
 
 void LocalStore::write(const QString &group, const QString &key, const QVariant &value)

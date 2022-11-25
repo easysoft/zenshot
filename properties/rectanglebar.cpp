@@ -19,6 +19,8 @@
 #include "rectanglebar.h"
 #include "core/utils.h"
 
+#include "spdlogwrapper.hpp"
+
 #include <QVariant>
 #include <QVector>
 
@@ -51,6 +53,8 @@ void RectangleBar::loadProps()
     QColor mColor = m_store->readColor(Utils::forRectKey(),Utils::RectColorName(),Utils::RectColorDefault());
     Qt::PenStyle mStyle = m_store->readPenStyle(Utils::forRectKey(),Utils::RectStyleName(),Utils::RectStyleDefault());
 
+    L_DEBUG("{0} @ {1}, mSize: {2}, mStyle: {3}", __FUNCTION__, __LINE__, mSize, mStyle);
+
     m_sizeWidget->setValue(mSize);
     m_colorWidget->setSelectedColor(mColor);
     m_penStyleCombobox->setPenStyle(mStyle);
@@ -61,6 +65,8 @@ void RectangleBar::saveProps()
     int mSize = m_sizeWidget->value();
     QColor mColor = m_colorWidget->selectedColor();
     Qt::PenStyle mStyle = m_penStyleCombobox->penStyle();
+
+    L_DEBUG("{0} @ {1}, mSize: {2}, mStyle: {3}", __FUNCTION__, __LINE__, mSize, mStyle);
 
     m_store->write(Utils::forRectKey(),Utils::RectWidthName(),mSize);
     m_store->writeColor(Utils::forRectKey(),Utils::RectColorName(),mColor);

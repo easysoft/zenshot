@@ -61,12 +61,12 @@ public:
     void cleanup();
 
 private:
-    bool m_editing;           //是否正在编辑标识
-    std::shared_ptr<Text> m_shape;            //关联的文本对象
-    QString m_preContent;     //文本图形之前的内容
+    bool m_editing;                 //是否正在编辑标识
+    std::shared_ptr<Text> m_shape;  //关联的文本对象
+    QString m_preContent;           //文本图形之前的内容
 
-    TextWidget *m_textWidget; //文本编辑组件对象
-    Workspace *m_workspace;   //工作空间
+    TextWidget *m_textWidget;       //文本编辑组件对象
+    Workspace *m_workspace;         //工作空间
 };
 
 #endif // TEXTASSIST_H
