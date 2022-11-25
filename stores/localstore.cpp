@@ -39,6 +39,8 @@ LocalStore::LocalStore():Store(), setting_ini()
 			dir.mkdir(setting_ini.c_str());
 		}
 	}
+#else
+	setting_ini.append("~/");
 #endif // Q_OS_WIN
 
 	setting_ini.append("setting.ini");
