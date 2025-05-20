@@ -40,7 +40,7 @@
 
 ## 许可
 
-[GPL-3.0 license](https://github.com/easysoft/zenshot/blob/main/COPYING)
+本项目代码基于 **Qt 框架** 开发，采用 **GPL v3 协议**，详见 [GPL-3.0 license](https://github.com/easysoft/zenshot/blob/main/COPYING) 文件。  Qt 组件版权归原作者所有，使用需遵守其协议要求。  
 
 ## 开发
 
