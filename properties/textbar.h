@@ -1,19 +1,9 @@
-/* Copyright (C) 2021 Nature Easy Soft Network Technology Co., LTD
+/**
+ * ZenShot - Open-source cross-platform screenshot tool.
  *
- * This file is part of Zenshot (https://github.com/easysoft/zenshot/).
- *
- * Zenshot is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Zenshot is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Zenshot. If not, see <https://www.gnu.org/licenses/>.
+ * @copyright Copyright 2009-2025 禅道软件（青岛）有限公司(ZenTao Software (Qingdao) Co., Ltd. www.chandao.com)
+ * @license   LGPL v3.0 - Full terms in LICENSE file.
+ * @notice    This program uses Qt which is licensed under LGPL v3.
  */
 
 #ifndef TEXTBAR_H
