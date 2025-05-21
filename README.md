@@ -40,7 +40,8 @@
 
 ## 许可
 
-本项目代码基于 **Qt 框架** 开发，采用 **GPL v3 协议**，详见 [GPL-3.0 license](https://github.com/easysoft/zenshot/blob/main/COPYING) 文件。  Qt 组件版权归原作者所有，使用需遵守其协议要求。  
+ZenShot 作为开源软件项目，采用 **LGPL v3 协议** 发布，详见 [LICENSE](LICENSE) 文件。  
+本项目基于Qt构建，采用**LGPL v3协议**，开源版本请遵循 [LICENSE](LICENSE) ，修改代码需合规开源，商业用途请通过 [Qt 官方渠道](https://www.qt.io/buy) 获取合法授权。
 
 ## 开发
 
